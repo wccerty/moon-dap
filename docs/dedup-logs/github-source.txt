@@ -1,0 +1,111 @@
+2026-11-10 14:36:22 +08:00
+
+> gh api repos/Kaida-Amethyst/moondbg/contents/README.md
+blob 65830b3bb380a220c9dec72bb6c36470ce8d3cd8 https://github.com/Kaida-Amethyst/moondbg/blob/master/README.md
+3: MoonBit native 程序的调试器，提供 REPL 和 VS Code 调试，通过 `lldb-dap` 调试，不依赖 Python formatter。
+9: VSIX **只包含扩展，不包含 moondbg CLI、MoonBit 工具链或 lldb-dap**。
+47: - 需要 MoonBit 语言扩展，以及可用的 `lldb-dap`（可用 `xcrun --find lldb-dap` 检查）。
+64: `connectionTest: true` 配置仅验证 DAP 连接，不启动用户程序或 lldb-dap。
+284: 此开关由 CLI 的 DAP capabilities 提供，已有 moondbg 扩展无需重装；结束旧会话后启动新会话即可。
+325: 这个 alias 只供当前终端使用。VS Code 固定启动 `$MOON_HOME/bin/moondbg --dap`，
+335: 第二条包含包启动、断点管理、调用栈、变量及 DAP 验收。2026-09-14 本机 stable
+401: 本轮真实验收只针对本机的 LLDB/lldb-dap；未承诺其他 adapter 版本的 CLI 文本兼容性。
+
+> gh api repos/Kaida-Amethyst/moondbg/contents/extensions/vscode/README.md
+blob dbaeedf5e25b72984caad2239720626776a30337 https://github.com/Kaida-Amethyst/moondbg/blob/master/extensions/vscode/README.md
+3: 通过 moondbg 与 lldb-dap 调试 MoonBit native 程序。支持自动构建、行断点、函数断点、
+12: - 需要可用的 `lldb-dap`。可在终端执行 `xcrun --find lldb-dap` 检查；
+13:   如果没有，应先安装/配置提供 lldb-dap 的 Xcode 工具链，再尝试调试。
+165: - 找不到 `lldb-dap`：检查 `xcrun --find lldb-dap`。如果使用其他已安装版本，可在启动 VS Code
+170: 反馈问题时请附上 VS Code、macOS、`moon version --all`、`lldb-dap --version` 的版本信息，
+
+> gh api repos/Kaida-Amethyst/moondbg/contents/dap_frontend/pkg.generated.mbti
+blob 5f8e8187620fe1a9f0be6f99edaf7d8be002dcd1 https://github.com/Kaida-Amethyst/moondbg/blob/master/dap_frontend/pkg.generated.mbti
+4: import {
+9: pub async fn serve(&@io.Reader, &@io.Writer) -> Unit
+
+> gh api repos/Kaida-Amethyst/moondbg/contents/dap_frontend/server.mbt
+blob c1ebada03139ab44f5da63a1f0bbb1bafe5ea1e4 https://github.com/Kaida-Amethyst/moondbg/blob/master/dap_frontend/server.mbt
+4: pub async fn serve(reader : &@io.Reader, writer : &@io.Writer) -> Unit {
+13:       @dap.read_frame(reader)
+33:       writer.write(@dap.frame_message(message.stringify()))
+
+> gh api repos/Kaida-Amethyst/moondbg/contents/dap_frontend/live_server.mbt
+blob 3e3ec7bf80c3aff945f47b8e57c1ebc0757f3592 https://github.com/Kaida-Amethyst/moondbg/blob/master/dap_frontend/live_server.mbt
+3:   writer.write(@dap.frame_message(message.stringify()))
+15:     let transport = @dap.open_transport(group, find_adapter()) catch {
+119:           raise LiveError("lldb-dap request or configuration timed out.")
+
+> gh api repos/Kaida-Amethyst/moondbg/contents/dap_frontend/live_launch.mbt
+blob fed297c3df167a94129247f7515e2aabc5d8972b https://github.com/Kaida-Amethyst/moondbg/blob/master/dap_frontend/live_launch.mbt
+7:     @process.collect_stdout("xcrun", ["--find", "lldb-dap"], inherit_env=true),
+17:   "lldb-dap"
+
+> gh api repos/Kaida-Amethyst/moondbg/contents/dap_frontend/live_requests.mbt
+blob ec0072e497d15b37fa963b6517dd5138c97d20c9 https://github.com/Kaida-Amethyst/moondbg/blob/master/dap_frontend/live_requests.mbt
+5:     raise LiveError("setBreakpoints requires an absolute source.path.")
+28:   // DAP is authoritative per file: [] clears only this file's breakpoints.
+86:       command == "setBreakpoints" ||
+88:       command == "configurationDone" ||
+132:     "setBreakpoints" if self.ready && !self.ended => {
+166:     "configurationDone" if self.ready && !self.configured && !self.ended => {
+168:         // Clients normally send filters before configurationDone. If omitted,
+
+> gh api repos/Kaida-Amethyst/moondbg/contents/debugger/backend.mbt
+blob e1c9cc0bbfb644b1d8daf3e47dec222874257217 https://github.com/Kaida-Amethyst/moondbg/blob/master/debugger/backend.mbt
+10: pub fn DebugBackendError::failure(message : String) -> DebugBackendError {
+
+> gh api repos/wdgodghl/moonwren/contents/README.md
+blob 5e042751ece03f37b18c572c6c83a51bfcaee008 https://github.com/wdgodghl/moonwren/blob/main/README.md
+95: import "random" for Random
+96: import "meta" for Meta
+290: import "math" for Calculator
+475: `DebugAdapterSession` connects breakpoints and DAP-style step commands to the
+
+> gh api repos/wdgodghl/moonwren/contents/debug_adapter.mbt
+blob 204f9819c6caa054bb2967ce01741d93a52fd0d9 https://github.com/wdgodghl/moonwren/blob/main/debug_adapter.mbt
+2: /// Transport-neutral Debug Adapter Protocol session backed by MoonWren's live
+4: /// retained as a DAP-style snapshot.
+13: pub fn DebugAdapterSession::new() -> DebugAdapterSession {
+18: pub fn DebugAdapterSession::set_breakpoints(
+39: pub fn DebugAdapterSession::set_pause_on_entry(
+47: pub fn DebugAdapterSession::enqueue(
+55: pub fn DebugAdapterSession::clear_stops(self : DebugAdapterSession) -> Unit {
+60: pub fn DebugAdapterSession::stops(
+67: pub fn DebugAdapterSession::attach(self : DebugAdapterSession, vm : Vm) -> Bool {
+79: pub fn DebugAdapterSession::detach(self : DebugAdapterSession, vm : Vm) -> Bool {
+
+> gh api repos/mizchi/vibe-lang/contents/clients/js/dap_server.js
+blob ce8402fc59d433e2be077de06f315af4270c3b63 https://github.com/mizchi/vibe-lang/blob/main/clients/js/dap_server.js
+2: // Minimal stdio Debug Adapter Protocol (DAP) server for vibe (docs/release-
+3: // roadmap.md テーマ3, 3-D). Bridges a DAP client (VS Code) to the existing
+20: //   * spawns the runner on configurationDone with stdin piped + stderr parsed,
+21: //   * translates each pause to a DAP `stopped` event and exposes the recorded
+25: // Plain Node, no external deps; the DAP wire format (Content-Length framing) is
+196: // Parse a runner args line. Two token shapes are accepted (DAP P4):
+198: //   bare:   "  args: [20, 1]"      -> [20, 1]   (backward compat, DAP P2)
+268: // passed to `vibe run --break`. Because setBreakpoints REPLACES a source's entry
+277: // DAP server (only runs when invoked as a program, not when require()d).
+285:   // ---- DAP wire framing (Content-Length, like LSP) ----------------------
+293:     process.stdout.write(`Content-Length: ${data.length}\r\n\r\n`);
+300:       request_seq: request.seq,
+316:     // DAP setBreakpoints is a FULL REPLACEMENT per source, so track each source's
+348:         stdio: ["pipe", "pipe", "pipe"],
+377:     // the DAP `stopped` event fires promptly while the runner waits on stdin.
+508:           supportsConfigurationDoneRequest: true,
+527:       case "setBreakpoints": {
+530:         // setBreakpoints fully replaces this source's breakpoints (the client
+555:       case "configurationDone":
+602:         // DAP P4: a parsed arg may be a {name, value} object (named parameter
+603:         // from the runner's `n=20` form) or a bare value (DAP P2 positional
+678:   // ---- stdin reader (DAP framing) ----------------------------------------
+685:       const m = /Content-Length:\s*(\d+)/i.exec(header);
+
+> gh api repos/zmr-233/MoonBit-WASM-Debugger/contents/README.md
+blob c0f011fae2c68e2528ce7e3ed8aeb2f9452084ab https://github.com/zmr-233/MoonBit-WASM-Debugger/blob/main/README.md
+
+> gh api repos/LC6543/moonpdb/contents/README.md
+blob 7ae1db3e57c824ec2bc00aba7d532dc4b0e3730b https://github.com/LC6543/moonpdb/blob/main/README.md
+
+> gh api repos/xlh123jjj/moonbit-visual-debug/contents/README.md
+blob 7ae1db3e57c824ec2bc00aba7d532dc4b0e3730b https://github.com/xlh123jjj/moonbit-visual-debug/blob/main/README.md

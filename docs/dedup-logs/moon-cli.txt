@@ -1,0 +1,920 @@
+2026-11-10 14:34:44 +08:00
+
+> moon version --all
+moon 0.1.20261023 (3778465 2026-10-23) ~\.moon\bin\moon.exe
+moonc v0.10.17+d971670cd (2026-10-23) ~\AppData\Local\MoonBit\path-compat\moonc.cmd
+moonrun 0.1.20261023 (3778465 2026-10-23) ~\AppData\Local\MoonBit\path-compat\moonrun.cmd
+
+Feature flags enabled: rr_moon_mod,rr_moon_pkg
+[exit 0]
+
+> moon search dap
+3 modules found
+
+poteto0/endor@0.8.0 (68 downloads)
+  An Ethereum SDK for MoonBit: typed JSON-RPC reads, contracts through their ABI, and signing — over a browser wallet, a node over HTTP, or a private key held in your own process.
+  Repository: https://github.com/poteto0/endor.mbt
+
+Kaida-Amethyst/moondbg@0.3.1 (70 downloads)
+  —
+
+  Kaida-Amethyst/moondbg/dap
+    This package provides a Debug Adapter Protocol (DAP) client library for MoonBit. It includes dispatchers, transports, message framing/classification, and typed DAP request/response/event structs for building debugger frontends that communicate with debug adapters.
+
+  Kaida-Amethyst/moondbg/dap_frontend
+    Provides an async serve function that runs a DAP (Debug Adapter Protocol) frontend over a provided async reader/writer pair, executing either a connection test or a live, event-driven session without a human CLI.
+
+  Kaida-Amethyst/moondbg/testkit/dap
+    This package provides a scripted, in-memory transport for testing Debug Adapter Protocol (DAP) implementations. It allows deterministic playback of scripted inputs (JSON messages, closed events, or failures), inspection of sent messages, and closed-state queries, enabling robust DAP client testing without a real connection.
+
+  Kaida-Amethyst/moondbg/lldb_dap
+    Provides an lldb-dap backend implementation for the moondbg debugger, including a VariableInspector for evaluating and browsing MoonBit values in stack frames, and a FunctionBreakpointDriver for installing/removing native function breakpoints.
+
+  Kaida-Amethyst/moondbg
+    moondbg is a REPL debugger for MoonBit native programs that debugs through lldb-dap without a Python formatter. It supports VS Code debugging, line and function breakpoints, call stacks, stepping, pause/continue, local variable trees, hover and watch evaluation of variable paths, and an interactive REPL with commands such as b, run, next, locals, bt, continu
+
+yamajik/dapr@0.1.11 (60 downloads)
+  —
+
+Run `moon add <module>@<version>` to add a dependency.
+[exit 0]
+
+> moon search "debug adapter"
+20 modules found
+
+Kaida-Amethyst/moondbg@0.3.1 (70 downloads)
+  —
+
+  Kaida-Amethyst/moondbg/dap
+    This package provides a Debug Adapter Protocol (DAP) client library for MoonBit. It includes dispatchers, transports, message framing/classification, and typed DAP request/response/event structs for building debugger frontends that communicate with debug adapters.
+
+  Kaida-Amethyst/moondbg/dap_frontend
+    Provides an async serve function that runs a DAP (Debug Adapter Protocol) frontend over a provided async reader/writer pair, executing either a connection test or a live, event-driven session without a human CLI.
+
+  Kaida-Amethyst/moondbg/testkit/dap
+    This package provides a scripted, in-memory transport for testing Debug Adapter Protocol (DAP) implementations. It allows deterministic playback of scripted inputs (JSON messages, closed events, or failures), inspection of sent messages, and closed-state queries, enabling robust DAP client testing without a real connection.
+
+  Kaida-Amethyst/moondbg/testkit/pty
+    Provides a PTY-based test kit for the moondbg debugger, enabling tests to spawn debug sessions under a fresh pseudo-terminal and interact via write/expect/wait operations. Use cases include verifying adapter start/stop, checking process status, and running the current test binary or moondbg in a fixture directory.
+
+ChaonanShen/moonbit-mqtt-broker@0.4.0 (79 downloads)
+  A lightweight MQTT 3.1.1 and opt-in MQTT 5 broker implemented in MoonBit.
+  Repository: https://github.com/ChaonanShen/moonbit-mqtt-broker
+
+vectie/moontown@0.1.6 (48 downloads)
+  —
+  Repository: https://github.com/vectie/moontown
+
+totto2727/moon-agent-graph@0.1.2 (35 downloads)
+  Native asynchronous agent graph runtime with Mermaid visualization
+  Repository: https://github.com/totto2727-org/monorepo
+
+CAIMEOX/symbit@0.5.10 (212 downloads)
+  A symbolic mathematics library for Moonbit.
+  Repository: https://github.com/CAIMEOX/symbit.git
+
+vectie/moonbook@0.1.1 (49 downloads)
+  —
+
+vectie/lepusa@0.1.6 (485 downloads)
+  MoonBit-native desktop application framework research and implementation.
+  Repository: https://github.com/vectie/lepusa
+
+Ag108/MoonReduce@0.2.0 (47 downloads)
+  Deterministic failure-preserving testcase reduction for MoonBit projects
+
+IvanAXu/BioSeqs@0.1.14 (129 downloads)
+  BioSeqs - a Biopython-inspired bioinformatics library in pure MoonBit: sequence I/O, alignments, phylogenetics, structures, NGS files and statistics
+  Repository: https://github.com/paipai-Studio/BioSeqs
+
+vectie/moonfish@0.1.0 (28 downloads)
+  —
+
+wdgodghl/moonwren@0.9.6 (143 downloads)
+  A Wren-compatible scripting language implementation in MoonBit
+  Repository: https://github.com/wdgodghl/moonwren
+
+  wdgodghl/moonwren
+    MoonWren is a Wren 0.4.0-compatible embeddable scripting language implementation written in MoonBit, providing one-shot evaluation (run, run_with_loader, run_modules), a persistent Vm with handles, limits, foreign bindings, async tasks, schedulers, GC, hot reload, debuggers, and a language server. It also covers a hybrid bytecode backend, deployment bundles,
+
+riantr/snn_mbt@0.166.2 (1520 downloads)
+  Bit-exact MoonBit port of SpikingNeuralNetworks.jl, extended with modern training machinery. NEURONS AND PLASTICITY: IF, AdEx, Izhikevich (IZ), HH, MorrisLecar, Poisson (including InhomogeneousPoisson), WilsonCowan; Markram STP, Gerstner / MexicanHat / AntiSymmetric / vSTDP / Confavreux2025 STDP; AMPA / NMDA / GABAa / GABAb receptors; multicompartment dendritic neurons (BallAndStick, Tripod, Multipod); IF with population synaptic conductance; spike-time and current stimuli. CORE DL: Tensor struct with broadcasting + softmax / log-softmax / cross-entropy, Conv2d / MaxPool2d / GlobalAvgPool2d / ReLU / Flatten / Linear forward AND backward, ResNet foundations, generic Chain / Sequential, pre-made MLP / SimpleCNN / LeLen5 bottles, image adapter (BMP/QOI/TGA/PNG/GIF/JPEG/ICO/TIFF) via riantr/moonbit_image, 5D [T,B,C,H,W] STImage. OPTIMIZERS AND SCHEDULING: SGD, SGD-with-momentum, Adam with bias correction, AdamW, RMSprop, AdaGrad, Adafactor; StepLR, ExponentialLR, CosineAnnealingLR, ReduceLROnPlateau; BatchNorm2d with running stats and LayerNorm per-sample, both with backward. SURROGATE GRADIENTS AND ATTENTION: fast-sigmoid (Zenke & Ganguli 2018) for BPTT through IF/LIF Heaviside; GELU, exact sparse GELU via libm erff; multi-head self-attention with mask utilities; sinusoidal and learnable positional encoding; Pre-Norm transformer block; inverted dropout; SAttention unifying three spiking attention variants; LayerScale; T5-style relative position bias; SpikingMultiHeadAttention with full BPTT backward; SpikeFormer demo. RL: SequenceReplayBuffer for recurrent RL, DDPG, TD3, SAC, GRU/LSTM/GTrXL recurrent actors and critics, Decision Transformer, Trajectory Transformer with beam search. META-LEARNING AND CAUSAL: MAML, FOMAML, Reptile, TaskSampler; LinearGaussianSCM, DoCalculus, CounterfactualReasoning, CausalEffectEstimator. GENERATIVE: RealNVP / Glow / NormalizingFlow, VAE, IWAE, ELBO, DDPM diffusion, EnergyBasedModel with Langevin sampling, DCGAN, WGAN-GP. OTHER: Vision Transformer with trainer, EmbeddingNet / SiameseNet / SiameseTrainer, CapsuleNetwork. GRAPH NEURAL NETWORKS: Graph with COO edge list and GCN adjacency normalisation; GCN, MPNN, GIN, PNA, GAT (multi-head), Set2Set readout, EdgeGNN, H2GCN, GraphClassifier -- and FULL BACKWARD PASSES for all of them, dispatched behind a single TrainableGraphNet enum, with node-level and graph-level training steps.
+  Repository: https://gitee.com/ren-yongxiang/moonbit-snn
+
+liyun6666/moonsbe@0.1.0 (11 downloads)
+  SBE binary message codecs and MoonBit code generation with reference interoperability tests
+  Repository: https://github.com/liyun6666/moonsbe
+
+trail-it/moonstream@0.1.1 (67 downloads)
+  Incremental, chunk-invariant parsing of streaming JSON tool-call arguments.
+  Repository: https://github.com/trail-it/moonstream
+
+Milky2018/wasmoon@0.18.0 (1535 downloads)
+  WebAssembly runtime with native JIT, interpreter, WASI and Component Model support
+  Repository: https://github.com/Milky2018/wasmoon.git
+
+Milky2018/wasmoon_runtime@0.18.0 (1135 downloads)
+  Shared Wasmoon interpreter state and target-specific storage primitives
+  Repository: https://github.com/Milky2018/wasmoon.git
+
+vectie/moonmoon@0.1.0 (33 downloads)
+  MoonBit-native lunar world model for measured terrain evidence, mission constraints, and robot-facing MoonSuite boundaries.
+  Repository: git@github.com:vectie/moonmoon.git
+
+Milky2018/moon_elk@0.3.2 (46378 downloads)
+  A MoonBit port of Eclipse Layout Kernel (ELK).
+  Repository: https://github.com/moonbit-community/moon_elk.git
+
+moonbit-community/elk@0.4.1 (9688 downloads)
+  A MoonBit port of Eclipse Layout Kernel (ELK).
+  Repository: https://github.com/moonbit-community/moon_elk.git
+
+mizchi/kagura_engine@0.7.1 (133 downloads)
+  Rendering, presentation, assets, audio and application runtime for Kagura
+  Repository: https://github.com/mizchi/kagura
+
+  mizchi/kagura_engine/inspection (summary from v0.6.0)
+    Provides a typed inspection layer that connects a game's logical state to a debugger Inspector. It declares subjects and number/text/boolean fields with pure getters and optional setters, projects snapshots to JSON, and exposes a Runtime adapter with an invoke request handler for external hosts.
+
+Run `moon add <module>@<version>` to add a dependency.
+[exit 0]
+
+> moon search "debug adapter protocol"
+7 modules found
+
+Kaida-Amethyst/moondbg@0.3.1 (70 downloads)
+  —
+
+  Kaida-Amethyst/moondbg/dap
+    This package provides a Debug Adapter Protocol (DAP) client library for MoonBit. It includes dispatchers, transports, message framing/classification, and typed DAP request/response/event structs for building debugger frontends that communicate with debug adapters.
+
+  Kaida-Amethyst/moondbg/dap_frontend
+    Provides an async serve function that runs a DAP (Debug Adapter Protocol) frontend over a provided async reader/writer pair, executing either a connection test or a live, event-driven session without a human CLI.
+
+  Kaida-Amethyst/moondbg/testkit/dap
+    This package provides a scripted, in-memory transport for testing Debug Adapter Protocol (DAP) implementations. It allows deterministic playback of scripted inputs (JSON messages, closed events, or failures), inspection of sent messages, and closed-state queries, enabling robust DAP client testing without a real connection.
+
+ChaonanShen/moonbit-mqtt-broker@0.4.0 (79 downloads)
+  A lightweight MQTT 3.1.1 and opt-in MQTT 5 broker implemented in MoonBit.
+  Repository: https://github.com/ChaonanShen/moonbit-mqtt-broker
+
+vectie/moontown@0.1.6 (48 downloads)
+  —
+  Repository: https://github.com/vectie/moontown
+
+vectie/moonbook@0.1.1 (49 downloads)
+  —
+
+finos/morphir-host@0.1.0 (8 downloads)
+  —
+  Repository: https://github.com/finos/morphir-moonbit
+
+vectie/moonclaw@0.1.6 (124 downloads)
+  —
+  Repository: https://github.com/vectie/moonclaw
+
+moonbitlang/core@0.1.20261105+65efd5b93 (1737 downloads)
+  —
+  Repository: https://github.com/moonbitlang/core
+
+Run `moon add <module>@<version>` to add a dependency.
+[exit 0]
+
+> moon search debugger
+9 modules found
+
+shop1111/frontierlab@0.10.0 (111 downloads)
+  A MoonBit algorithm trace protocol and polished offline HTML visualization kit.
+  Repository: https://github.com/shop1111/FrontierLab.git
+
+Kaida-Amethyst/moondbg@0.3.1 (70 downloads)
+  —
+
+  Kaida-Amethyst/moondbg/debugger
+    MoonBit debugger core library providing a backend-abstraction layer for building debuggers. It defines the DebugBackend trait and a DebugSession frontend that manages breakpoints, execution control (continue/step/next/finish), stack snapshots, frame navigation, local variable inspection, and variable path lookup with backend-independent domain types.
+
+  Kaida-Amethyst/moondbg
+    moondbg is a REPL debugger for MoonBit native programs that debugs through lldb-dap without a Python formatter. It supports VS Code debugging, line and function breakpoints, call stacks, stepping, pause/continue, local variable trees, hover and watch evaluation of variable paths, and an interactive REPL with commands such as b, run, next, locals, bt, continu
+
+  Kaida-Amethyst/moondbg/launch
+    This package prepares and launches debug targets for the moondbg debugger. It provides a prepare_target function to set up a target executable with debug context and working directory, and a run_worker private entry point for the worker process.
+
+  Kaida-Amethyst/moondbg/lldb_dap
+    Provides an lldb-dap backend implementation for the moondbg debugger, including a VariableInspector for evaluating and browsing MoonBit values in stack frames, and a FunctionBreakpointDriver for installing/removing native function breakpoints.
+
+  Kaida-Amethyst/moondbg/runtime_value
+    Provides utilities for interpreting native MoonBit runtime values in a debugger context: decoding array headers/capacities, scalar payloads, and boxed enum tags from raw bytes, plus planning bounded previews of indexed collections. Includes type enums (NativeScalarType, NativeArrayElementType) and validation errors (NativeValueError).
+  Showing 5 of 8 matching packages.
+
+xiaoxiao1211/moonbit-sourcemap@0.1.1 (30 downloads)
+  Source Map v3 mappings, lookup, and Wasm sourceMappingURL integration for MoonBit
+  Repository: https://github.com/xiaoxiao1211/moonbit-sourcemap
+
+  xiaoxiao1211/moonbit-sourcemap
+    A pure MoonBit implementation of Source Map v3 for compiler integrations, debuggers, and WebAssembly tooling. Provides Base64 VLQ encoding/decoding, validated JSON models, incremental map construction with SourceMapBuilder, bidirectional generated-to-original position lookup with bias options, and WebAssembly sourceMappingURL custom-section read/add/remove h
+
+pangbit/moonjsonnet@0.2.3 (66 downloads)
+  An embeddable, lazy Jsonnet interpreter for MoonBit native applications
+  Repository: https://github.com/pangbit/moonjsonnet
+
+  pangbit/moonjsonnet
+    An embeddable MoonBit Jsonnet interpreter that parses and evaluates Jsonnet source directly, returning Json values or JsonnetError. It provides evaluation helpers (evaluate, evaluate_text, evaluate_stream, evaluate_multi), a reusable Evaluator with ext vars, TLAs, imports and limits, source formatting via RawAst and SyntaxDocument, structural lint, dependenc
+
+wuhaiting321/dwarfscope@0.1.1 (56 downloads)
+  MoonBit DWARF debug info parser, symbol resolver, stack unwinder, and crash reporter for MCU, Linux, and WebAssembly.
+  Repository: https://github.com/wuhaiting321/moonbit-dwarfscope
+
+  wuhaiting321/dwarfscope/src/model
+    Provides data structures and utilities for analyzing ELF binaries with DWARF debug information, enabling crash report generation, symbol table comparison, source location resolution, call graph construction, and export of analysis results in JSON, Markdown, or text formats.
+
+  wuhaiting321/dwarfscope/src/cli_core
+    Provides CLI argument parsing, batch ELF processing, REPL shell commands, and export for debugger scripts or reports for the DwarfScope ELF/DWARF analysis tool. Key use cases include parsing command-line options, dumping ELF headers/sections/symbols, processing multiple ELF files, and rendering analysis summaries in various formats. Also includes an interact
+
+mizchi/js_node@0.13.0 (1354 downloads)
+  node.js-specific js bindings (fs, http, stream, ...)
+  Repository: https://github.com/mizchi/js.mbt
+
+  mizchi/js_node/inspector
+    Provides JavaScript bindings to the Node.js V8 inspector module for MoonBit, including a Console object for debugging output, a Session type for inspector communication via post/connect/disconnect, and module-level functions open/close/url/wait_for_debugger to control the inspector lifecycle and retrieve its WebSocket URL.
+
+btlqql/moon_bpflab@0.2.0 (39 downloads)
+  User-space BPF interpreter, disassembler and debugger in MoonBit.
+  Repository: https://github.com/btlqql/moon-bpflab
+
+wdgodghl/moonwren@0.9.6 (143 downloads)
+  A Wren-compatible scripting language implementation in MoonBit
+  Repository: https://github.com/wdgodghl/moonwren
+
+  wdgodghl/moonwren
+    MoonWren is a Wren 0.4.0-compatible embeddable scripting language implementation written in MoonBit, providing one-shot evaluation (run, run_with_loader, run_modules), a persistent Vm with handles, limits, foreign bindings, async tasks, schedulers, GC, hot reload, debuggers, and a language server. It also covers a hybrid bytecode backend, deployment bundles,
+
+mizchi/kagura_engine@0.7.1 (133 downloads)
+  Rendering, presentation, assets, audio and application runtime for Kagura
+  Repository: https://github.com/mizchi/kagura
+
+  mizchi/kagura_engine/inspection (summary from v0.6.0)
+    Provides a typed inspection layer that connects a game's logical state to a debugger Inspector. It declares subjects and number/text/boolean fields with pure getters and optional setters, projects snapshots to JSON, and exposes a Runtime adapter with an invoke request handler for external hosts.
+
+Run `moon add <module>@<version>` to add a dependency.
+[exit 0]
+
+> moon search debug
+20 modules found
+
+moonbit-community/debug@0.1.4 (1314 downloads)
+  —
+  Repository: https://github.com/moonbit-community/debug
+
+  moonbit-community/debug
+    An experimental MoonBit library providing a Debug trait that converts values into a structural Repr, tree-based diffing via ReprDelta with configurable float tolerance, pretty printers for Repr and ReprDelta with optional ANSI marks, and a binary to auto-generate Debug implementations. Public functions include debug, diff, diff_repr, pretty_print, pretty_pri
+
+  moonbit-community/debug/cmd/main
+    This package is a small demo binary for the pretty_print and pretty_print_diff functions. It exposes demo_output and run_demo, each returning a pair of strings.
+
+  moonbit-community/debug/diff
+    This package computes tree-shaped diffs between two Repr values for debugging. It exposes diff_repr (with an optional max_relative_error tolerance for floating-point DoubleLit comparison, defaulting to 1e-12) and the ReprDelta wrapper and DebugDelta enum types describing same, different, and extra representations.
+
+  moonbit-community/debug/pretty_print
+    Provides pretty-printing helpers for debug representations: pretty_print_repr renders a Repr tree with configurable depth, compact/multiline layout, and optional ANSI colors; pretty_print_delta renders a ReprDelta similarly; prune_info truncates a Repr tree to a given depth with a replacement node.
+
+  moonbit-community/debug/repr
+    This package defines Repr, a readonly structural, tree-shaped representation used by moonbit-community/debug for pretty-printing, diffing, and the Debug trait. It supports records, tuples, labeled constructor arguments, maps, opaque nodes, and literals via smart constructors and generic traversal helpers like children, with_children, shallow, and traverse.
+
+xlh123jjj/moonbit-visual-debug@0.2.2 (43 downloads)
+  Visual algorithm debugging overlays and SVG/HTML report generation for MoonBit.
+  Repository: https://github.com/xlh123jjj/moonbit-visual-debug
+
+  xlh123jjj/moonbit-visual-debug
+    Provides typed visual-debugging reports for computer-vision workflows, producing SVG, HTML, and PNG outputs from structured overlays like bounding boxes, masks, keypoints, and heatmaps. Supports COCO/YOLO/VOC interchange, detection matching with evaluation metrics, and document diffing for CI artifacts.
+
+  xlh123jjj/moonbit-visual-debug/cmd/main
+    This package is a command-line main entry point with no documented public API or usage information.
+
+  xlh123jjj/moonbit-visual-debug/examples/detection_report
+    This example package demonstrates the usage of the visual-debug library by generating a detection report.
+
+moonbit-community/debug_deriving@0.1.2 (1285 downloads)
+  —
+  Repository: https://github.com/moonbit-community/debug
+
+  moonbit-community/debug_deriving
+    moonbit-community/debug_deriving provides derived debugging support for MoonBit. The supplied public API documentation lists no types, traits, errors, or values, so specific public use cases are not documented.
+
+wuhaiting321/dwarfscope@0.1.1 (56 downloads)
+  MoonBit DWARF debug info parser, symbol resolver, stack unwinder, and crash reporter for MCU, Linux, and WebAssembly.
+  Repository: https://github.com/wuhaiting321/moonbit-dwarfscope
+
+  wuhaiting321/dwarfscope/src/dwarf_die
+    This package provides types and parsers for DWARF debugging information, including DIE trees, abbreviation tables, compilation units, location lists, address ranges, type definitions, and variables, enabling analysis and traversal of debug data in MoonBit.
+
+  wuhaiting321/dwarfscope/src/dwarf_line
+    Provides types and parsers for DWARF line number program headers, opcodes, file entries and state machine row matrix. Supports parsing DWARF v5 line tables, encoding line table bytecode, and looking up source lines by binary address.
+
+  wuhaiting321/dwarfscope/src/dwarf_loc
+    Provides DWARF location list and location expression functionality, including a builder for the .debug_loc section, opcode enums for DWARF v4/v5, and a stack machine for evaluating location expressions. Supports parsing, formatting, and evaluating location expressions with optional memory dereferencing.
+
+  wuhaiting321/dwarfscope/src/model
+    Provides data structures and utilities for analyzing ELF binaries with DWARF debug information, enabling crash report generation, symbol table comparison, source location resolution, call graph construction, and export of analysis results in JSON, Markdown, or text formats.
+
+  wuhaiting321/dwarfscope/src/cli_core
+    Provides CLI argument parsing, batch ELF processing, REPL shell commands, and export for debugger scripts or reports for the DwarfScope ELF/DWARF analysis tool. Key use cases include parsing command-line options, dumping ELF headers/sections/symbols, processing multiple ELF files, and rendering analysis summaries in various formats. Also includes an interact
+
+guo-dong-123/moon-trace@0.1.3 (55 downloads)
+  Agent execution trace observability and debugging toolkit for MoonBit
+  Repository: https://github.com/guo-dong-123/moon-trace
+
+LC6543/moonpdb@0.3.2 (58 downloads)
+  A bounded, pure MoonBit reader for Microsoft PDB 7.0 debug information.
+  Repository: https://github.com/LC6543/moonpdb
+
+  LC6543/moonpdb
+    MoonPDB is a pure MoonBit reader for Microsoft PDB 7.0 debug information. It parses MSF containers, PDB Info and named streams, TPI/IPI type records, DBI modules and section maps, CodeView symbols, publics/globals indexes, C13 line information, and PE image mapping, and provides address symbolication plus an inspection CLI.
+
+marianoguerra/mcp-inspector@0.10.1 (198 downloads)
+  Session, capability state and mcp.json catalog handling for MCP debugging tools.
+  Repository: https://github.com/marianoguerra/mcp-mb
+
+Ag108/MoonReduce@0.2.0 (47 downloads)
+  Deterministic failure-preserving testcase reduction for MoonBit projects
+
+  Ag108/MoonReduce/reducer/ddmin
+    This package provides a single pure function, `partitions`, which computes balanced contiguous half-open partitions of a given count into a specified number of groups, avoiding empty groups and preventing integer overflow. It is useful for dividing elements evenly for tasks such as delta debugging or parallel processing when a fixed number of partitions is n
+
+shop1111/moon_sourcemap@0.1.1 (39 downloads)
+  A pure MoonBit ECMA-426 Source Map library and command-line toolkit.
+  Repository: https://github.com/shop1111/moon-sourcemap.git
+
+xiaoxiao1211/moonbit-sourcemap@0.1.1 (30 downloads)
+  Source Map v3 mappings, lookup, and Wasm sourceMappingURL integration for MoonBit
+  Repository: https://github.com/xiaoxiao1211/moonbit-sourcemap
+
+  xiaoxiao1211/moonbit-sourcemap
+    A pure MoonBit implementation of Source Map v3 for compiler integrations, debuggers, and WebAssembly tooling. Provides Base64 VLQ encoding/decoding, validated JSON models, incremental map construction with SourceMapBuilder, bidirectional generated-to-original position lookup with bias options, and WebAssembly sourceMappingURL custom-section read/add/remove h
+
+  xiaoxiao1211/moonbit-sourcemap/cmd/main
+    Command-line module for source map operations. Provides inspect, lookup, reverse and WASM URL extraction functions, all of which can raise SourceMapError.
+
+CCllff-jpg/MoonLogTrace@0.1.4 (68 downloads)
+  Pure MoonBit structured logging and tracing library with safe formatters, replay, query, and retention utilities.
+  Repository: https://github.com/CCllff-jpg/MoonLogTrace
+
+Derk2006/sourcemap@0.1.1 (46 downloads)
+  Pure MoonBit Source Map v3 parser, encoder, validator and lookup toolkit
+  Repository: https://github.com/Derk2006/sourcemap.git
+
+shop1111/frontierlab@0.10.0 (111 downloads)
+  A MoonBit algorithm trace protocol and polished offline HTML visualization kit.
+  Repository: https://github.com/shop1111/FrontierLab.git
+
+Kaida-Amethyst/moondbg@0.3.1 (70 downloads)
+  —
+
+  Kaida-Amethyst/moondbg/debugger
+    MoonBit debugger core library providing a backend-abstraction layer for building debuggers. It defines the DebugBackend trait and a DebugSession frontend that manages breakpoints, execution control (continue/step/next/finish), stack snapshots, frame navigation, local variable inspection, and variable path lookup with backend-independent domain types.
+
+  Kaida-Amethyst/moondbg/launch
+    This package prepares and launches debug targets for the moondbg debugger. It provides a prepare_target function to set up a target executable with debug context and working directory, and a run_worker private entry point for the worker process.
+
+  Kaida-Amethyst/moondbg/dap
+    This package provides a Debug Adapter Protocol (DAP) client library for MoonBit. It includes dispatchers, transports, message framing/classification, and typed DAP request/response/event structs for building debugger frontends that communicate with debug adapters.
+
+  Kaida-Amethyst/moondbg
+    moondbg is a REPL debugger for MoonBit native programs that debugs through lldb-dap without a Python formatter. It supports VS Code debugging, line and function breakpoints, call stacks, stepping, pause/continue, local variable trees, hover and watch evaluation of variable paths, and an interactive REPL with commands such as b, run, next, locals, bt, continu
+
+  Kaida-Amethyst/moondbg/dap_frontend
+    Provides an async serve function that runs a DAP (Debug Adapter Protocol) frontend over a provided async reader/writer pair, executing either a connection test or a live, event-driven session without a human CLI.
+  Showing 5 of 9 matching packages.
+
+ryota0624/moovalid@0.1.1 (41 downloads)
+  A lightweight validation library for MoonBit that accumulates errors instead of failing fast.
+  Repository: https://github.com/ryota0624/moovalid
+
+  ryota0624/moovalid/examples
+    Provides example types such as a User struct with debugging support for the moovalid crate.
+
+mizchi/actrun@0.32.0 (830 downloads)
+  MVP GitHub Actions-compatible push CI runner with bitflow lowering, native execution, and bit workspace materialization.
+  Repository: https://github.com/mizchi/actrun
+
+  mizchi/actrun
+    mizchi/actrun is a local GitHub Actions runner built in MoonBit that parses push-triggered workflows, lowers them to a bitflow IR, and executes them natively or in containers, with a gh-compatible CLI for debugging, linting, visualization, and artifact/cache management.
+
+Kaida-Amethyst/llvm@0.6.2 (276 downloads)
+  llvm-c binding for Moonbit with friendly API, keeps the Cpp Style.
+  Repository: https://github.com/moonbitlang/llvm.mbt
+
+  Kaida-Amethyst/llvm/IR
+    Provides a safe MoonBit wrapper over LLVM IR types, values, instructions, constants, and debug-information entities. It supports type classification and inspection, module/function/global construction, IR builder insertion points, instruction manipulation, constants, calling conventions, address spaces, and LLVM diagnostic errors.
+
+YumeXi/format@0.3.11 (75 downloads)
+  A formatting library for MoonBit
+  Repository: https://github.com/YumeXi/format
+
+  YumeXi/format/base
+    Provides a MoonBit text formatting library built around the Formattable trait and FormatField specifiers. It supports positional arguments, width/precision, alignment, and formatted output through format/try_format/print/debug, raising FormatError for invalid fields or unmatched braces.
+
+shop1111/moonohos_ohos@0.6.0 (60 downloads)
+  HarmonyOS platform packages (HiLog, RawFile, task cancellation, device info, network state, vibrator) for MoonOHOS native modules.
+  Repository: https://github.com/shop1111/MoonOHOS
+
+  shop1111/moonohos_ohos/hilog
+    The hilog package provides a Logger structure to handle logging messages across different severity levels like Debug, Info, Warn, Error, and Fatal. You can create loggers using a domain ID and tag, and use methods like debug, info, error, and log to record messages.
+
+Myytsjj/moon-ssg@0.3.1 (58 downloads)
+  —
+  Repository: https://github.com/Myytsjj/moon-ssg
+
+  Myytsjj/moon-ssg/examples/matrix
+    This package defines a `Scenario` type with `Eq` and `Debug` trait derivations, as part of the moon-ssg examples for matrix scenarios.
+
+  Myytsjj/moon-ssg/src/main
+    This MoonBit package defines the CliOptions type, a command-line options structure with derived Eq and Debug trait implementations.
+
+Run `moon add <module>@<version>` to add a dependency.
+[exit 0]
+
+> moon search breakpoint
+10 modules found
+
+mwqcodex/moonaqi@0.3.0 (37 downloads)
+  Air quality index in pure MoonBit: the Chinese HJ 633-2026 and US EPA breakpoint tables, a day of hourly readings averaged into the indicators the standards describe, a period summarised, the dominant pollutant, and the EPA NowCast.
+  Repository: https://github.com/mwqcodex/moonaqi
+
+  mwqcodex/moonaqi
+    moonaqi computes air quality indices in pure MoonBit, mapping pollutant concentrations onto a 0–500 scale by piecewise-linear interpolation over breakpoint tables and taking the worst sub-index. It carries HJ 633—2026 and HJ 633—2012 China tables and the US EPA tables, plus NowCast PM2.5, hourly day averaging with ozone's rolling eight-hour maximum, station
+
+Kaida-Amethyst/moondbg@0.3.1 (70 downloads)
+  —
+
+  Kaida-Amethyst/moondbg/debugger
+    MoonBit debugger core library providing a backend-abstraction layer for building debuggers. It defines the DebugBackend trait and a DebugSession frontend that manages breakpoints, execution control (continue/step/next/finish), stack snapshots, frame navigation, local variable inspection, and variable path lookup with backend-independent domain types.
+
+  Kaida-Amethyst/moondbg/lldb_dap
+    Provides an lldb-dap backend implementation for the moondbg debugger, including a VariableInspector for evaluating and browsing MoonBit values in stack frames, and a FunctionBreakpointDriver for installing/removing native function breakpoints.
+
+  Kaida-Amethyst/moondbg
+    moondbg is a REPL debugger for MoonBit native programs that debugs through lldb-dap without a Python formatter. It supports VS Code debugging, line and function breakpoints, call stacks, stepping, pause/continue, local variable trees, hover and watch evaluation of variable paths, and an interactive REPL with commands such as b, run, next, locals, bt, continu
+
+btlqql/moon_bpflab@0.2.0 (39 downloads)
+  User-space BPF interpreter, disassembler and debugger in MoonBit.
+  Repository: https://github.com/btlqql/moon-bpflab
+
+  btlqql/moon_bpflab
+    btlqql/moon_bpflab provides a user-space BPF execution and debugging tool that interprets and executes instructions directly within MoonBit, rather than forwarding execution to a C library or kernel. It supports features like stepping, breakpoints, and disassembly for ELF64 subsets, covering ALU/memory/jump instructions.
+
+mizchi/crater-dom@0.19.2 (7593 downloads)
+  DOM, HTML, AOM, and scheduling packages for crater
+  Repository: https://github.com/mizchi/crater
+
+  mizchi/crater-dom/css/responsive
+    Provides discovery functions that analyze an HTML document's CSS to report computed styles, effective property sources, rule usage, viewport-active rules, responsive breakpoints, and required test viewport widths. It also supports forcing pseudo-class states to compare normal and forced computed styles.
+
+moonbitlang/typst@0.1.10 (568 downloads)
+  A port of the Typst typesetting engine to MoonBit.
+  Repository: https://github.com/moonbitlang/typst.mbt
+
+  moonbitlang/typst/linebreak
+    This package provides types and structures related to line breaking in Typst, including enumeration of line break types like LineBreak and Breakpoint. It features a LineSegmenter that supports different algorithms for segmenting text and methods like segment_str to get line break opportunities as byte offsets.
+
+Juwan-Hwang/moon-certified@0.1.1 (70 downloads)
+  Core algorithms and data structures for MoonBit — partially formally verified
+  Repository: https://github.com/Juwan-Hwang/moon-certified
+
+  Juwan-Hwang/moon-certified/dp/slope_trick
+    This package implements the slope trick technique for dynamic programming on convex piecewise-linear functions. It provides a SlopeTrick struct to represent such functions and operations like adding absolute value terms, shifting, prefix/suffix min, and evaluation, along with ready-to-use functions for computing the minimum cost to make a sequence non-decrea
+
+shop1111/frontierlab@0.10.0 (111 downloads)
+  A MoonBit algorithm trace protocol and polished offline HTML visualization kit.
+  Repository: https://github.com/shop1111/FrontierLab.git
+
+  shop1111/frontierlab
+    FrontierLab is a MoonBit algorithm-trace library that records execution as semantic events and scene snapshots with stable entity IDs. It offers trace building, contract-based diagnosis, diffing, breakpoints, JSON schema-v1 encode/decode, linting, and offline HTML rendering, plus adapters for sorting, Union-Find, DP, red-black trees, and grid path search wit
+
+wzzc-dev/moui_studio@0.1.5 (83 downloads)
+  MoUI Studio: visual + DSL IDE for building MoUI applications
+  Repository: https://github.com/wzzc-dev/moui_studio.git
+
+  wzzc-dev/moui_studio/domain/studio_lang
+    Provides the bilingual (Chinese/English) language layer for Moui Studio programs: keyword tables, parsing of expressions, handler bodies, struct and enum declarations, rendering back to source, identifier checks, a builtin command/gate/function catalog, and a step-based interpreter with RunState, gates, breakpoints, auditing and structured LangError reportin
+
+mizchi/luna@0.25.2 (21271 downloads)
+  Fine-grained reactive UI library for Moonbit/JS
+  Repository: https://github.com/mizchi/luna.mbt
+
+  mizchi/luna/x/css
+    mizchi/luna/x/css provides atomic CSS generation and composable, portable styles for Luna. It offers a Style API with conditional styles, themes, custom properties, SSR stylesheets, static extraction and compilation, plus a legacy string API with css, styles, hover, focus, active, media, and breakpoint helpers, typed Property and Pseudo enums, and class-name
+
+vitro/engine@0.9.1 (121 downloads)
+  MoonBit implementation of the Vitro C teaching engine: 119 diagnostic codes, 153 opcodes, full AST family, byte-exact against Clang-golden and frozen digest baselines
+  Repository: https://github.com/rustin-beep/Vitro
+
+  vitro/engine/vm
+    vitro/engine/vm provides the VitroVM executor state machine for a C teaching engine: a u64 value stack, call stack, 1MB checked linear memory, heap metadata, and host-domain state (output, input, VFS). It supplies full and incremental snapshots (VMSnapshot, MemoryImage Full/Delta), single-step and full execution, breakpoints, heatmap and variable/array obser
+
+Run `moon add <module>@<version>` to add a dependency.
+[exit 0]
+
+> moon search moondap
+20 modules found
+
+KKKIIO/moondark_postgresql@0.1.0 (114 downloads)
+  PostgreSQL backends for the moondark framework
+  Repository: https://github.com/kkkiio/moondark
+
+  KKKIIO/moondark_postgresql/auth
+    This package provides a PostgresCredentialStore, which is a PostgresCredentialStore implementation of @moondark_auth.CredentialStore, allowing storage of credentials backed by a PostgreSQL table using native SQL. Key methods include adding, finding, updating, and deleting credentials associated with users or specific identifiers.
+
+  KKKIIO/moondark_postgresql/database
+    This package provides a PostgreSQL driver implementation for MoonBit, allowing users to connect to a database using a DSN via open_db. It exposes functionalities like Conn::prepare, Stmt::query, and transaction management via Tx::commit or Tx::rollback.
+
+  KKKIIO/moondark_postgresql/files
+    This package provides `PostgresCatalog` for persisting file metadata using a PostgreSQL table, which works with `CasFileStore` to manage file content stored on disk. Users can utilize `new_file_store` to build a store backed by a PostgreSQL database, allowing for key lookups, insertions, and deletions of object catalog entries.
+
+  KKKIIO/moondark_postgresql/sessions
+    PostgresSessionStore implements the SessionStore trait, providing session management backed by a PostgreSQL table using native SQL. It allows for operations like creating, deleting, getting, and updating sessions.
+
+  KKKIIO/moondark_postgresql/tasks
+    The moondark_postgresql/tasks package provides a PostgreSQL backend for the moondark_tasks system, allowing task storage and execution results to be persisted in a PostgreSQL table. It supports atomic task enqueuing and allows workers to claim the next runnable task using `PostgresTaskBackend::claim`.
+
+KKKIIO/moondark_sqlite@0.1.0 (35 downloads)
+  SQLite backends for the moondark framework
+  Repository: https://github.com/kkkiio/moondark
+
+  KKKIIO/moondark_sqlite/auth
+    SqliteCredentialStore implements the CredentialStore trait using a SQLite table to manage credentials. It provides asynchronous methods for adding, finding, updating, and deleting credentials based on user ID, kind, provider, and identifier.
+
+  KKKIIO/moondark_sqlite/database
+    This package provides an SQLite driver implementation for the moondark database framework, offering components like Conn, Driver, and Connector for database interaction. Users can open a pooled SQLite database via open_db, use Conn for transactions and execution, and manage operations with Stmt and Rows.
+
+  KKKIIO/moondark_sqlite/files
+    The moondark_sqlite/files package provides `SqliteCatalog` to manage a key-to-blob index in a SQLite table and `new_file_store` to build a `CasFileStore` with content-addressed blobs stored on disk. This setup is used to serve presigned upload and download URLs via `store.routes()` on a moonback App.
+
+  KKKIIO/moondark_sqlite/sessions
+    SqliteSessionStore implements @moondark_sessions.SessionStore, providing session storage backed by a SQLite table. It allows for asynchronous operations like creating, retrieving, deleting, and updating sessions using native SQLite SQL.
+
+  KKKIIO/moondark_sqlite/tasks
+    The KKKIIO/moondark_sqlite/tasks package provides a SQLite backend for managing enqueued tasks and their execution results within KKKIIO/moondark/tasks. It implements SqliteTaskBackend and TaskStore traits, allowing atomic operations like enqueue, claim, and save for task results.
+
+Lfan-ke/moonzero@0.7.3 (108 downloads)
+  moonzero — a service framework for MoonBit (← go-zero): config-driven assembly of a moonapi application with middleware, producing a runnable moonasgi AsgiApp. v0.6.2 runs real unary, server/client-streaming, and bidirectional zRPC calls over moonrpc's h2c transport (an in-process RpcChannel drives HPACK HEADERS + length-prefixed DATA + grpc-status trailers through the H2Server engine), graceful shutdown draining in-flight calls, a persisted, watchable etcd v3-shaped registry (watch, events_since catch-up, snapshot/restore) with round-robin/pick-first balancers and a load-balanced client, real file-backed registry I/O over moonbitlang/async's fs with a live filesystem watcher (native discov driver), request metrics (counter + latency histogram), and W3C traceparent propagation.
+  Repository: https://github.com/moonbitstack/moonzero
+
+  Lfan-ke/moonzero
+    moonzero is a service framework for MoonBit inspired by go-zero. It assembles a moonapi application from config, wraps it in middleware, and produces a runnable moonasgi AsgiApp for a server (mooncat) to run. It provides REST and RPC (zRPC) server configuration, middleware including logging, recovery, CORS, request-id, rate limiting, and structured logging,
+
+Lfan-ke/moonctl@0.7.1 (92 downloads)
+  moonctl (mctl) — a spec-driven code generator for MoonBit (← goctl): parse a .api service spec and emit compilable moonapi scaffolding (routes + handler stubs).
+  Repository: https://github.com/moonbitstack/moonctl
+
+  Lfan-ke/moonctl
+    moonctl (mctl) is a spec-driven code generator for MoonBit that parses .api service specs and emits compilable moonapi scaffolding, similar to goctl for Go. It supports generating API projects, layered project trees, OpenAPI documents, GraphQL schemas, CRUD from DDL, Dockerfiles, and plugin-based external generators, with pure parsing and generation logic th
+
+moonbitstack/moonctl@0.12.9 (237 downloads)
+  Project and code generator for MoonBit services.
+  Repository: https://github.com/moonbitstack/moonctl
+
+  moonbitstack/moonctl/gen
+    The moonbitstack/moonctl/gen package generates MoonBit scaffolding from a parsed moonapi Spec. It emits structs, route wiring, handler stubs, and request binders, and supports custom scaffolds through a runtime template engine, including rendering whole template directories.
+
+  moonbitstack/moonctl
+    moonctl (mctl) is a spec-driven code generator for MoonBit, modeled on goctl. It parses .api service specs and .proto files and generates moonapi scaffolding, moonrpc stubs, moongql schemas, moonorm models and migrations, OpenAPI/Swagger documents, typed clients, gateways, and project scaffolds, with spec validation, formatting, and a plugin protocol.
+
+moonbitstack/moonzero@0.14.9 (255 downloads)
+  A service framework for MoonBit.
+  Repository: https://github.com/moonbitstack/moonzero
+
+  moonbitstack/moonzero/rest
+    Provides the REST layer of moonzero: a Group that registers GET, POST, PUT, PATCH, DELETE, SSE and explicit-method routes on a moonapi App under a shared prefix and RouteOptions, such as JWT auth, signature verification, timeouts, body caps and priority shedding. RestEngine builds a Server from RestConf with an ordered middleware chain (trace, log, prometheu
+
+moonbitstack/moondate@0.1.6 (9705 downloads)
+  Dates, times, durations and cron expressions for MoonBit.
+  Repository: https://github.com/moonbitstack/moondate
+
+  moonbitstack/moondate
+    moondate provides calendar dates, times, instants, durations and cron schedules in MoonBit. It parses and formats moments across RFC 3339/ISO 8601, HTTP dates, ASN.1, strftime/strptime, Go layouts and LDML patterns, with separate zone, tzdata and zoneinfo packages for IANA time zone data.
+
+  moonbitstack/moondate/examples/calendar
+    The moonbitstack/moondate/examples/calendar package is listed as part of the MoonDate project, but no public API documentation or README content is available to describe its capabilities or use cases.
+
+  moonbitstack/moondate/examples/hello
+    This package, moonbitstack/moondate/examples/hello, is an example module within the moondate project. The supplied public API documentation lists no types, traits, errors, values, or other public declarations.
+
+  moonbitstack/moondate/tzif_diff
+    Diagnostic helpers for comparing and inspecting time zone information from TZif data. It reports instants where a reader disagrees with the release or another reader, counts compared instants, and exposes a zone index and zone lookups from either reader.
+
+  moonbitstack/moondate/cron
+    Parses cron expressions in the five-field crontab(5) form or six-field form with leading seconds, including ranges, steps, lists, and shorthands like @daily and @weekly. Provides Cron::matches to test whether a Moment fires, and Cron::next to find the following firing moment, with Refused errors for invalid expressions.
+  Showing 5 of 14 matching packages.
+
+moonbitstack/moonapi@0.17.11 (721 downloads)
+  A typed web framework for MoonBit.
+  Repository: https://github.com/moonbitstack/moonapi
+
+  moonbitstack/moonapi
+    moonapi is a typed web framework for MoonBit that builds a server application from typed routes and generates its own OpenAPI document. It provides routing with path parameters, middleware, dependency injection, OAuth2/JWT security, validation, streaming and SSE responses, WebSocket routes, templates, static files, sub-application mounting, and Swagger 2.0,
+
+  moonbitstack/moonapi/examples/03-openapi-versions
+    This example package defines Widget and Price types for demonstrating MoonAPI OpenAPI version handling, with both types deriving JSON serialization through @moonbitlang/core/json.ToJson for use in OpenAPI version examples.
+
+  moonbitstack/moonapi/examples/04-descriptors
+    Example package from moonbitstack/moonapi demonstrating OpenAPI schema descriptors. It defines NewUser as the optional-age request body for POST /users, User as the shared response type for both user routes, and Address as a nested value type illustrating a $ref chain to components/schemas.
+
+  moonbitstack/moonapi/examples/06-typed-body
+    Example package for moonapi typed-body handling. It defines the GreetReq type, a request body shared by both routes that derives FromJson so its name field can be read from an accepted payload.
+
+  moonbitstack/moonapi/examples/09-dependency-injection
+    Example module demonstrating dependency injection with MoonAPI. It defines Dep, a sum type used so that several dependency types can share one container as a type-safe alternative to Python's dynamic Any.
+  Showing 5 of 48 matching packages.
+
+Lfan-ke/moonapi@0.8.1 (629 downloads)
+  moonapi — a typed web framework for MoonBit (← FastAPI): routing, typed extractors, descriptor-driven validation, multi-version OpenAPI/Swagger (2.0 / 3.0 / 3.1) with security schemes, dependency injection, OAuth2 password-bearer with self-built HS256 JWT and scopes, per-operation security enforcement, multipart/urlencoded form and file extractors, response_model filtering, background tasks, sub-application mounting, a CORS/gzip(real DEFLATE)/exception-handler middleware stack with per-status handlers, Server-Sent Events, and WebSocket routes, on the moonasgi SEAM.
+  Repository: https://github.com/moonbitstack/moonapi
+
+  Lfan-ke/moonapi
+    moonapi is a typed web framework for MoonBit, similar to FastAPI. It builds an AsgiApp from typed routes, supports routing methods (GET, POST, etc.), routers, dependencies, middleware, background tasks, and generates OpenAPI/Swagger documents in multiple versions (Swagger 2.0, OpenAPI 3.0.3, 3.1.0). It also serves docs (Swagger UI, ReDoc) and can mount forei
+
+  Lfan-ke/moonapi/examples/01-openapi
+    This is an example package for the moonapi project, demonstrating OpenAPI usage. It contains no public API, types, values, traits, or errors, and its README is empty, so there are no documented features or use cases to summarize.
+
+  Lfan-ke/moonapi/examples/02-routing
+    The package is an example that appears to demonstrate routing functionality within the moonapi framework, but the provided documentation contains no public API symbols, types, or values, leaving the implementation details unspecified.
+
+  Lfan-ke/moonapi/examples/03-openapi-versions
+    This example package demonstrates handling different OpenAPI versions within the moonapi framework. It contains no public types, values, or API documentation, serving solely as a code example for version-specific OpenAPI usage.
+
+  Lfan-ke/moonapi/examples/04-descriptors
+    The package documentation is empty; no public API functions, types, or examples are described. It provides no discernible functionality or use cases from the available sources.
+  Showing 5 of 24 matching packages.
+
+KKKIIO/moondark@0.1.1 (148 downloads)
+  A Django-inspired backend framework for MoonBit, built on moonback
+  Repository: https://github.com/kkkiio/moondark
+
+  KKKIIO/moondark
+    MoonDark is a modern, batteries-included backend framework for MoonBit, which is built upon MoonBack. It provides various modules for session management, authentication, database interaction, file storage, and more.
+
+  KKKIIO/moondark/auth/authtest
+    This module provides a conformance suite for `@auth.CredentialStore` backends, testing them against a store whose schema is assumed to be applied. It operates exclusively on `authtest-u1` and `authtest-u2` user IDs and manages cleanup.
+
+  KKKIIO/moondark/logging
+    This middleware provides request-level access and error logging, acting as a top-level middleware to capture errors from downstream handlers. It logs successful requests with OTel fields and errors with details, with configurable query parameter redaction using QueryLog enum.
+
+  KKKIIO/moondark/migration
+    The KKKIIO/moondark/migration package provides functionality for applying in-place SQL and code database migrations tracked within the target database. It allows users to run pending migrations using `Migrator::up` or bootstrap a database using `Migrator::bootstrap` based on defined migration scripts.
+
+  KKKIIO/moondark/sessions/sessionstest
+    This package provides a conformance suite for `@sessions.SessionStore` backends. The `check_session_store` function is used to test session store implementations by interacting with a store whose schema is already set up, specifically by manipulating the `sessionstest-k1` key.
+  Showing 5 of 16 matching packages.
+
+hbYlj/moonldap@0.3.0 (147 downloads)
+  RFC-driven LDAPv3 client library for MoonBit with a generic ASN.1 BER codec
+  Repository: https://github.com/hbYlj/moonldap
+
+  hbYlj/moonldap
+    Transport-agnostic LDAPv3 client library for MoonBit with ASN.1 BER codec, RFC 4515 filter parser, RFC 4514 DN parser, and operations for bind, search, add, modify, delete, modifyDN, and compare. Supports SASL PLAIN, DIGEST-MD5, EXTERNAL, StartTLS, paged results, server-side sort, retry/reconnect, and a scripted FakeTransport for deterministic testing.
+
+  hbYlj/moonldap/cmd/main
+    This package exposes no public API and lacks documentation; its purpose cannot be determined from the provided sources.
+
+  hbYlj/moonldap/examples/add_modify_delete
+    This package has no public API and an empty README, offering no documented types, traits, errors, or values. It appears to be an example for add, modify, and delete operations, but no use cases can be derived from the supplied sources.
+
+  hbYlj/moonldap/examples/ber_dump
+    This package has no public API or documentation in the provided sources.
+
+  hbYlj/moonldap/examples/compare
+    This package exposes no public API based on the provided documentation.
+  Showing 5 of 13 matching packages.
+
+ShiChengxu/moonappend@0.3.1 (67 downloads)
+  Bounded append-only Merkle log with inclusion and consistency proofs
+  Repository: https://github.com/ShiChengxu-creater/MoonAppend
+
+  ShiChengxu/moonappend
+    MoonAppend is an ordered append-only log library for MoonBit that supports processes restarting, historical snapshots, and batch submissions. It provides capabilities like interval proofs, consistency checks, and mergeable compact ranges for state recovery.
+
+  ShiChengxu/moonappend/cmd/moonappend
+    This package provides a command-line interface, as indicated by its name and structure.
+
+  ShiChengxu/moonappend/disk
+    DiskLog provides a single writer, append-only file log implementation for persistent storage. It supports operations like appending entries or batches, generating snapshots, and proving consistency or inclusion across the log.
+
+  ShiChengxu/moonappend/examples/expanded_interop
+    This package provides no documented functions or types in its public API documentation.
+
+  ShiChengxu/moonappend/examples/interop
+    The ShiChengxu/moonappend/examples/interop package provides no documented types, values, or public APIs in the provided documentation.
+  Showing 5 of 7 matching packages.
+
+python123/moondepsolve@0.3.1 (58 downloads)
+  A MoonBit semantic version, version range, and dependency resolution library for package ecosystem tooling.
+  Repository: https://github.com/python123-ops/moondepsolve
+
+  python123/moondepsolve
+    MoonDepSolve is a MoonBit library and native CLI for semantic version parsing and comparison, dependency resolution, lock output, dependency graphs, conflict reports, and upgrade planning. It supports highest-compatible and minimal-change upgrade strategies and provides file-based CLI subcommands for resolve and plan operations.
+
+  python123/moondepsolve/cmd/cli
+    The package provides no documented public API; no types, values, traits, errors, or README content are exposed in the supplied sources.
+
+  python123/moondepsolve/cmd/main
+    The package exposes no documented public API; the README and public API documentation are both empty. No public use cases or capabilities can be derived from the provided sources.
+
+haol-05/moondatalog@0.1.1 (42 downloads)
+  A pure MoonBit Datalog query engine with stratified negation, aggregation, static checks and moon prove formal verification.
+  Repository: https://github.com/haol-05/moondatalog
+
+  haol-05/moondatalog
+    MoonDatalog is a Datalog query engine implemented in MoonBit with formal verification. It provides parsing, evaluation with semi-naive recursion, stratified negation, arithmetic and comparison constraints, and Soufflé-style aggregation (count, sum, min, max, avg), plus public APIs for lexing, parsing, stratification, relations, tuples, and rendering rules an
+
+  haol-05/moondatalog/cmd/main
+    This package (haol-05/moondatalog/cmd/main) has no public API documented in the provided sources.
+
+  haol-05/moondatalog/verified
+    This package provides formally verified functions for array operations on FixedArray[Int], including bounded sum, value clamping, and index of maximum, with formal proofs ensuring correctness within specified constraints.
+
+WeiR-h/moonapi_check@0.1.1 (34 downloads)
+  Conservative OpenAPI 3.0.3 request compatibility analysis
+  Repository: https://github.com/WeiR-h/moonapi-check
+
+  WeiR-h/moonapi_check
+    MoonAPI Check compares two local OpenAPI 3.0.3 JSON documents using an explicitly documented V1 profile and reports breaking changes such as removed operations, newly required request fields, and tightened string enums, attributing findings to affected operations and shared definitions. It exposes check_json, Report with exit_code, to_text and to_json_report
+
+  WeiR-h/moonapi_check/bridge
+    Provides bridge functions for text analysis, CLI command planning from JSON, and host error formatting, using string-based inputs and outputs.
+
+gywcs101/MoonDataMatrix@0.2.0 (33 downloads)
+  Data Matrix encoder and matrix decoder with DMRE, ECI and structured append
+  Repository: https://github.com/gywcs101/MoonDataMatrix
+
+  gywcs101/MoonDataMatrix
+    MoonDataMatrix is a MoonBit Data Matrix encoding and decoding library with SVG rendering. It supports square, rectangular, and DMRE sizes; ASCII, C40, Text, X12, EDIFACT, and Base256 modes; ECI charset conversion; Reed–Solomon error correction; GS1/FNC1, Macro 05/06, Reader Programming, and structured append; plus matrix decoding and reassembly of split symb
+
+  gywcs101/MoonDataMatrix/cmd/main
+    The gywcs101/MoonDataMatrix/cmd/main package exposes a CliError error type for command-line handling. No other public types, values, or traits are documented.
+
+  gywcs101/MoonDataMatrix/examples/basic
+    The package gywcs101/MoonDataMatrix/examples/basic is an example package under MoonDataMatrix. The supplied documentation provides no public types, values, traits, errors, or other API surface, so its specific functionality cannot be determined from these sources.
+
+  gywcs101/MoonDataMatrix/protocol
+    Protocol helpers for the MoonDataMatrix package. It converts decoded messages and symbols to JSON, encodes JSON requests into Symbol arrays, extracts Boolean matrices from JSON, runs string-based operations via process, and provides a ProtocolError for invalid requests plus user_error diagnostics for CLI and browser adapters.
+
+  gywcs101/MoonDataMatrix/charset
+    This package provides functions to encode and decode strings using a specific character set defined by an ECI integer. It raises CharsetError on errors like unsupported ECI or invalid sequences.
+
+darkmi/mooncaptcha@0.1.0 (27 downloads)
+  —
+  Repository: https://github.com/darkmi/MoonCaptcha
+
+  darkmi/mooncaptcha/examples/js-server/moon-srv
+    This MoonBit package exposes the JS server-side captcha API for mooncaptcha. It provides initialization with an optional Base64-encoded TTF font and functions handling GET /captcha/get and POST /captcha/check and /captcha/verify requests with JSON payloads.
+
+  darkmi/mooncaptcha/src/common
+    Provides common utilities for mooncaptcha, including a reproducible splitmix64 pseudo-random number generator (Rng) with bounded ranges, random strings, characters, and UUIDs, plus secure random helpers for bytes, seeds, 16-character keys, and UUIDs. Also offers Base64 and UTF-8 encoding/decoding and a JSON parser (Value, parse_json, json_escape_string).
+
+  darkmi/mooncaptcha/src/image
+    darkmi/mooncaptcha/src/image provides PNG image encoding and decoding, ARGB pixel buffering, TrueType font parsing and text drawing, and template-based cutout for slider captcha generation. It supports managing original, slider, and click image pools with random selection for captcha rendering.
+
+  darkmi/mooncaptcha/src/protocol
+    Provides MoonBit protocol types for the darkmi/mooncaptcha captcha package, aligned with AJ-Captcha's serialization format. It includes GetResponse for the get endpoint, Point for click coordinates with JSON parsing and serialization, RepCode/ResponseModel for unified response codes and messages, and helpers for check responses.
+
+  darkmi/mooncaptcha/src/service
+    mooncaptcha service layer provides captcha generation and verification for block puzzle (jigsaw) and click word captchas, with get/check/verify flows, rate limiting, and structured errors. It supports caching tokens and one-time verification credentials, deterministic RNG injection for tests, and integration-layer rendering.
+  Showing 5 of 7 matching packages.
+
+python123-ops/moondepsolve@0.4.0 (19 downloads)
+  A MoonBit semantic version, version range, and dependency resolution library for package ecosystem tooling.
+  Repository: https://github.com/python123-ops/moondepsolve
+
+  python123-ops/moondepsolve
+    MoonDepSolve is a library and CLI for deterministic dependency resolution in the MoonBit ecosystem, supporting dependency graphs, conflict reporting, and exact upgrade planning. Public API functions include version parsing, requirement matching, and dependency resolution.
+
+  python123-ops/moondepsolve/cmd/cli
+    The python123-ops/moondepsolve/cmd/cli module provides no documented public API or specific functionality in the available documentation.
+
+  python123-ops/moondepsolve/cmd/main
+    No public API documentation or README was provided for python123-ops/moondepsolve/cmd/main.
+
+dowdiness/moondsp@0.6.0 (150 downloads)
+  MoonBit DSP audio engine
+  Repository: https://github.com/dowdiness/moondsp
+
+  dowdiness/moondsp
+    Live-codable DSP audio engine for browser AudioWorklet via wasm-gc. Provides compiled signal-processing graphs, a polyphonic voice pool, a pattern engine with rational-time combinators, a mini-notation parser, and scheduling that bridges pattern events to audio.
+
+  dowdiness/moondsp/browser
+    Provides functions for browser-based audio DSP demos, including compiled mono/stereo graphs with hot-swap and topology editing, an FM synthesis exit deliverable, and a scheduler for playback and error handling.
+
+  dowdiness/moondsp/browser_test
+    This package provides a browser-based test harness for audio DSP, including crackle probes for per-block metrics (peak, rms, residual), compiled graph processing, scheduler graph testing with synth waveforms, and utilities for playback and error retrieval.
+
+  dowdiness/moondsp/clap_engine
+    This package provides a CLAP-compatible synth engine (ClapSynthEngine) for building subtractive-synthesis instrument plugins, handling note events, parameter modulation, and audio block processing, alongside a default synth template and integer-parameter IDs for C bridge integration.
+
+  dowdiness/moondsp/clap_host
+    Provides a low-level flat primitive API for creating, controlling, and processing a CLAP synthesizer engine slot. Supports note on/off, parameter setting, audio sample access, and engine lifecycle management, intended as a C CLAP shim.
+  Showing 5 of 15 matching packages.
+
+bzhangui/moonapi@0.10.0 (72 downloads)
+  OpenAPI test policy, stateful scenarios and failure shrinking in MoonBit, with a Node standards adapter.
+  Repository: https://github.com/bzhangui/moonapi
+
+  bzhangui/moonapi/core
+    The bzhangui/moonapi/core package provides data types and functions for OpenAPI-based API testing, including parsing OpenAPI specs, planning and generating test cases, validating responses and schemas, generating values, scheduling coverage, and checking model behavior and workflows. Its public API is centered on Json-based portable policies and IRs for oper
+
+  bzhangui/moonapi/examples/behavior_core
+    The bzhangui/moonapi/examples/behavior_core package is part of the bzhangui/moonapi examples collection. Its public API documentation lists no type aliases, traits, errors, types, or values.
+
+  bzhangui/moonapi/examples/core
+    This package is an examples module for bzhangui/moonapi core usage; the supplied public API documentation defines no types, traits, errors, values, or aliases.
+
+  bzhangui/moonapi/examples/crud_core
+    The package bzhangui/moonapi/examples/crud_core has no documented public API or README content. No capabilities, types, values, traits, errors, or use cases are described in the supplied sources.
+
+  bzhangui/moonapi/examples/workflow_core
+    The package bzhangui/moonapi/examples/workflow_core is an example module in the bzhangui/moonapi project. Its public API documentation lists no types, traits, errors, or values.
+  Showing 5 of 8 matching packages.
+
+Run `moon add <module>@<version>` to add a dependency.
+[exit 0]
+
+> moon view moonbitstack
+moonbitstack/moona2a@0.1.1
+moonbitstack/moonacp@0.1.1
+moonbitstack/moonapi@0.17.11
+moonbitstack/moonasgi@0.10.8
+moonbitstack/moonast@0.2.7
+moonbitstack/moonbase@0.4.4
+moonbitstack/mooncat@0.19.8
+moonbitstack/moonconf@0.1.5
+moonbitstack/moonconsul@0.1.4
+moonbitstack/mooncred@0.6.14
+moonbitstack/mooncrypt@0.4.15
+moonbitstack/moonctl@0.12.9
+moonbitstack/moondate@0.1.6
+moonbitstack/moondb@0.2.8
+moonbitstack/moonegui@0.2.1
+moonbitstack/moonetcd@0.1.4
+moonbitstack/moonetui@0.3.6
+moonbitstack/moonfetch@0.1.8
+moonbitstack/moonfory@0.1.5
+moonbitstack/moongql@0.10.11
+moonbitstack/moongraph@0.1.1
+moonbitstack/moonhttp@0.15.10
+moonbitstack/moonimage@0.1.3
+moonbitstack/moonip@0.1.0
+moonbitstack/moonjrpc@0.1.4
+moonbitstack/moonjson@0.4.4
+moonbitstack/moonjsonrpc@0.1.0 (deprecated: Moved to moonbitstack/moonjrpc.)
+moonbitstack/moonkart@0.1.2
+moonbitstack/moonknob@0.1.0
+moonbitstack/moonkoog@0.6.1
+moonbitstack/moonlog@0.1.7
+moonbitstack/moonmail@0.1.7
+moonbitstack/moonmath@0.1.4
+moonbitstack/moonmcp@0.1.12
+moonbitstack/moonmd@0.1.1
+moonbitstack/moonmedia@0.1.2
+moonbitstack/moonmime@0.2.4
+moonbitstack/moonmodel@0.1.4
+moonbitstack/moonmuse@0.1.1
+moonbitstack/moonmysql@0.7.11
+moonbitstack/moonnet@0.1.12
+moonbitstack/moonnum@0.2.7
+moonbitstack/moonorm@0.11.10
+moonbitstack/moonp8s@0.1.2
+moonbitstack/moonpool@0.3.4
+moonbitstack/moonpostgres@0.6.11
+moonbitstack/moonproto@0.1.1
+moonbitstack/moonpug@0.1.5
+moonbitstack/moonquic@0.3.14
+moonbitstack/moonraft@0.7.6
+moonbitstack/moonrag@0.1.1
+moonbitstack/moonrand@0.1.3
+moonbitstack/moonredis@0.1.6
+moonbitstack/moonregex@0.1.5
+moonbitstack/moonrgba@0.1.3
+moonbitstack/moonrpc@0.21.14
+moonbitstack/moonschema@0.2.5
+moonbitstack/moonsd@0.1.2
+moonbitstack/moonseal@0.1.5
+moonbitstack/moonseed@0.1.3
+moonbitstack/moonskill@0.1.1
+moonbitstack/moonsqlite@0.3.7
+moonbitstack/moonstate@0.1.1
+moonbitstack/moonstl@0.1.2
+moonbitstack/moonsver@0.1.3
+moonbitstack/moontask@0.1.1
+moonbitstack/moontel@0.1.2
+moonbitstack/moontls@0.9.16
+moonbitstack/moontoken@0.1.3
+moonbitstack/moontoml@0.1.3
+moonbitstack/moonucd@0.1.4
+moonbitstack/moonurl@0.2.6
+moonbitstack/moonuuid@0.1.5
+moonbitstack/moonvar@0.2.2
+moonbitstack/moonward@0.2.3
+moonbitstack/moonxml@0.1.6
+moonbitstack/moonyaml@0.1.6
+moonbitstack/moonzero@0.14.9
+moonbitstack/moonzip@0.3.8
+[exit 0]
