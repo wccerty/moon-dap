@@ -61,6 +61,7 @@ fn Session::resume_execution(
   }
   self.require_thread(thread)
   self.target.resume_execution(thread, mode)
+  self.clear_references()
   self.phase = Running
   match mode {
     Continue => self.reply(req, body={ "allThreadsContinued": true })

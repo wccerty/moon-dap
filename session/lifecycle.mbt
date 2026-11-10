@@ -55,6 +55,7 @@ async fn Session::release_after_failure(
 pub async fn Session::close(self : Session) -> Unit {
   self.phase = Closed
   self.pending_start = None
+  self.clear_references()
   self.release()
 }
 
@@ -197,6 +198,10 @@ async fn Session::dispatch(
     "stepIn" => [self.resume_execution(req, StepIn)]
     "stepOut" => [self.resume_execution(req, StepOut)]
     "pause" => [self.pause(req)]
+    "threads" => [self.threads(req)]
+    "stackTrace" => [self.stack_trace(req)]
+    "scopes" => [self.scopes(req)]
+    "variables" => [self.variables(req)]
     _ => [self.failure(req, "notSupported", "未实现请求 \{req.command}")]
   }
 }

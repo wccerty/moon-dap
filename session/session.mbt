@@ -28,11 +28,15 @@ pub extend SessionError with @debug.Debug::{to_repr}
 struct Session {
   target : &DebugTarget
   events : Array[TargetEvent]
+  frame_refs : References
+  variable_refs : References
   mut phase : Phase
   mut next_sequence : Int64
   mut last_request : Int32
   mut lines_start_at_one : Bool
   mut columns_start_at_one : Bool
+  mut variable_types : Bool
+  mut variable_paging : Bool
   mut mode : StartMode?
   mut pending_start : @protocol.Request?
   mut generation : Int64
@@ -43,11 +47,15 @@ pub fn Session::new(target : &DebugTarget) -> Session {
   {
     target,
     events: [],
+    frame_refs: References::new(),
+    variable_refs: References::new(),
     phase: New,
     next_sequence: 1L,
     last_request: 0,
     lines_start_at_one: true,
     columns_start_at_one: true,
+    variable_types: false,
+    variable_paging: false,
     mode: None,
     pending_start: None,
     generation: 0L,
@@ -147,8 +155,13 @@ fn Session::initialize(self : Session, req : @protocol.Request) -> Json raise {
   }
   self.lines_start_at_one = args.lines_start_at1.unwrap_or(true)
   self.columns_start_at_one = args.columns_start_at1.unwrap_or(true)
+  self.variable_types = args.supports_variable_type.unwrap_or(false)
+  self.variable_paging = args.supports_variable_paging.unwrap_or(false)
   self.phase = Ready
-  self.reply(req, body={ "supportsConfigurationDoneRequest": true })
+  self.reply(req, body={
+    "supportsConfigurationDoneRequest": true,
+    "supportsDelayedStackTraceLoading": true,
+  })
 }
 
 ///|
@@ -160,6 +173,7 @@ pub async fn Session::handle(self : Session, value : Json) -> Array[Json] {
     raise ReusedRequestSequence(req.seq)
   }
   self.last_request = req.seq
+  let messages = self.drain_events()
   let responses = self.dispatch(req) catch {
     @json.JsonDecodeError(_) as error =>
       [self.failure(req, "invalidArguments", error.to_string())]
@@ -167,8 +181,11 @@ pub async fn Session::handle(self : Session, value : Json) -> Array[Json] {
     TargetError(detail) => [self.failure(req, "targetError", detail)]
     error => raise error
   }
-  for event in self.drain_events() {
-    responses.push(event)
+  for response in responses {
+    messages.push(response)
   }
-  responses
+  for event in self.drain_events() {
+    messages.push(event)
+  }
+  messages
 }

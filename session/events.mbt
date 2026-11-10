@@ -15,6 +15,7 @@ fn Session::terminate(
   messages : Array[Json],
 ) -> Unit raise SessionError {
   self.phase = Terminated
+  self.clear_references()
   messages.push(self.event("terminated"))
 }
 
@@ -55,6 +56,7 @@ fn Session::drain_events(self : Session) -> Array[Json] raise SessionError {
       }
       Terminated => self.terminate(messages)
       Continued(thread) if self.phase == Stopped => {
+        self.clear_references()
         self.phase = Running
         messages.push(
           self.event("continued", body={

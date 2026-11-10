@@ -116,8 +116,8 @@ pub(all) struct Variable {
   value : String
   type_name : String?
   children : Int32?
-  named_count : Int64?
-  indexed_count : Int64?
+  named_count : Int32?
+  indexed_count : Int32?
 }
 
 ///|

@@ -85,18 +85,53 @@ impl DebugTarget for FakeTarget with fn threads(_) {
 }
 
 ///|
-impl DebugTarget for FakeTarget with fn stack_trace(_, _, _) {
-  { frames: [], total: 0L, }
+impl DebugTarget for FakeTarget with fn stack_trace(_, _, page) {
+  let frames : Array[Frame] = [
+    {
+      handle: 70,
+      name: "inner",
+      location: Some({ path: "demo", line: 9L, column: Some(1L), }),
+    },
+    { handle: 71, name: "main", location: None, },
+  ]
+  { frames: page.slice(frames), total: frames.length().to_int64(), }
 }
 
 ///|
-impl DebugTarget for FakeTarget with fn scopes(_, _) {
-  []
+impl DebugTarget for FakeTarget with fn scopes(_, handle) {
+  [{ name: "locals", handle, expensive: false, }]
 }
 
 ///|
-impl DebugTarget for FakeTarget with fn variables(_, _, _) {
-  []
+impl DebugTarget for FakeTarget with fn variables(_, handle, query) {
+  let values : Array[Variable] = if handle == 70 {
+    [
+      {
+        name: "record",
+        value: "{value}",
+        type_name: Some("record"),
+        children: Some(99),
+        named_count: Some(1),
+        indexed_count: None,
+      },
+    ]
+  } else {
+    [
+      {
+        name: "value",
+        value: "42",
+        type_name: Some("int"),
+        children: None,
+        named_count: None,
+        indexed_count: None,
+      },
+    ]
+  }
+  if query.filter is Indexed {
+    []
+  } else {
+    query.page.slice(values)
+  }
 }
 
 ///|
