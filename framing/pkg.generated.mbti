@@ -1,0 +1,39 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "wccerty/moon-dap/framing"
+
+import {
+  "moonbitlang/core/debug",
+}
+
+// Values
+pub fn encode(Bytes) -> Bytes
+
+// Errors
+
+// Types and methods
+pub(all) struct Batch {
+  frames : Array[Bytes]
+  error : FrameError?
+}
+
+type Decoder
+pub fn Decoder::feed(Self, BytesView) -> Batch
+pub fn Decoder::finish(Self) -> FrameError?
+pub fn Decoder::new(max_header? : Int32, max_body? : Int32) -> Self
+
+pub(all) enum FrameError {
+  InvalidHeader
+  MissingLength
+  DuplicateLength
+  InvalidLength
+  HeaderTooLarge
+  BodyTooLarge
+  TruncatedFrame
+} derive(Eq, @debug.Debug)
+pub fn FrameError::equal(Self, Self) -> Bool
+pub fn FrameError::not_equal(Self, Self) -> Bool
+pub fn FrameError::to_repr(Self) -> @debug.Repr
+
+// Type aliases
+
+// Traits
