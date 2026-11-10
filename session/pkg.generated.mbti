@@ -14,22 +14,158 @@ pub suberror SessionError {
 } derive(@debug.Debug)
 pub fn SessionError::to_repr(Self) -> @debug.Repr
 
+pub(all) suberror TargetError {
+  TargetError(String)
+} derive(@debug.Debug)
+pub fn TargetError::to_repr(Self) -> @debug.Repr
+
 // Types and methods
+pub(all) struct BreakpointResult {
+  id : Int32?
+  verified : Bool
+  line : Int64?
+  column : Int64?
+  message : String?
+}
+
+pub(all) struct BreakpointSpec {
+  line : Int64
+  column : Int64?
+}
+
+pub(all) enum DisconnectMode {
+  Terminate
+  Detach
+}
+
+type EventSink
+pub fn EventSink::emit(Self, TargetEvent) -> Unit raise TargetError
+
+pub(all) struct Frame {
+  handle : Int32
+  name : String
+  location : SourceLocation?
+}
+
+pub(all) struct Page {
+  start : Int64
+  count : Int64?
+}
+pub fn[T] Page::slice(Self, Array[T]) -> Array[T]
+
 pub(all) enum Phase {
   New
   Ready
+  Configuring
+  Running
+  Stopped
+  Terminated
   Closed
 } derive(Eq, @debug.Debug)
 pub fn Phase::equal(Self, Self) -> Bool
 pub fn Phase::not_equal(Self, Self) -> Bool
 pub fn Phase::to_repr(Self) -> @debug.Repr
 
+pub(all) enum ResumeMode {
+  Continue
+  StepIn
+  StepOver
+  StepOut
+}
+
+pub(all) struct Scope {
+  name : String
+  handle : Int32
+  expensive : Bool
+}
+
 type Session
+pub async fn Session::close(Self) -> Unit
 pub fn Session::coordinates(Self) -> (Bool, Bool)
-pub fn Session::handle(Self, Json) -> Array[Json] raise
-pub fn Session::new() -> Self
+pub async fn Session::handle(Self, Json) -> Array[Json]
+pub fn Session::new(&DebugTarget) -> Self
 pub fn Session::phase(Self) -> Phase
+pub async fn Session::poll(Self) -> Array[Json]
+
+pub(all) struct SourceLocation {
+  path : String
+  line : Int64
+  column : Int64?
+}
+
+pub(all) struct StackPage {
+  frames : Array[Frame]
+  total : Int64
+}
+
+pub(all) enum StartMode {
+  Launch
+  Attach
+}
+
+pub(all) struct Stop {
+  reason : StopReason
+  thread_id : Int32
+  description : String?
+  breakpoint_ids : Array[Int32]
+}
+
+pub(all) enum StopReason {
+  Breakpoint
+  Step
+  Pause
+  Entry
+  Exception
+}
+
+pub(all) enum TargetEvent {
+  Stopped(Stop)
+  Output(String, String)
+  Exited(Int32)
+  Terminated
+  Continued(Int32)
+  ThreadStarted(Int32)
+  ThreadExited(Int32)
+}
+
+pub(all) struct Thread {
+  id : Int32
+  name : String
+}
+
+pub(all) struct Variable {
+  name : String
+  value : String
+  type_name : String?
+  children : Int32?
+  named_count : Int64?
+  indexed_count : Int64?
+}
+
+pub(all) enum VariableFilter {
+  All
+  Named
+  Indexed
+}
+
+pub(all) struct VariableQuery {
+  page : Page
+  filter : VariableFilter
+}
 
 // Type aliases
 
 // Traits
+pub(open) trait DebugTarget {
+  async fn prepare(Self, StartMode, Json, EventSink) -> Unit
+  fn start(Self) -> Unit raise TargetError
+  fn set_breakpoints(Self, String, Array[BreakpointSpec]) -> Array[BreakpointResult] raise TargetError
+  fn resume_execution(Self, Int32, ResumeMode) -> Unit raise TargetError
+  fn pause(Self, Int32) -> Unit raise TargetError
+  fn threads(Self) -> Array[Thread] raise TargetError
+  fn stack_trace(Self, Int32, Page) -> StackPage raise TargetError
+  fn scopes(Self, Int32) -> Array[Scope] raise TargetError
+  fn variables(Self, Int32, VariableQuery) -> Array[Variable] raise TargetError
+  fn poll(Self) -> Unit raise TargetError
+  async fn disconnect(Self, DisconnectMode) -> Unit
+}

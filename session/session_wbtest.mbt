@@ -5,8 +5,8 @@ fn request(seq : Int32, command : String, args? : Json) -> Json {
 }
 
 ///|
-test "未初始化的 launch 有结构化失败响应" {
-  let session = Session::new()
+async test "未初始化的 launch 有结构化失败响应" {
+  let session = Session::new(FakeTarget::new())
   let result = session.handle(request(1, "launch"))
   let response : @protocol.ErrorResponse = @json.from_json(result[0])
   assert_false(response.success)
@@ -17,8 +17,8 @@ test "未初始化的 launch 有结构化失败响应" {
 }
 
 ///|
-test "握手协商与重复初始化" {
-  let session = Session::new()
+async test "握手协商与重复初始化" {
+  let session = Session::new(FakeTarget::new())
   let result = session.handle(
     request(7, "initialize", args={
       "adapterID": "demo",
@@ -44,8 +44,8 @@ test "握手协商与重复初始化" {
 }
 
 ///|
-test "参数无效与未知请求" {
-  let session = Session::new()
+async test "参数无效与未知请求" {
+  let session = Session::new(FakeTarget::new())
   let bad : @protocol.Response = @json.from_json(
     session.handle(request(1, "initialize"))[0],
   )

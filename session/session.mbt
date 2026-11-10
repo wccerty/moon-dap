@@ -2,6 +2,10 @@
 pub(all) enum Phase {
   New
   Ready
+  Configuring
+  Running
+  Stopped
+  Terminated
   Closed
 } derive(Eq, Debug)
 
@@ -22,21 +26,31 @@ pub extend SessionError with @debug.Debug::{to_repr}
 
 ///|
 struct Session {
+  target : &DebugTarget
+  events : Array[TargetEvent]
   mut phase : Phase
   mut next_sequence : Int64
   mut last_request : Int32
   mut lines_start_at_one : Bool
   mut columns_start_at_one : Bool
+  mut mode : StartMode?
+  mut pending_start : @protocol.Request?
+  mut generation : Int64
 }
 
 ///|
-pub fn Session::new() -> Session {
+pub fn Session::new(target : &DebugTarget) -> Session {
   {
+    target,
+    events: [],
     phase: New,
     next_sequence: 1L,
     last_request: 0,
     lines_start_at_one: true,
     columns_start_at_one: true,
+    mode: None,
+    pending_start: None,
+    generation: 0L,
   }
 }
 
@@ -52,10 +66,7 @@ pub fn Session::coordinates(self : Session) -> (Bool, Bool) {
 
 ///|
 fn Session::sequence(self : Session) -> Int32 raise SessionError {
-  guard self.next_sequence <= 2147483647L else {
-    self.phase = Closed
-    raise SequenceExhausted
-  }
+  guard self.next_sequence <= 2147483647L else { raise SequenceExhausted }
   let seq = self.next_sequence.to_int()
   self.next_sequence += 1L
   seq
@@ -76,6 +87,16 @@ fn Session::reply(
     body,
   }
   message.to_json()
+}
+
+///|
+fn Session::event(
+  self : Session,
+  event : String,
+  body? : Json,
+) -> Json raise SessionError {
+  let value : @protocol.Event = { seq: self.sequence(), event, body, }
+  value.to_json()
 }
 
 ///|
@@ -132,28 +153,22 @@ fn Session::initialize(self : Session, req : @protocol.Request) -> Json raise {
 
 ///|
 /// 处理已解码的 JSON。可识别的请求参数错误会收到协议失败响应。
-pub fn Session::handle(self : Session, value : Json) -> Array[Json] raise {
+pub async fn Session::handle(self : Session, value : Json) -> Array[Json] {
   guard self.phase != Closed else { return [] }
   let req : @protocol.Request = @json.from_json(value)
   guard req.seq > self.last_request else {
     raise ReusedRequestSequence(req.seq)
   }
   self.last_request = req.seq
-  if req.command == "initialize" {
-    let response = self.initialize(req) catch {
-      @json.JsonDecodeError(_) as error =>
-        self.failure(req, "invalidArguments", error.to_string())
-      error => raise error
-    }
-    return [response]
+  let responses = self.dispatch(req) catch {
+    @json.JsonDecodeError(_) as error =>
+      [self.failure(req, "invalidArguments", error.to_string())]
+    RequestFailure(code, detail) => [self.failure(req, code, detail)]
+    TargetError(detail) => [self.failure(req, "targetError", detail)]
+    error => raise error
   }
-  if self.phase == New {
-    return [self.failure(req, "invalidState", "请先初始化会话")]
+  for event in self.drain_events() {
+    responses.push(event)
   }
-  if req.command == "disconnect" {
-    let response = self.reply(req)
-    self.phase = Closed
-    return [response]
-  }
-  [self.failure(req, "notSupported", "未实现请求 \{req.command}")]
+  responses
 }
