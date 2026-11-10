@@ -1,0 +1,21 @@
+# 使用第 4 行的断点检查 config，再步入 greet。
+fn main
+  set config {"name":"月兔","limits":[2,5]}
+  call greet
+  print config
+  wait 500
+  return
+end
+
+fn greet
+  set value {"answer":42}
+  print value
+  call leaf
+  return
+end
+
+fn leaf
+  set number 7
+  print number
+  return
+end

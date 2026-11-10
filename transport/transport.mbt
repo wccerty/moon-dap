@@ -176,7 +176,7 @@ pub async fn listen_loopback(port : Int32) -> @socket.TcpServer {
 }
 
 ///|
-/// 每个连接通过 factory 新建一个调试目标，监听器由调用者关闭。
+/// 每个连接通过 factory 新建一个调试目标，退出时关闭监听器。
 pub async fn serve_tcp(
   listener : @socket.TcpServer,
   factory : () -> &@session.DebugTarget,
