@@ -1,0 +1,40 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "wccerty/moon-dap/transport"
+
+import {
+  "moonbitlang/async/io",
+  "moonbitlang/async/socket",
+  "moonbitlang/core/debug",
+  "wccerty/moon-dap/framing",
+  "wccerty/moon-dap/session",
+}
+
+// Values
+pub async fn listen_loopback(Int32) -> @socket.TcpServer
+
+pub async fn serve(&@io.Reader, &@io.Writer, &@session.DebugTarget, options? : Options) -> Unit
+
+pub async fn serve_stdio(&@session.DebugTarget, options? : Options) -> Unit
+
+pub async fn serve_tcp(@socket.TcpServer, () -> &@session.DebugTarget, options? : Options, max_connections? : Int32) -> Unit
+
+// Errors
+pub suberror TransportError {
+  InvalidFrame(@framing.FrameError)
+  OutgoingFrameTooLarge
+  InvalidOptions
+} derive(@debug.Debug)
+pub fn TransportError::to_repr(Self) -> @debug.Repr
+
+// Types and methods
+pub(all) struct Options {
+  max_header : Int32
+  max_body : Int32
+  poll_ms : Int32
+  request_timeout_ms : Int32
+}
+pub fn Options::default() -> Self
+
+// Type aliases
+
+// Traits
