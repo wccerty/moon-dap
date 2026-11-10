@@ -1,0 +1,6 @@
+import {
+  "moonbitlang/core/json",
+  "wccerty/moon-dap/protocol",
+}
+
+pkgtype(kind: "executable")
