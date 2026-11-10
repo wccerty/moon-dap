@@ -1,0 +1,5 @@
+import {
+  "moonbitlang/core/debug",
+  "moonbitlang/core/json",
+  "wccerty/moon-dap/protocol",
+}

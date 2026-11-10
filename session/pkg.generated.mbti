@@ -1,0 +1,35 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "wccerty/moon-dap/session"
+
+import {
+  "moonbitlang/core/debug",
+}
+
+// Values
+
+// Errors
+pub suberror SessionError {
+  SequenceExhausted
+  ReusedRequestSequence(Int32)
+} derive(@debug.Debug)
+pub fn SessionError::to_repr(Self) -> @debug.Repr
+
+// Types and methods
+pub(all) enum Phase {
+  New
+  Ready
+  Closed
+} derive(Eq, @debug.Debug)
+pub fn Phase::equal(Self, Self) -> Bool
+pub fn Phase::not_equal(Self, Self) -> Bool
+pub fn Phase::to_repr(Self) -> @debug.Repr
+
+type Session
+pub fn Session::coordinates(Self) -> (Bool, Bool)
+pub fn Session::handle(Self, Json) -> Array[Json] raise
+pub fn Session::new() -> Self
+pub fn Session::phase(Self) -> Phase
+
+// Type aliases
+
+// Traits
