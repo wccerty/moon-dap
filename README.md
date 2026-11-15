@@ -77,6 +77,7 @@ async fn main { @transport.serve_stdio(OneLine::{ sink: None, ready: false }) }
 | --- | --- |
 | `session.DebugTarget.prepare` / `start` / `disconnect` | 启动或附加、等待配置完成、终止或分离。 |
 | `set_breakpoints` | 按路径替换一组行断点，空数组清除，逐项返回实际位置和验证状态。坐标统一为 1 基。 |
+| `breakpoint_location_provider` | 可选。为编辑器查询给定源码范围内可设断点的位置。范围包含端点，列号以 UTF-16 代码单元计。 |
 | `resume_execution` / `pause` / `poll` | 接受执行命令并推进有界工作，在安全点发送停止事件。 |
 | `threads` / `stack_trace` / `scopes` / `variables` | 通过目标句柄提供栈和变量。一次暂停中的句柄须稳定，恢复后由库废弃对外引用。 |
 | `session.EventSink.emit` | 发送停止、输出、退出和终止等通知。 |
@@ -90,9 +91,9 @@ async fn main { @transport.serve_stdio(OneLine::{ sink: None, ready: false }) }
 
 | Schema 项目 | 第一版覆盖 | 总数 |
 | --- | ---: | ---: |
-| 请求 | 16，含按目标能力启用的 `attach` 及兼容空筛选的 `setExceptionBreakpoints` | 45 |
+| 请求 | 17，含按目标能力启用的 `attach`、`breakpointLocations` 及兼容空筛选的 `setExceptionBreakpoints` | 45 |
 | 事件 | 7 | 17 |
-| `Capabilities` | 2 | 42 |
+| `Capabilities` | 3 | 42 |
 
 完整协议类型从官方 Schema 生成。各字段和行为范围见 [覆盖表](docs/coverage.md)。第一版使用本地文件路径，提供源码行断点和目标级执行控制。内置传输以 native 为目标。本机验证平台、编辑器验收与待验证项见 [验证记录](docs/verification.md)。后续考虑条件断点、动态源码、表达式求值和异常筛选，详见 [路线图](docs/plan.md)。
 

@@ -25,6 +25,58 @@ fn outgoing_position(value : Int64, one_based : Bool) -> Json raise TargetError 
 }
 
 ///|
+fn Session::breakpoint_locations(
+  self : Session,
+  req : @protocol.Request,
+) -> Json raise {
+  guard self.location_provider is Some(provider) else {
+    raise RequestFailure("notSupported", "目标不支持查询断点位置")
+  }
+  self.require_configuration()
+  let args : @protocol.BreakpointLocationsArguments = arguments(req)
+  guard args.source.path is Some(path) && !path.is_empty() else {
+    raise RequestFailure(
+      "invalidArguments", "查询断点位置需要本地源码路径",
+    )
+  }
+  let (lines_at_one, columns_at_one) = self.coordinates()
+  let range : BreakpointRange = {
+    line: incoming_position(args.line, lines_at_one),
+    column: args.column
+    .map(value => incoming_position(value, columns_at_one))
+    .unwrap_or(1L),
+    end_line: incoming_position(
+      args.end_line.unwrap_or(args.line),
+      lines_at_one,
+    ),
+    end_column: args.end_column.map(value => {
+      incoming_position(value, columns_at_one)
+    }),
+  }
+  guard range.end_line >= range.line &&
+    (
+      range.end_line != range.line ||
+      range.end_column.map(end => end >= range.column).unwrap_or(true)
+    ) else {
+    raise RequestFailure(
+      "invalidArguments", "查询范围的终点早于起点",
+    )
+  }
+  let locations : Array[Json] = []
+  for position in provider(path, range) {
+    let line = outgoing_position(position.line, lines_at_one)
+    let column = outgoing_position(
+      position.column.unwrap_or(1L),
+      columns_at_one,
+    )
+    if range.contains(position) {
+      locations.push({ "line": line, "column": column })
+    }
+  }
+  self.reply(req, body={ "breakpoints": Json::array(locations) })
+}
+
+///|
 fn Session::set_breakpoints(
   self : Session,
   req : @protocol.Request,

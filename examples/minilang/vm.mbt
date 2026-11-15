@@ -141,6 +141,26 @@ impl @session.DebugTarget for MiniTarget with fn start(self) {
 }
 
 ///|
+impl @session.DebugTarget for MiniTarget with fn breakpoint_location_provider(
+  self,
+) {
+  Some((path, range) => {
+    guard self.program is Some(program) && same_path(program.path, path) else {
+      return []
+    }
+    let positions = []
+    for line in program.lines.keys() {
+      let position : @session.BreakpointSpec = { line, column: None, }
+      if range.contains(position) {
+        positions.push(position)
+      }
+    }
+    positions.sort_by_key(position => position.line)
+    positions
+  })
+}
+
+///|
 impl @session.DebugTarget for MiniTarget with fn set_breakpoints(
   self,
   path,

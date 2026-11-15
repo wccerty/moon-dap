@@ -192,6 +192,7 @@ async fn Session::dispatch(
     "configurationDone" => self.configuration_done(req)
     "disconnect" => self.disconnect(req)
     "setBreakpoints" => [self.set_breakpoints(req)]
+    "breakpointLocations" => [self.breakpoint_locations(req)]
     "setExceptionBreakpoints" => [self.exception_breakpoints(req)]
     "continue" => [self.resume_execution(req, Continue)]
     "next" => [self.resume_execution(req, StepOver)]

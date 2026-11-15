@@ -27,6 +27,7 @@ pub extend SessionError with @debug.Debug::{to_repr}
 ///|
 struct Session {
   target : &DebugTarget
+  location_provider : ((String, BreakpointRange) -> Array[BreakpointSpec] raise TargetError)?
   events : Array[TargetEvent]
   frame_refs : References
   variable_refs : References
@@ -46,6 +47,7 @@ struct Session {
 pub fn Session::new(target : &DebugTarget) -> Session {
   {
     target,
+    location_provider: target.breakpoint_location_provider(),
     events: [],
     frame_refs: References::new(),
     variable_refs: References::new(),
@@ -158,10 +160,14 @@ fn Session::initialize(self : Session, req : @protocol.Request) -> Json raise {
   self.variable_types = args.supports_variable_type.unwrap_or(false)
   self.variable_paging = args.supports_variable_paging.unwrap_or(false)
   self.phase = Ready
-  self.reply(req, body={
-    "supportsConfigurationDoneRequest": true,
-    "supportsDelayedStackTraceLoading": true,
-  })
+  let capabilities = Map([
+    ("supportsConfigurationDoneRequest", Json::boolean(true)),
+    ("supportsDelayedStackTraceLoading", Json::boolean(true)),
+  ])
+  if self.location_provider is Some(_) {
+    capabilities.set("supportsBreakpointLocationsRequest", Json::boolean(true))
+  }
+  self.reply(req, body=Json::object(capabilities))
 }
 
 ///|

@@ -75,6 +75,31 @@ pub(all) struct BreakpointSpec {
 }
 
 ///|
+/// 查询范围包含端点。目标收到的是 1 基行号和 UTF-16 列号。
+pub(all) struct BreakpointRange {
+  line : Int64
+  column : Int64
+  end_line : Int64
+  end_column : Int64?
+}
+
+///|
+/// 列号省略时，按该行第一列匹配。
+pub fn BreakpointRange::contains(
+  self : BreakpointRange,
+  position : BreakpointSpec,
+) -> Bool {
+  let column = position.column.unwrap_or(1L)
+  position.line >= self.line &&
+  position.line <= self.end_line &&
+  (position.line != self.line || column >= self.column) &&
+  (
+    position.line != self.end_line ||
+    self.end_column.map(end => column <= end).unwrap_or(true)
+  )
+}
+
+///|
 pub(all) struct BreakpointResult {
   id : Int32?
   verified : Bool
@@ -166,6 +191,10 @@ pub(open) trait DebugTarget {
   fn set_breakpoints(Self, String, Array[BreakpointSpec]) -> Array[
     BreakpointResult,
   ] raise TargetError
+  /// 创建会话时提供可选的只读查询函数。返回 None 时不声明此能力。
+  fn breakpoint_location_provider(Self) -> ((String, BreakpointRange) -> Array[
+    BreakpointSpec,
+  ] raise TargetError)? = _
   fn resume_execution(Self, Int32, ResumeMode) -> Unit raise TargetError
   fn pause(Self, Int32) -> Unit raise TargetError
   fn threads(Self) -> Array[Thread] raise TargetError
@@ -174,4 +203,9 @@ pub(open) trait DebugTarget {
   fn variables(Self, Int32, VariableQuery) -> Array[Variable] raise TargetError
   fn poll(Self) -> Unit raise TargetError
   async fn disconnect(Self, DisconnectMode) -> Unit
+}
+
+///|
+impl DebugTarget with fn breakpoint_location_provider(_) {
+  None
 }

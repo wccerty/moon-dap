@@ -32,7 +32,8 @@ async test "握手协商与重复初始化" {
   assert_eq(reply.request_seq, 7)
   assert_true(
     reply.body is Some(body) &&
-    body.supports_configuration_done_request is Some(true),
+    body.supports_configuration_done_request is Some(true) &&
+    body.supports_breakpoint_locations_request is None,
   )
   assert_eq(session.coordinates(), (false, false))
   assert_eq(session.phase(), Ready)
@@ -56,6 +57,15 @@ async test "参数无效与未知请求" {
   )
   assert_eq(unknown.request_seq, 3)
   assert_eq(unknown.message, Some("notSupported"))
-  ignore(session.handle(request(4, "disconnect")))
+  let unsupported : @protocol.Response = @json.from_json(
+    session.handle(
+      request(4, "breakpointLocations", args={
+        "source": { "path": "demo" },
+        "line": 1,
+      }),
+    )[0],
+  )
+  assert_eq(unsupported.message, Some("notSupported"))
+  ignore(session.handle(request(5, "disconnect")))
   assert_eq(session.phase(), Closed)
 }

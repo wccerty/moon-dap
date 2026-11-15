@@ -66,7 +66,7 @@ flowchart LR
 
 `disconnect` 在成功初始化后的各阶段均可结束会话。配置阶段退出时结算待响应的 `launch` 或 `attach`，然后回复 `disconnect` 并关闭。默认结束由 `launch` 创建的目标，`attach` 会解除调试绑定并允许目标继续运行。收到 EOF 或写入失败也走清理路径。退出和终止可能来自不同通知，按会话去重。
 
-第一版固定公布 `supportsConfigurationDoneRequest: true`。空的 `setExceptionBreakpoints` 配置兼容客户端探测，实际异常筛选返回未支持。其他能力默认省略，`supportsDelayedStackTraceLoading` 在栈分页行为实测后才启用。客户端没有声明行列基数时使用 1，目标接口统一使用 1 基索引。第一版接收 `path` 格式和本地源码路径，收到不支持的路径格式时在初始化响应中报告。纯运行请求 `launch.noDebug: true` 返回未支持。
+第一版公布 `supportsConfigurationDoneRequest` 和 `supportsDelayedStackTraceLoading`。目标提供断点位置查询函数时，也公布 `supportsBreakpointLocationsRequest`。空的 `setExceptionBreakpoints` 配置兼容客户端探测，实际异常筛选返回未支持。客户端没有声明行列基数时使用 1，目标接口统一使用 1 基索引。第一版接收 `path` 格式和本地源码路径，收到不支持的路径格式时在初始化响应中报告。纯运行请求 `launch.noDebug: true` 返回未支持。
 
 ## 调试目标接口
 
@@ -77,6 +77,7 @@ flowchart LR
 | `prepare(mode, options, sink)` | 解析目标私有配置，准备新实例或绑定已有实例。在配置完成前让目标停在安全点。支持方式由目标实例决定。 |
 | `start()` | 完成配置并允许执行，或返回入口暂停结果。运行与停止事件由目标报告。 |
 | `set_breakpoints(source, requested)` | 用本次请求替换该文件的全部断点，空列表清除。按请求顺序返回实际位置、是否验证成功及原因。条件、命中计数、日志断点不启用，相关断点明确标记为无法验证。 |
+| `breakpoint_location_provider()` | 可选的只读查询函数。会话将请求转换成 1 基坐标，过滤范围外的位置，再以客户端坐标返回。 |
 | `resume_execution(thread, mode)` | `mode` 为继续、步入、步过、步出。目标确认接受后立即返回，等待停止通过事件入口完成。 |
 | `pause(thread)` | 在运行时请求暂停。目标在到达安全点时发送停止通知。 |
 | `threads()`、`stack_trace(thread, page)` | 单线程目标提供稳定的线程 ID。栈帧按当前调用顺序返回并支持分页。第一版的执行控制作用于整个目标。 |

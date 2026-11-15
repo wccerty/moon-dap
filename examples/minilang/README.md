@@ -2,6 +2,8 @@
 
 `demo.mdap` 使用 `fn` / `end` 定义函数。函数内可用 `set 名称 JSON值`、`print 名称`、`call 函数名`、`return` 和 `wait 轮数`。空行和以 `#` 开头的行是注释。源码路径作为 `launch.program` 传入，示例只实现 `launch`。
 
+编辑器可通过 `breakpointLocations` 查询源码范围。示例以行为粒度返回每条可执行语句所在行的第一列，跳过注释、空行与函数定义标记。
+
 ## VS Code
 
 在项目根目录运行 native 构建。另开终端启动示例，参数 `--tcp 4711` 对应示例的 `debugServer`。PowerShell 命令如下。

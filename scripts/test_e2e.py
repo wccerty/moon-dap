@@ -119,14 +119,16 @@ class Client:
     def request(self, command, arguments=None, success=True):
         return self.reply(self.send(command, arguments), success)
 
-    def initialize(self):
+    def initialize(self, *, zero_based=False):
         seq = self.send("initialize", {
-            "adapterID": "moon-dap", "linesStartAt1": True, "columnsStartAt1": True,
+            "adapterID": "moon-dap", "linesStartAt1": not zero_based,
+            "columnsStartAt1": not zero_based,
             "supportsVariableType": True, "supportsVariablePaging": True,
         }, split=True)
         body = self.reply(seq)["body"]
         assert body["supportsConfigurationDoneRequest"] is True
         assert body["supportsDelayedStackTraceLoading"] is True
+        assert body["supportsBreakpointLocationsRequest"] is True
 
 
 @contextmanager
@@ -185,6 +187,10 @@ def debug_session(client, on_stopped=lambda: None):
     launch = client.send("launch", {"program": str(PROGRAM)})
     client.event("initialized")
     source = {"path": str(PROGRAM)}
+    candidates = client.request("breakpointLocations", {
+        "source": source, "line": 1, "endLine": 4,
+    })["body"]["breakpoints"]
+    assert candidates == [{"line": 3, "column": 1}, {"line": 4, "column": 1}]
     reply = client.request("setBreakpoints", {"source": source, "breakpoints": [{"line": 4}, {"line": 1}]})
     assert [bp["verified"] for bp in reply["body"]["breakpoints"]] == [True, False]
     client.request("setExceptionBreakpoints", {"filters": []})
@@ -264,6 +270,34 @@ class DapE2E(unittest.TestCase):
             client.send("launch", {"program": str(PROGRAM)})
             client.event("initialized")
             proc.stdin.close()
+            self.assertEqual(proc.wait(timeout=TIMEOUT), 0)
+
+    def test_breakpoint_locations_zero_based(self):
+        with process("--stdio") as proc:
+            client = Client(proc.stdout, proc.stdin)
+            client.initialize(zero_based=True)
+            launch = client.send("launch", {"program": str(PROGRAM)})
+            client.event("initialized")
+            source = {"path": str(PROGRAM)}
+            first = client.request("breakpointLocations", {
+                "source": source, "line": 2, "column": 0, "endColumn": 0,
+            })
+            self.assertEqual(first["body"]["breakpoints"], [{"line": 2, "column": 0}])
+            later = client.request("breakpointLocations", {
+                "source": source, "line": 2, "column": 1, "endLine": 3, "endColumn": 0,
+            })
+            self.assertEqual(later["body"]["breakpoints"], [{"line": 3, "column": 0}])
+            missing = client.request("breakpointLocations", {
+                "source": {"path": str(PROGRAM.with_name("missing.mdap"))}, "line": 2,
+            })
+            self.assertEqual(missing["body"]["breakpoints"], [])
+            reversed_range = client.request("breakpointLocations", {
+                "source": source, "line": 2, "column": 1, "endColumn": 0,
+            }, success=False)
+            self.assertEqual(reversed_range["message"], "invalidArguments")
+            disconnect = client.send("disconnect")
+            client.reply(launch, success=False)
+            client.reply(disconnect)
             self.assertEqual(proc.wait(timeout=TIMEOUT), 0)
 
     def test_stdio_rejects_bad_header(self):

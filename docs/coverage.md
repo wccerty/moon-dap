@@ -20,7 +20,7 @@
 | `restart` | 计划支持 | 会话内重启。 |
 | `disconnect` | 第一版支持 | 依启动方式终止或分离。 |
 | `terminate` | 计划支持 | 独立的优雅终止请求。 |
-| `breakpointLocations` | 计划支持 | 可设置断点的位置。 |
+| `breakpointLocations` | 第一版支持 | 查询本地源码范围。有查询函数的目标才能使用。 |
 | `setBreakpoints` | 第一版支持 | 文件中的行断点，整组替换或清除。 |
 | `setFunctionBreakpoints` | 计划支持 | 函数入口断点。 |
 | `setExceptionBreakpoints` | 第一版支持 | 接受空配置以兼容客户端，异常筛选计划支持。 |
@@ -115,7 +115,7 @@
 | `supportsWriteMemoryRequest` | 不支持 | 写内存。 |
 | `supportsDisassembleRequest` | 不支持 | 反汇编。 |
 | `supportsCancelRequest` | 计划支持 | 请求级取消。 |
-| `supportsBreakpointLocationsRequest` | 计划支持 | 可断点位置。 |
+| `supportsBreakpointLocationsRequest` | 第一版支持 | 目标提供查询函数时声明。 |
 | `supportsClipboardContext` | 计划支持 | 剪贴板求值上下文。 |
 | `supportsSteppingGranularity` | 计划支持 | 可选单步粒度。 |
 | `supportsInstructionBreakpoints` | 不支持 | 指令断点。 |

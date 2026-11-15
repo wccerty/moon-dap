@@ -20,6 +20,14 @@ pub(all) suberror TargetError {
 pub fn TargetError::to_repr(Self) -> @debug.Repr
 
 // Types and methods
+pub(all) struct BreakpointRange {
+  line : Int64
+  column : Int64
+  end_line : Int64
+  end_column : Int64?
+}
+pub fn BreakpointRange::contains(Self, BreakpointSpec) -> Bool
+
 pub(all) struct BreakpointResult {
   id : Int32?
   verified : Bool
@@ -160,6 +168,7 @@ pub(open) trait DebugTarget {
   async fn prepare(Self, StartMode, Json, EventSink) -> Unit
   fn start(Self) -> Unit raise TargetError
   fn set_breakpoints(Self, String, Array[BreakpointSpec]) -> Array[BreakpointResult] raise TargetError
+  fn breakpoint_location_provider(Self) -> ((String, BreakpointRange) -> Array[BreakpointSpec] raise TargetError)? = _
   fn resume_execution(Self, Int32, ResumeMode) -> Unit raise TargetError
   fn pause(Self, Int32) -> Unit raise TargetError
   fn threads(Self) -> Array[Thread] raise TargetError
