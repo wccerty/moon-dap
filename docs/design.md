@@ -1,6 +1,6 @@
 # moon-dap 第一版设计
 
-状态为待确认。moon-dap 面向 MoonBit 编写的解释器、虚拟机和 DSL。接入者提供调试目标和运行时事件，库负责 DAP 会话、消息和传输。
+moon-dap 面向 MoonBit 编写的解释器、虚拟机和 DSL。接入者提供调试目标和运行时事件，库负责 DAP 会话、消息和传输。本页保留第一版设计所依据的协议约定，实施细节见各节。
 
 ## 规范基线与许可证
 
@@ -74,13 +74,14 @@ flowchart LR
 
 | 接口 | 契约 |
 | --- | --- |
-| `launch(options)`、`attach(options)` | 解析目标私有配置，准备新实例或绑定已有实例。在配置完成前让目标停在安全点。支持方式由目标实例决定。 |
+| `prepare(mode, options, sink)` | 解析目标私有配置，准备新实例或绑定已有实例。在配置完成前让目标停在安全点。支持方式由目标实例决定。 |
 | `start()` | 完成配置并允许执行，或返回入口暂停结果。运行与停止事件由目标报告。 |
 | `set_breakpoints(source, requested)` | 用本次请求替换该文件的全部断点，空列表清除。按请求顺序返回实际位置、是否验证成功及原因。条件、命中计数、日志断点不启用，相关断点明确标记为无法验证。 |
-| `resume(thread, mode)` | `mode` 为继续、步入、步过、步出。目标确认接受后立即返回，等待停止通过事件入口完成。 |
+| `resume_execution(thread, mode)` | `mode` 为继续、步入、步过、步出。目标确认接受后立即返回，等待停止通过事件入口完成。 |
 | `pause(thread)` | 在运行时请求暂停。目标在到达安全点时发送停止通知。 |
 | `threads()`、`stack_trace(thread, page)` | 单线程目标提供稳定的线程 ID。栈帧按当前调用顺序返回并支持分页。第一版的执行控制作用于整个目标。 |
 | `scopes(frame)`、`variables(handle, query)` | 分别提供作用域和子变量。仅叶子对客户端返回 `variablesReference: 0`，作用域与可展开变量使用暂停期句柄，支持按名称或索引筛选与分页。 |
+| `poll()` | 在运行态推进一个有界工作片。解释器在安全点发出事件，将控制权交给会话以处理编辑器请求。 |
 | `disconnect(mode)` | 终止或分离，重复调用安全，清理失败由库记录和上报。 |
 | `EventSink` | 发送 `stopped`、`output`、`exited`、`terminated`，也支持 `continued` 和 `thread`。事件不带协议序号。仅在没有先行的恢复请求时发送 `continued`。 |
 
@@ -90,14 +91,14 @@ flowchart LR
 
 已知请求信封的错误统一响应 `success: false`，保留原 `command` 和 `request_seq`。暂停状态不满足时用标准短消息 `notStopped`，其他失败用稳定短消息和可读的 `body.error`。未实现或未知命令同样返回规范形状的失败响应。参数、状态和目标错误彼此区分。stdio 诊断只写 stderr，目标输出走 `output` 事件。
 
-每个连接对应一个会话。读任务把帧交给会话，运行时通过事件入口送通知。单个会话循环拥有状态，串行处理状态变更。单个写任务按已排定的顺序发送，保证半帧写入时不会混入另一条消息。需要等待的目标工作通过任务回传结果，运行循环在指令或语句安全点交还控制权，让读任务可接收暂停和断开。控制确认与后续停止通过有序结果或事件队列交付，响应入队后才发布本次操作触发的停止事件。
+每个连接对应一个会话。读任务通过有界输入队列把帧交给会话。会话循环独占状态和写入，串行处理请求和通知，半帧写入时不会混入另一条消息。目标在运行时每次只推进一个有界工作片，让读任务可接收暂停和断开。请求内产生的事件由会话收集，写出响应后再按序发事件。异步准备和写入有超时，目标方法应配合取消。
 
-队列有容量和背压。控制请求、终止和停止事件可独立推进，避免目标在会话等待它时同步写入同一个已满队列。超时、取消或断线由连接任务组统一收尾。晚到的目标结果携带会话或执行代次，关闭后丢弃。连接和目标状态相互隔离，示例监听回环地址，每个 TCP 连接新建一个会话。
+输入队列最多缓存 32 帧并实施背压。目标事件队列最多缓存 256 个通知，队满时 `EventSink.emit` 返回错误，目标应分批产生输出并及时让出执行权。超时、取消或断线由连接任务组统一收尾。事件入口绑定目标启动代次，关闭后拒收通知。连接和目标状态相互隔离，示例监听回环地址，每个 TCP 连接新建一个会话。
 
 ## 传输与编辑器验收
 
-第一版拟用 `moonbitlang/async` 的 `stdio` 与 `socket` 支持 native。官方接口提供异步 stdin、stdout 和 TCP 监听示例。实际依赖版本、操作系统和 native 编译能力在实现阶段固定并实测。JS 与 Wasm 的内置 stdio 和 TCP 不列入第一版，纯分帧与协议层能否跨目标发布由后续编译矩阵决定。[MoonBit 异步文档](https://docs.moonbitlang.com/en/latest/language/async-experimental.html) · [stdio 接口](https://github.com/moonbitlang/async/blob/main/src/stdio/pkg.generated.mbti) · [TCP 示例](https://github.com/moonbitlang/async/tree/main/examples/tcp_echo_server)
+第一版用 `moonbitlang/async@0.20.6` 的 `stdio` 与 `socket` 支持 native。JS 与 Wasm 的内置 stdio 和 TCP 不列入第一版，纯分帧与协议层能否跨目标发布由后续编译矩阵决定。实际运行的平台见 [验证记录](verification.md)。[MoonBit 异步文档](https://docs.moonbitlang.com/en/latest/language/async-experimental.html)
 
 VS Code 演示拟使用示例内的本地调试类型声明和 `launch.json` 的 `debugServer` 字段，让编辑器连接回环 TCP。Neovim 用 nvim-dap 配置 TCP server 或 stdio 可执行文件。编辑器验收分别记录环境、配置、运行命令和可见结果。[VS Code 调试适配器开发指南](https://code.visualstudio.com/api/extension-guides/debugger-extension)
 
-本阶段完成规范、许可和工具接口核对。实现、测试及编辑器验收等待设计确认。
+验收命令、结果及编辑器验证状态随仓库记录。[验证记录](verification.md)

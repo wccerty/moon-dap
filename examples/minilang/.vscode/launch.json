@@ -1,0 +1,13 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "moon-dap-minilang",
+      "request": "launch",
+      "name": "调试迷你解释器",
+      "program": "${workspaceFolder}/demo.mdap",
+      "stopOnEntry": false,
+      "debugServer": 4711
+    }
+  ]
+}

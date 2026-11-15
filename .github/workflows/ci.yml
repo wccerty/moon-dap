@@ -1,0 +1,49 @@
+name: MoonBit 检查与测试
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  native:
+    name: Linux native
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: 安装固定版 MoonBit
+        env:
+          MOONBIT_INSTALL_VERSION: '0.10.17+d971670cd'
+        run: |
+          set -o pipefail
+          curl -fsSL https://cli.moonbitlang.com/install/unix.sh | bash
+          echo "$HOME/.moon/bin" >> "$GITHUB_PATH"
+      - name: 安装测试依赖
+        run: |
+          python -m pip install -r tests/requirements.txt
+          npm ci --prefix tests --ignore-scripts --no-audit --no-fund
+      - name: 检查与格式
+        run: |
+          moon version --all
+          moon check --target native --deny-warn
+          moon fmt --check
+          python scripts/generate_protocol.py --check
+      - name: 单元测试和构建
+        run: |
+          moon test --target native
+          moon build --target native
+      - name: 协议与端到端
+        run: |
+          python scripts/check_schema.py
+          python scripts/test_e2e.py
+          node --test tests/vscode_client.cjs
