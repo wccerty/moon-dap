@@ -3,7 +3,6 @@
 import argparse
 from contextlib import contextmanager
 import json
-import os
 from pathlib import Path
 import queue
 import socket
@@ -16,9 +15,7 @@ from check_schema import SCHEMA, validate
 
 ROOT = Path(__file__).resolve().parents[1]
 PROGRAM = ROOT / "examples/minilang/demo.mdap"
-BINARY = ROOT / "_build/native/debug/build/examples/minilang" / (
-    "minilang.exe" if os.name == "nt" else "minilang"
-)
+BINARY = ROOT / "_build/native/debug/build/examples/minilang/minilang.exe"
 TIMEOUT = 20
 
 

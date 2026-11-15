@@ -21,7 +21,7 @@ Windows x64 本机使用 Moon CLI `0.1.20261023 (3778465)`、`moonc v0.10.17+d97
 | Windows x64 native stdio 与 TCP | 通过实际进程与套接字验收。 |
 | VS Code 1.145.1 | Windows x64 官方便携版通过本体冒烟测试。使用仓库的 `launch.json` 命中第 4 行断点，展开 `config` 并确认 `name = "月兔"`，执行编辑器的步入命令后进入 `greet`。扩展宿主退出码 0。[本体验收命令及输出](vscode-verification.txt) |
 | Neovim | 已给出 nvim-dap 配置，本机未安装 Neovim，尚待实测。 |
-| Linux native | 已配置 GitHub Actions，工具链版本固定为 `0.10.17+d971670cd`。本地仓库没有 remote，尚无远端工作流运行。 |
+| Linux native | GitHub Actions 使用 `0.10.17+d971670cd`。已运行检查、格式校验、22 项单元测试、构建和 11 个 Draft 4 样本。当前流水线的端到端结果见 Actions 页面。[Linux CI](https://github.com/wccerty/moon-dap/actions/workflows/ci.yml) |
 | macOS native | 尚待实测。 |
 | JS 与 Wasm | 第一版的内置 stdio、TCP 面向 native。 |
 

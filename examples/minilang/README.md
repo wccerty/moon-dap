@@ -12,7 +12,7 @@ moon build --target native
 & ./_build/native/debug/build/examples/minilang/minilang.exe --tcp 4711
 ```
 
-Linux 和 macOS 的示例构建产物没有 `.exe` 后缀，按 `moon build` 输出的实际路径启动。正常监听时 stderr 显示 `moon-dap tcp 4711`。
+本项目使用的 MoonBit 版本在 Windows 和 Linux 上均生成名为 `minilang.exe` 的产物。在其他环境中，以 `moon build` 的 `Artifacts` 输出为准。正常监听时 stderr 显示 `moon-dap tcp 4711`。
 
 在项目根目录的另一终端运行以下命令。VS Code 已安装并可通过 `code` 启动时，它会为 [本地调试类型](vscode/package.json) 打开扩展开发宿主，并在示例工作区使用 [launch.json](.vscode/launch.json)。
 

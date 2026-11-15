@@ -9,8 +9,7 @@ const { DebugClient } = require("@vscode/debugadapter-testsupport");
 const root = resolve(__dirname, "..");
 const program = resolve(root, "examples/minilang/demo.mdap");
 const binary = resolve(
-  root, "_build/native/debug/build/examples/minilang",
-  process.platform === "win32" ? "minilang.exe" : "minilang",
+  root, "_build/native/debug/build/examples/minilang/minilang.exe",
 );
 
 test("官方 DAP 测试客户端命中断点并检查变量", { timeout: 15000 }, async () => {
