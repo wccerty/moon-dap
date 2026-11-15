@@ -7,6 +7,7 @@
 在项目根目录运行 native 构建。另开终端启动示例，参数 `--tcp 4711` 对应示例的 `debugServer`。PowerShell 命令如下。
 
 ```powershell
+moon update
 moon build --target native
 & ./_build/native/debug/build/examples/minilang/minilang.exe --tcp 4711
 ```

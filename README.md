@@ -98,7 +98,10 @@ async fn main { @transport.serve_stdio(OneLine::{ sink: None, ready: false }) }
 
 ## 测试与维护
 
+在第一次构建前运行 `moon update`，让 MoonBit 能从本地索引解析所需的 Mooncakes 依赖版本。
+
 ```text
+moon update
 python -m pip install -r tests/requirements.txt
 npm ci --prefix tests --ignore-scripts --no-audit --no-fund
 moon check --target native --deny-warn

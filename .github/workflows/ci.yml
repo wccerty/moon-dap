@@ -28,8 +28,9 @@ jobs:
           set -o pipefail
           curl -fsSL https://cli.moonbitlang.com/install/unix.sh | bash
           echo "$HOME/.moon/bin" >> "$GITHUB_PATH"
-      - name: 安装测试依赖
+      - name: 初始化 Mooncakes 索引并安装测试依赖
         run: |
+          moon update
           python -m pip install -r tests/requirements.txt
           npm ci --prefix tests --ignore-scripts --no-audit --no-fund
       - name: 检查与格式
