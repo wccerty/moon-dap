@@ -1,5 +1,5 @@
 /_build/
 /.mooncakes/
 /.venv/
-/.node-tests/
+/tests/node_modules/
 __pycache__/

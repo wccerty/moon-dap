@@ -1,0 +1,7 @@
+{
+  "name": "moon-dap-integration-tests",
+  "private": true,
+  "devDependencies": {
+    "@vscode/debugadapter-testsupport": "1.68.0"
+  }
+}
