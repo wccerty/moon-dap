@@ -6,7 +6,7 @@ moon-dap 是面向 MoonBit 解释器、虚拟机和 DSL 的调试适配器协议
 - 给 MoonBit 虚拟机或模拟器提供单步、栈和寄存器状态查看。
 - 给业务 DSL 或规则引擎提供可视化调试，查看规则执行和中间数据。
 
-moondbg 面向 MoonBit 原生程序，通过 `lldb-dap` 执行调试，也包含供 VS Code 连接的前端入口。MoonWren 的调试会话针对其自有 VM。moon-dap 的目标接口可由第三方运行时实现。注册表和 GitHub 的可见搜索结果中尚未发现同类开发包。[查重报告](docs/dedup.md)
+moondbg 面向 MoonBit 原生程序，通过 `lldb-dap` 执行调试，也包含供 VS Code 连接的前端入口。MoonWren 的调试会话针对其自有 VM。moon-dap 的目标接口可由第三方运行时实现。
 
 ## 快速开始
 

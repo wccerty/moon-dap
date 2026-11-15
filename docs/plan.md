@@ -6,7 +6,7 @@
 
 实现使用 MoonBit、官方异步库和 Python 生成器。验收使用 Draft 4 校验器和 GitHub Actions。
 
-[查重报告](dedup.md) · [设计](design.md) · [覆盖计划](coverage.md)
+[设计](design.md) · [覆盖计划](coverage.md)
 
 ## 实施阶段
 
