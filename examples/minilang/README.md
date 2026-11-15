@@ -31,7 +31,7 @@ code --new-window --extensionDevelopmentPath=./examples/minilang/vscode ./exampl
 code --user-data-dir <独立测试目录> --extensionDevelopmentPath=./examples/minilang/vscode --extensionTestsPath=./examples/minilang/vscode/smoke.cjs ./examples/minilang
 ```
 
-脚本在 VS Code API 上设置真实源码断点、使用 `launch.json` 启动调试，再检查停点、变量与单步。实测状态见 [验证记录](../../docs/verification.md)。[VS Code 调试适配器开发指南](https://code.visualstudio.com/api/extension-guides/debugger-extension)
+脚本在 VS Code API 上设置真实源码断点、使用 `launch.json` 启动调试，并通过编辑器命令步入函数。已在 Windows x64 的 VS Code 1.145.1 官方便携版通过。若独立测试配置触发工作区信任提示，可在仅包含本例的测试进程中加上 `--disable-workspace-trust`，因为测试宿主无法显示该对话框。[验证记录](../../docs/verification.md) · [VS Code 调试适配器开发指南](https://code.visualstudio.com/api/extension-guides/debugger-extension)
 
 ## Neovim
 

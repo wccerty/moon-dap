@@ -19,11 +19,13 @@ Windows x64 本机使用 Moon CLI `0.1.20261023 (3778465)`、`moonc v0.10.17+d97
 | 项目 | 状态 |
 | --- | --- |
 | Windows x64 native stdio 与 TCP | 通过实际进程与套接字验收。 |
-| VS Code 1.145.1 | 扩展开发宿主曾打开示例源码。Windows 界面工具的访问审批超时。另行尝试 `code --verbose --user-data-dir <临时目录> --extensionDevelopmentPath=<示例扩展> --extensionTestsPath=<smoke.cjs> <示例目录>`，安装程序持有 `vscode-updating` 锁，宿主输出 `Code is currently being updated` 并在进入测试前结束。便携版因磁盘空间不足未能完成解压，自动审批拒绝了再次解压。真实编辑器验收待完成。 |
+| VS Code 1.145.1 | Windows x64 官方便携版通过本体冒烟测试。使用仓库的 `launch.json` 命中第 4 行断点，展开 `config` 并确认 `name = "月兔"`，执行编辑器的步入命令后进入 `greet`。扩展宿主退出码 0。[本体验收命令及输出](vscode-verification.txt) |
 | Neovim | 已给出 nvim-dap 配置，本机未安装 Neovim，尚待实测。 |
 | Linux native | 已配置 GitHub Actions，工具链版本固定为 `0.10.17+d971670cd`。本地仓库没有 remote，尚无远端工作流运行。 |
 | macOS native | 尚待实测。 |
 | JS 与 Wasm | 第一版的内置 stdio、TCP 面向 native。 |
+
+已安装的 VS Code 在复测时仍持有更新锁。本次使用独立的官方便携版和临时配置。测试宿主无法显示工作区信任对话框，因此只为该测试进程传入 `--disable-workspace-trust`。
 
 ## Schema 校验方式
 

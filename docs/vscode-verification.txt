@@ -1,0 +1,18 @@
+VS Code 本体冒烟测试 · 2026-11-15 11:33 +08:00 · Windows x64
+便携版使用独立临时配置。以下路径使用占位符，输出保留与验收有关的行。
+
+> Get-AuthenticodeSignature -LiteralPath '<官方便携版>/Code.exe'
+Valid CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US
+
+> & '<官方便携版>/bin/code.cmd' --version
+1.145.1
+6bab64e2d12b04d04c0d99c27ff166023efd1dda
+x64
+
+> & '<仓库>/_build/native/debug/build/examples/minilang/minilang.exe' --tcp 4711
+moon-dap tcp 4711
+
+> & '<官方便携版>/bin/code.cmd' --verbose --skip-welcome --skip-release-notes --disable-workspace-trust --extensionDevelopmentPath='<仓库>/examples/minilang/vscode' --extensionTestsPath='<仓库>/examples/minilang/vscode/smoke.cjs' '<仓库>/examples/minilang'
+VS Code 调试会话通过：第 4 行断点、嵌套变量与步入 greet
+[main 2026-11-15T03:33:08.838Z] Extension host with pid 41388 exited with code: 0, signal: unknown.
+CLI exit=0
