@@ -30,3 +30,9 @@ Windows x64 本机使用 Moon CLI `0.1.20261023 (3778465)`、`moonc v0.10.17+d97
 ## Schema 校验方式
 
 `scripts/check_schema.py` 通过 `moon run --target native tests/codec_fixture` 获取 JSON Lines。每行指定固定规范中的一个具体定义并含有往返后的消息。校验器保留 Schema 根部的 `definitions`，通过 `$ref` 选中该消息的定义。`scripts/test_e2e.py` 使用同一校验函数检查实际请求、成功响应、错误响应及事件，同时断言 `seq`、`request_seq` 和事件顺序。详细步骤见 [README](../README.md)。
+
+## 外部运行时回归
+
+在 Windows x64 使用 MoonBit `v0.10.20+65efd5b93` 复测，检查、格式、生成结果核对及 native 构建通过。共通过 22 项 MoonBit 测试、11 个 Draft 4 样本、5 项迷你解释器端到端测试及 1 项官方 DAP 客户端测试。
+
+`python scripts/test_bpflab.py` 另运行 1 项独立的外部 VM 测试。测试在条件 `r0 == 2` 命中断点，单步得到 3，继续执行后输出 4 并正常退出。Windows 实测使用直接调用 `moonc.exe` 的进程级配置。复现命令与接入边界见 [MoonBpfLab 接入案例](../examples/bpflab/README.md)。

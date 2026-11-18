@@ -76,12 +76,14 @@ flowchart LR
 | --- | --- |
 | `prepare(mode, options, sink)` | 解析目标私有配置，准备新实例或绑定已有实例。在配置完成前让目标停在安全点。支持方式由目标实例决定。 |
 | `start()` | 完成配置并允许执行，或返回入口暂停结果。运行与停止事件由目标报告。 |
-| `set_breakpoints(source, requested)` | 用本次请求替换该文件的全部断点，空列表清除。按请求顺序返回实际位置、是否验证成功及原因。条件、命中计数、日志断点不启用，相关断点明确标记为无法验证。 |
+| `set_breakpoints(source, requested)` | 用本次请求替换该文件的全部断点，空列表清除。按请求顺序返回实际位置、是否验证成功及原因。 |
+| `conditional_breakpoint_provider()` | 可选，统一接收同一文件的普通和条件断点。目标解析条件并返回逐项验证结果。命中计数和日志断点暂不支持。 |
 | `breakpoint_location_provider()` | 可选的只读查询函数。会话将请求转换成 1 基坐标，过滤范围外的位置，再以客户端坐标返回。 |
 | `resume_execution(thread, mode)` | `mode` 为继续、步入、步过、步出。目标确认接受后立即返回，等待停止通过事件入口完成。 |
 | `pause(thread)` | 在运行时请求暂停。目标在到达安全点时发送停止通知。 |
 | `threads()`、`stack_trace(thread, page)` | 单线程目标提供稳定的线程 ID。栈帧按当前调用顺序返回并支持分页。第一版的执行控制作用于整个目标。 |
 | `scopes(frame)`、`variables(handle, query)` | 分别提供作用域和子变量。仅叶子对客户端返回 `variablesReference: 0`，作用域与可展开变量使用暂停期句柄，支持按名称或索引筛选与分页。 |
+| `evaluation_provider()` | 可选，接收当前暂停的目标帧与原始表达式，返回只读文本结果。会话先校验帧的有效性。 |
 | `poll()` | 在运行态推进一个有界工作片。解释器在安全点发出事件，将控制权交给会话以处理编辑器请求。 |
 | `disconnect(mode)` | 终止或分离，重复调用安全，清理失败由库记录和上报。 |
 | `EventSink` | 发送 `stopped`、`output`、`exited`、`terminated`，也支持 `continued` 和 `thread`。事件不带协议序号。仅在没有先行的恢复请求时发送 `continued`。 |

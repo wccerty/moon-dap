@@ -45,7 +45,7 @@
 | `terminateThreads` | 不支持 | 单独终止指定线程。 |
 | `modules` | 不支持 | 模块及其元数据。 |
 | `loadedSources` | 计划支持 | 目标已加载源码清单。 |
-| `evaluate` | 计划支持 | 监视与表达式求值。 |
+| `evaluate` | 第一版支持 | 由支持求值的目标在暂停期间返回只读文本结果。 |
 | `setExpression` | 计划支持 | 通过表达式修改值。 |
 | `stepInTargets` | 计划支持 | 精确选择步入位置。 |
 | `gotoTargets` | 不支持 | 查询可跳转位置。 |
@@ -84,9 +84,9 @@
 | --- | --- | --- |
 | `supportsConfigurationDoneRequest` | 第一版支持 | 初始化响应为 `true`。 |
 | `supportsFunctionBreakpoints` | 计划支持 | 函数断点。 |
-| `supportsConditionalBreakpoints` | 计划支持 | 源码条件断点。 |
+| `supportsConditionalBreakpoints` | 第一版支持 | 目标提供条件断点接口时声明，条件语法由目标定义。 |
 | `supportsHitConditionalBreakpoints` | 计划支持 | 命中次数条件。 |
-| `supportsEvaluateForHovers` | 计划支持 | 悬停求值。 |
+| `supportsEvaluateForHovers` | 第一版支持 | 目标实现只读求值时声明。 |
 | `exceptionBreakpointFilters` | 计划支持 | 声明异常筛选器。 |
 | `supportsStepBack` | 不支持 | 反向执行。 |
 | `supportsSetVariable` | 计划支持 | 变量修改。 |

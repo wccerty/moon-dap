@@ -132,9 +132,9 @@ class Client:
 
 
 @contextmanager
-def process(*args):
+def process(*args, binary=None):
     with subprocess.Popen(
-        [str(BINARY), *args], stdin=subprocess.PIPE, stdout=subprocess.PIPE,
+        [str(binary or BINARY), *args], stdin=subprocess.PIPE, stdout=subprocess.PIPE,
         stderr=subprocess.PIPE, cwd=ROOT,
     ) as proc:
         try:

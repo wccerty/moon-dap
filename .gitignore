@@ -2,4 +2,6 @@
 /.mooncakes/
 /.venv/
 /tests/node_modules/
+/examples/bpflab/_build/
+/examples/bpflab/.mooncakes/
 __pycache__/

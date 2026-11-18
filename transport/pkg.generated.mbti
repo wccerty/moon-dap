@@ -19,11 +19,12 @@ pub async fn serve_stdio(&@session.DebugTarget, options? : Options) -> Unit
 pub async fn serve_tcp(@socket.TcpServer, () -> &@session.DebugTarget, options? : Options, max_connections? : Int32) -> Unit
 
 // Errors
+#derive(@debug.Debug)
 pub suberror TransportError {
   InvalidFrame(@framing.FrameError)
   OutgoingFrameTooLarge
   InvalidOptions
-} derive(@debug.Debug)
+}
 pub fn TransportError::to_repr(Self) -> @debug.Repr
 
 // Types and methods

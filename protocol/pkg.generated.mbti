@@ -14,19 +14,19 @@ pub(all) struct AttachRequest {
   seq : Int32
   arguments : AttachRequestArguments
 }
-pub fn AttachRequest::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn AttachRequest::to_json(Self) -> Json
-pub impl ToJson for AttachRequest
+pub fn AttachRequest::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn AttachRequest::to_json(Self) -> @json.Json
 pub impl @json.FromJson for AttachRequest
+pub impl @json.ToJson for AttachRequest
 
 pub(all) struct AttachRequestArguments {
-  private_restart : Json?
-  additional : Map[String, Json]
+  private_restart : @json.Json?
+  additional : Map[String, @json.Json]
 }
-pub fn AttachRequestArguments::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn AttachRequestArguments::to_json(Self) -> Json
-pub impl ToJson for AttachRequestArguments
+pub fn AttachRequestArguments::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn AttachRequestArguments::to_json(Self) -> @json.Json
 pub impl @json.FromJson for AttachRequestArguments
+pub impl @json.ToJson for AttachRequestArguments
 
 pub(all) struct AttachResponse {
   seq : Int32
@@ -34,12 +34,12 @@ pub(all) struct AttachResponse {
   success : Bool
   command : String
   message : String?
-  body : Json?
+  body : @json.Json?
 }
-pub fn AttachResponse::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn AttachResponse::to_json(Self) -> Json
-pub impl ToJson for AttachResponse
+pub fn AttachResponse::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn AttachResponse::to_json(Self) -> @json.Json
 pub impl @json.FromJson for AttachResponse
+pub impl @json.ToJson for AttachResponse
 
 pub(all) struct Breakpoint {
   id : Int32?
@@ -54,28 +54,28 @@ pub(all) struct Breakpoint {
   offset : Int64?
   reason : BreakpointReason?
 }
-pub fn Breakpoint::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn Breakpoint::to_json(Self) -> Json
-pub impl ToJson for Breakpoint
+pub fn Breakpoint::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn Breakpoint::to_json(Self) -> @json.Json
 pub impl @json.FromJson for Breakpoint
+pub impl @json.ToJson for Breakpoint
 
 pub(all) struct BreakpointEvent {
   seq : Int32
   body : BreakpointEventBody
 }
-pub fn BreakpointEvent::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn BreakpointEvent::to_json(Self) -> Json
-pub impl ToJson for BreakpointEvent
+pub fn BreakpointEvent::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn BreakpointEvent::to_json(Self) -> @json.Json
 pub impl @json.FromJson for BreakpointEvent
+pub impl @json.ToJson for BreakpointEvent
 
 pub(all) struct BreakpointEventBody {
   reason : String
   breakpoint : Breakpoint
 }
-pub fn BreakpointEventBody::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn BreakpointEventBody::to_json(Self) -> Json
-pub impl ToJson for BreakpointEventBody
+pub fn BreakpointEventBody::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn BreakpointEventBody::to_json(Self) -> @json.Json
 pub impl @json.FromJson for BreakpointEventBody
+pub impl @json.ToJson for BreakpointEventBody
 
 pub(all) struct BreakpointLocation {
   line : Int64
@@ -83,10 +83,10 @@ pub(all) struct BreakpointLocation {
   end_line : Int64?
   end_column : Int64?
 }
-pub fn BreakpointLocation::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn BreakpointLocation::to_json(Self) -> Json
-pub impl ToJson for BreakpointLocation
+pub fn BreakpointLocation::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn BreakpointLocation::to_json(Self) -> @json.Json
 pub impl @json.FromJson for BreakpointLocation
+pub impl @json.ToJson for BreakpointLocation
 
 pub(all) struct BreakpointLocationsArguments {
   source : Source
@@ -95,19 +95,19 @@ pub(all) struct BreakpointLocationsArguments {
   end_line : Int64?
   end_column : Int64?
 }
-pub fn BreakpointLocationsArguments::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn BreakpointLocationsArguments::to_json(Self) -> Json
-pub impl ToJson for BreakpointLocationsArguments
+pub fn BreakpointLocationsArguments::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn BreakpointLocationsArguments::to_json(Self) -> @json.Json
 pub impl @json.FromJson for BreakpointLocationsArguments
+pub impl @json.ToJson for BreakpointLocationsArguments
 
 pub(all) struct BreakpointLocationsRequest {
   seq : Int32
   arguments : BreakpointLocationsArguments?
 }
-pub fn BreakpointLocationsRequest::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn BreakpointLocationsRequest::to_json(Self) -> Json
-pub impl ToJson for BreakpointLocationsRequest
+pub fn BreakpointLocationsRequest::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn BreakpointLocationsRequest::to_json(Self) -> @json.Json
 pub impl @json.FromJson for BreakpointLocationsRequest
+pub impl @json.ToJson for BreakpointLocationsRequest
 
 pub(all) struct BreakpointLocationsResponse {
   seq : Int32
@@ -117,18 +117,18 @@ pub(all) struct BreakpointLocationsResponse {
   message : String?
   body : BreakpointLocationsResponseBody
 }
-pub fn BreakpointLocationsResponse::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn BreakpointLocationsResponse::to_json(Self) -> Json
-pub impl ToJson for BreakpointLocationsResponse
+pub fn BreakpointLocationsResponse::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn BreakpointLocationsResponse::to_json(Self) -> @json.Json
 pub impl @json.FromJson for BreakpointLocationsResponse
+pub impl @json.ToJson for BreakpointLocationsResponse
 
 pub(all) struct BreakpointLocationsResponseBody {
   breakpoints : Array[BreakpointLocation]
 }
-pub fn BreakpointLocationsResponseBody::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn BreakpointLocationsResponseBody::to_json(Self) -> Json
-pub impl ToJson for BreakpointLocationsResponseBody
+pub fn BreakpointLocationsResponseBody::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn BreakpointLocationsResponseBody::to_json(Self) -> @json.Json
 pub impl @json.FromJson for BreakpointLocationsResponseBody
+pub impl @json.ToJson for BreakpointLocationsResponseBody
 
 pub(all) struct BreakpointMode {
   mode : String
@@ -136,45 +136,45 @@ pub(all) struct BreakpointMode {
   description : String?
   applies_to : Array[BreakpointModeApplicability]
 }
-pub fn BreakpointMode::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn BreakpointMode::to_json(Self) -> Json
-pub impl ToJson for BreakpointMode
+pub fn BreakpointMode::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn BreakpointMode::to_json(Self) -> @json.Json
 pub impl @json.FromJson for BreakpointMode
+pub impl @json.ToJson for BreakpointMode
 
 pub(all) struct BreakpointModeApplicability {
   value : String
 }
-pub fn BreakpointModeApplicability::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn BreakpointModeApplicability::to_json(Self) -> Json
-pub impl ToJson for BreakpointModeApplicability
+pub fn BreakpointModeApplicability::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn BreakpointModeApplicability::to_json(Self) -> @json.Json
 pub impl @json.FromJson for BreakpointModeApplicability
+pub impl @json.ToJson for BreakpointModeApplicability
 
 pub(all) enum BreakpointReason {
   Pending
   Failed
 }
-pub fn BreakpointReason::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn BreakpointReason::to_json(Self) -> Json
-pub impl ToJson for BreakpointReason
+pub fn BreakpointReason::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn BreakpointReason::to_json(Self) -> @json.Json
 pub impl @json.FromJson for BreakpointReason
+pub impl @json.ToJson for BreakpointReason
 
 pub(all) struct CancelArguments {
   request_id : Int32?
   progress_id : String?
 }
-pub fn CancelArguments::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn CancelArguments::to_json(Self) -> Json
-pub impl ToJson for CancelArguments
+pub fn CancelArguments::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn CancelArguments::to_json(Self) -> @json.Json
 pub impl @json.FromJson for CancelArguments
+pub impl @json.ToJson for CancelArguments
 
 pub(all) struct CancelRequest {
   seq : Int32
   arguments : CancelArguments?
 }
-pub fn CancelRequest::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn CancelRequest::to_json(Self) -> Json
-pub impl ToJson for CancelRequest
+pub fn CancelRequest::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn CancelRequest::to_json(Self) -> @json.Json
 pub impl @json.FromJson for CancelRequest
+pub impl @json.ToJson for CancelRequest
 
 pub(all) struct CancelResponse {
   seq : Int32
@@ -182,12 +182,12 @@ pub(all) struct CancelResponse {
   success : Bool
   command : String
   message : String?
-  body : Json?
+  body : @json.Json?
 }
-pub fn CancelResponse::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn CancelResponse::to_json(Self) -> Json
-pub impl ToJson for CancelResponse
+pub fn CancelResponse::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn CancelResponse::to_json(Self) -> @json.Json
 pub impl @json.FromJson for CancelResponse
+pub impl @json.ToJson for CancelResponse
 
 pub(all) struct Capabilities {
   supports_configuration_done_request : Bool?
@@ -233,36 +233,36 @@ pub(all) struct Capabilities {
   breakpoint_modes : Array[BreakpointMode]?
   supports_ansi_styling : Bool?
 }
-pub fn Capabilities::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn Capabilities::to_json(Self) -> Json
-pub impl ToJson for Capabilities
+pub fn Capabilities::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn Capabilities::to_json(Self) -> @json.Json
 pub impl @json.FromJson for Capabilities
+pub impl @json.ToJson for Capabilities
 
 pub(all) struct CapabilitiesEvent {
   seq : Int32
   body : CapabilitiesEventBody
 }
-pub fn CapabilitiesEvent::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn CapabilitiesEvent::to_json(Self) -> Json
-pub impl ToJson for CapabilitiesEvent
+pub fn CapabilitiesEvent::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn CapabilitiesEvent::to_json(Self) -> @json.Json
 pub impl @json.FromJson for CapabilitiesEvent
+pub impl @json.ToJson for CapabilitiesEvent
 
 pub(all) struct CapabilitiesEventBody {
   capabilities : Capabilities
 }
-pub fn CapabilitiesEventBody::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn CapabilitiesEventBody::to_json(Self) -> Json
-pub impl ToJson for CapabilitiesEventBody
+pub fn CapabilitiesEventBody::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn CapabilitiesEventBody::to_json(Self) -> @json.Json
 pub impl @json.FromJson for CapabilitiesEventBody
+pub impl @json.ToJson for CapabilitiesEventBody
 
 pub(all) struct Checksum {
   algorithm : ChecksumAlgorithm
   checksum : String
 }
-pub fn Checksum::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn Checksum::to_json(Self) -> Json
-pub impl ToJson for Checksum
+pub fn Checksum::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn Checksum::to_json(Self) -> @json.Json
 pub impl @json.FromJson for Checksum
+pub impl @json.ToJson for Checksum
 
 pub(all) enum ChecksumAlgorithm {
   MD5
@@ -270,10 +270,10 @@ pub(all) enum ChecksumAlgorithm {
   SHA256
   Timestamp
 }
-pub fn ChecksumAlgorithm::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn ChecksumAlgorithm::to_json(Self) -> Json
-pub impl ToJson for ChecksumAlgorithm
+pub fn ChecksumAlgorithm::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn ChecksumAlgorithm::to_json(Self) -> @json.Json
 pub impl @json.FromJson for ChecksumAlgorithm
+pub impl @json.ToJson for ChecksumAlgorithm
 
 pub(all) struct ColumnDescriptor {
   attribute_name : String
@@ -282,10 +282,10 @@ pub(all) struct ColumnDescriptor {
   type_ : ColumnDescriptorType?
   width : Int64?
 }
-pub fn ColumnDescriptor::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn ColumnDescriptor::to_json(Self) -> Json
-pub impl ToJson for ColumnDescriptor
+pub fn ColumnDescriptor::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn ColumnDescriptor::to_json(Self) -> @json.Json
 pub impl @json.FromJson for ColumnDescriptor
+pub impl @json.ToJson for ColumnDescriptor
 
 pub(all) enum ColumnDescriptorType {
   String
@@ -293,10 +293,10 @@ pub(all) enum ColumnDescriptorType {
   Boolean
   UnixTimestampUTC
 }
-pub fn ColumnDescriptorType::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn ColumnDescriptorType::to_json(Self) -> Json
-pub impl ToJson for ColumnDescriptorType
+pub fn ColumnDescriptorType::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn ColumnDescriptorType::to_json(Self) -> @json.Json
 pub impl @json.FromJson for ColumnDescriptorType
+pub impl @json.ToJson for ColumnDescriptorType
 
 pub(all) struct CompletionItem {
   label : String
@@ -309,10 +309,10 @@ pub(all) struct CompletionItem {
   selection_start : Int64?
   selection_length : Int64?
 }
-pub fn CompletionItem::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn CompletionItem::to_json(Self) -> Json
-pub impl ToJson for CompletionItem
+pub fn CompletionItem::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn CompletionItem::to_json(Self) -> @json.Json
 pub impl @json.FromJson for CompletionItem
+pub impl @json.ToJson for CompletionItem
 
 pub(all) enum CompletionItemType {
   Method
@@ -335,10 +335,10 @@ pub(all) enum CompletionItemType {
   Reference
   Customcolor
 }
-pub fn CompletionItemType::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn CompletionItemType::to_json(Self) -> Json
-pub impl ToJson for CompletionItemType
+pub fn CompletionItemType::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn CompletionItemType::to_json(Self) -> @json.Json
 pub impl @json.FromJson for CompletionItemType
+pub impl @json.ToJson for CompletionItemType
 
 pub(all) struct CompletionsArguments {
   frame_id : Int32?
@@ -346,19 +346,19 @@ pub(all) struct CompletionsArguments {
   column : Int64
   line : Int64?
 }
-pub fn CompletionsArguments::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn CompletionsArguments::to_json(Self) -> Json
-pub impl ToJson for CompletionsArguments
+pub fn CompletionsArguments::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn CompletionsArguments::to_json(Self) -> @json.Json
 pub impl @json.FromJson for CompletionsArguments
+pub impl @json.ToJson for CompletionsArguments
 
 pub(all) struct CompletionsRequest {
   seq : Int32
   arguments : CompletionsArguments
 }
-pub fn CompletionsRequest::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn CompletionsRequest::to_json(Self) -> Json
-pub impl ToJson for CompletionsRequest
+pub fn CompletionsRequest::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn CompletionsRequest::to_json(Self) -> @json.Json
 pub impl @json.FromJson for CompletionsRequest
+pub impl @json.ToJson for CompletionsRequest
 
 pub(all) struct CompletionsResponse {
   seq : Int32
@@ -368,35 +368,35 @@ pub(all) struct CompletionsResponse {
   message : String?
   body : CompletionsResponseBody
 }
-pub fn CompletionsResponse::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn CompletionsResponse::to_json(Self) -> Json
-pub impl ToJson for CompletionsResponse
+pub fn CompletionsResponse::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn CompletionsResponse::to_json(Self) -> @json.Json
 pub impl @json.FromJson for CompletionsResponse
+pub impl @json.ToJson for CompletionsResponse
 
 pub(all) struct CompletionsResponseBody {
   targets : Array[CompletionItem]
 }
-pub fn CompletionsResponseBody::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn CompletionsResponseBody::to_json(Self) -> Json
-pub impl ToJson for CompletionsResponseBody
+pub fn CompletionsResponseBody::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn CompletionsResponseBody::to_json(Self) -> @json.Json
 pub impl @json.FromJson for CompletionsResponseBody
+pub impl @json.ToJson for CompletionsResponseBody
 
 pub(all) struct ConfigurationDoneArguments {
-  additional : Map[String, Json]
+  additional : Map[String, @json.Json]
 }
-pub fn ConfigurationDoneArguments::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn ConfigurationDoneArguments::to_json(Self) -> Json
-pub impl ToJson for ConfigurationDoneArguments
+pub fn ConfigurationDoneArguments::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn ConfigurationDoneArguments::to_json(Self) -> @json.Json
 pub impl @json.FromJson for ConfigurationDoneArguments
+pub impl @json.ToJson for ConfigurationDoneArguments
 
 pub(all) struct ConfigurationDoneRequest {
   seq : Int32
   arguments : ConfigurationDoneArguments?
 }
-pub fn ConfigurationDoneRequest::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn ConfigurationDoneRequest::to_json(Self) -> Json
-pub impl ToJson for ConfigurationDoneRequest
+pub fn ConfigurationDoneRequest::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn ConfigurationDoneRequest::to_json(Self) -> @json.Json
 pub impl @json.FromJson for ConfigurationDoneRequest
+pub impl @json.ToJson for ConfigurationDoneRequest
 
 pub(all) struct ConfigurationDoneResponse {
   seq : Int32
@@ -404,30 +404,30 @@ pub(all) struct ConfigurationDoneResponse {
   success : Bool
   command : String
   message : String?
-  body : Json?
+  body : @json.Json?
 }
-pub fn ConfigurationDoneResponse::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn ConfigurationDoneResponse::to_json(Self) -> Json
-pub impl ToJson for ConfigurationDoneResponse
+pub fn ConfigurationDoneResponse::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn ConfigurationDoneResponse::to_json(Self) -> @json.Json
 pub impl @json.FromJson for ConfigurationDoneResponse
+pub impl @json.ToJson for ConfigurationDoneResponse
 
 pub(all) struct ContinueArguments {
   thread_id : Int32
   single_thread : Bool?
 }
-pub fn ContinueArguments::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn ContinueArguments::to_json(Self) -> Json
-pub impl ToJson for ContinueArguments
+pub fn ContinueArguments::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn ContinueArguments::to_json(Self) -> @json.Json
 pub impl @json.FromJson for ContinueArguments
+pub impl @json.ToJson for ContinueArguments
 
 pub(all) struct ContinueRequest {
   seq : Int32
   arguments : ContinueArguments
 }
-pub fn ContinueRequest::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn ContinueRequest::to_json(Self) -> Json
-pub impl ToJson for ContinueRequest
+pub fn ContinueRequest::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn ContinueRequest::to_json(Self) -> @json.Json
 pub impl @json.FromJson for ContinueRequest
+pub impl @json.ToJson for ContinueRequest
 
 pub(all) struct ContinueResponse {
   seq : Int32
@@ -437,36 +437,36 @@ pub(all) struct ContinueResponse {
   message : String?
   body : ContinueResponseBody
 }
-pub fn ContinueResponse::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn ContinueResponse::to_json(Self) -> Json
-pub impl ToJson for ContinueResponse
+pub fn ContinueResponse::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn ContinueResponse::to_json(Self) -> @json.Json
 pub impl @json.FromJson for ContinueResponse
+pub impl @json.ToJson for ContinueResponse
 
 pub(all) struct ContinueResponseBody {
   all_threads_continued : Bool?
 }
-pub fn ContinueResponseBody::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn ContinueResponseBody::to_json(Self) -> Json
-pub impl ToJson for ContinueResponseBody
+pub fn ContinueResponseBody::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn ContinueResponseBody::to_json(Self) -> @json.Json
 pub impl @json.FromJson for ContinueResponseBody
+pub impl @json.ToJson for ContinueResponseBody
 
 pub(all) struct ContinuedEvent {
   seq : Int32
   body : ContinuedEventBody
 }
-pub fn ContinuedEvent::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn ContinuedEvent::to_json(Self) -> Json
-pub impl ToJson for ContinuedEvent
+pub fn ContinuedEvent::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn ContinuedEvent::to_json(Self) -> @json.Json
 pub impl @json.FromJson for ContinuedEvent
+pub impl @json.ToJson for ContinuedEvent
 
 pub(all) struct ContinuedEventBody {
   thread_id : Int32
   all_threads_continued : Bool?
 }
-pub fn ContinuedEventBody::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn ContinuedEventBody::to_json(Self) -> Json
-pub impl ToJson for ContinuedEventBody
+pub fn ContinuedEventBody::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn ContinuedEventBody::to_json(Self) -> @json.Json
 pub impl @json.FromJson for ContinuedEventBody
+pub impl @json.ToJson for ContinuedEventBody
 
 pub(all) struct DataBreakpoint {
   data_id : String
@@ -474,20 +474,20 @@ pub(all) struct DataBreakpoint {
   condition : String?
   hit_condition : String?
 }
-pub fn DataBreakpoint::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn DataBreakpoint::to_json(Self) -> Json
-pub impl ToJson for DataBreakpoint
+pub fn DataBreakpoint::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn DataBreakpoint::to_json(Self) -> @json.Json
 pub impl @json.FromJson for DataBreakpoint
+pub impl @json.ToJson for DataBreakpoint
 
 pub(all) enum DataBreakpointAccessType {
   Read
   Write
   ReadWrite
 }
-pub fn DataBreakpointAccessType::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn DataBreakpointAccessType::to_json(Self) -> Json
-pub impl ToJson for DataBreakpointAccessType
+pub fn DataBreakpointAccessType::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn DataBreakpointAccessType::to_json(Self) -> @json.Json
 pub impl @json.FromJson for DataBreakpointAccessType
+pub impl @json.ToJson for DataBreakpointAccessType
 
 pub(all) struct DataBreakpointInfoArguments {
   variables_reference : Int32?
@@ -497,19 +497,19 @@ pub(all) struct DataBreakpointInfoArguments {
   as_address : Bool?
   mode : String?
 }
-pub fn DataBreakpointInfoArguments::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn DataBreakpointInfoArguments::to_json(Self) -> Json
-pub impl ToJson for DataBreakpointInfoArguments
+pub fn DataBreakpointInfoArguments::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn DataBreakpointInfoArguments::to_json(Self) -> @json.Json
 pub impl @json.FromJson for DataBreakpointInfoArguments
+pub impl @json.ToJson for DataBreakpointInfoArguments
 
 pub(all) struct DataBreakpointInfoRequest {
   seq : Int32
   arguments : DataBreakpointInfoArguments
 }
-pub fn DataBreakpointInfoRequest::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn DataBreakpointInfoRequest::to_json(Self) -> Json
-pub impl ToJson for DataBreakpointInfoRequest
+pub fn DataBreakpointInfoRequest::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn DataBreakpointInfoRequest::to_json(Self) -> @json.Json
 pub impl @json.FromJson for DataBreakpointInfoRequest
+pub impl @json.ToJson for DataBreakpointInfoRequest
 
 pub(all) struct DataBreakpointInfoResponse {
   seq : Int32
@@ -519,10 +519,10 @@ pub(all) struct DataBreakpointInfoResponse {
   message : String?
   body : DataBreakpointInfoResponseBody
 }
-pub fn DataBreakpointInfoResponse::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn DataBreakpointInfoResponse::to_json(Self) -> Json
-pub impl ToJson for DataBreakpointInfoResponse
+pub fn DataBreakpointInfoResponse::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn DataBreakpointInfoResponse::to_json(Self) -> @json.Json
 pub impl @json.FromJson for DataBreakpointInfoResponse
+pub impl @json.ToJson for DataBreakpointInfoResponse
 
 pub(all) struct DataBreakpointInfoResponseBody {
   data_id : DataBreakpointInfoResponseBodyDataId
@@ -530,19 +530,19 @@ pub(all) struct DataBreakpointInfoResponseBody {
   access_types : Array[DataBreakpointAccessType]?
   can_persist : Bool?
 }
-pub fn DataBreakpointInfoResponseBody::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn DataBreakpointInfoResponseBody::to_json(Self) -> Json
-pub impl ToJson for DataBreakpointInfoResponseBody
+pub fn DataBreakpointInfoResponseBody::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn DataBreakpointInfoResponseBody::to_json(Self) -> @json.Json
 pub impl @json.FromJson for DataBreakpointInfoResponseBody
+pub impl @json.ToJson for DataBreakpointInfoResponseBody
 
 pub(all) enum DataBreakpointInfoResponseBodyDataId {
   Text(String)
   NullValue
 }
-pub fn DataBreakpointInfoResponseBodyDataId::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn DataBreakpointInfoResponseBodyDataId::to_json(Self) -> Json
-pub impl ToJson for DataBreakpointInfoResponseBodyDataId
+pub fn DataBreakpointInfoResponseBodyDataId::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn DataBreakpointInfoResponseBodyDataId::to_json(Self) -> @json.Json
 pub impl @json.FromJson for DataBreakpointInfoResponseBodyDataId
+pub impl @json.ToJson for DataBreakpointInfoResponseBodyDataId
 
 pub(all) struct DisassembleArguments {
   memory_reference : String
@@ -551,19 +551,19 @@ pub(all) struct DisassembleArguments {
   instruction_count : Int64
   resolve_symbols : Bool?
 }
-pub fn DisassembleArguments::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn DisassembleArguments::to_json(Self) -> Json
-pub impl ToJson for DisassembleArguments
+pub fn DisassembleArguments::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn DisassembleArguments::to_json(Self) -> @json.Json
 pub impl @json.FromJson for DisassembleArguments
+pub impl @json.ToJson for DisassembleArguments
 
 pub(all) struct DisassembleRequest {
   seq : Int32
   arguments : DisassembleArguments
 }
-pub fn DisassembleRequest::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn DisassembleRequest::to_json(Self) -> Json
-pub impl ToJson for DisassembleRequest
+pub fn DisassembleRequest::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn DisassembleRequest::to_json(Self) -> @json.Json
 pub impl @json.FromJson for DisassembleRequest
+pub impl @json.ToJson for DisassembleRequest
 
 pub(all) struct DisassembleResponse {
   seq : Int32
@@ -573,18 +573,18 @@ pub(all) struct DisassembleResponse {
   message : String?
   body : DisassembleResponseBody?
 }
-pub fn DisassembleResponse::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn DisassembleResponse::to_json(Self) -> Json
-pub impl ToJson for DisassembleResponse
+pub fn DisassembleResponse::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn DisassembleResponse::to_json(Self) -> @json.Json
 pub impl @json.FromJson for DisassembleResponse
+pub impl @json.ToJson for DisassembleResponse
 
 pub(all) struct DisassembleResponseBody {
   instructions : Array[DisassembledInstruction]
 }
-pub fn DisassembleResponseBody::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn DisassembleResponseBody::to_json(Self) -> Json
-pub impl ToJson for DisassembleResponseBody
+pub fn DisassembleResponseBody::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn DisassembleResponseBody::to_json(Self) -> @json.Json
 pub impl @json.FromJson for DisassembleResponseBody
+pub impl @json.ToJson for DisassembleResponseBody
 
 pub(all) struct DisassembledInstruction {
   address : String
@@ -598,38 +598,38 @@ pub(all) struct DisassembledInstruction {
   end_column : Int64?
   presentation_hint : DisassembledInstructionPresentationHint?
 }
-pub fn DisassembledInstruction::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn DisassembledInstruction::to_json(Self) -> Json
-pub impl ToJson for DisassembledInstruction
+pub fn DisassembledInstruction::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn DisassembledInstruction::to_json(Self) -> @json.Json
 pub impl @json.FromJson for DisassembledInstruction
+pub impl @json.ToJson for DisassembledInstruction
 
 pub(all) enum DisassembledInstructionPresentationHint {
   Normal
   Invalid
 }
-pub fn DisassembledInstructionPresentationHint::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn DisassembledInstructionPresentationHint::to_json(Self) -> Json
-pub impl ToJson for DisassembledInstructionPresentationHint
+pub fn DisassembledInstructionPresentationHint::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn DisassembledInstructionPresentationHint::to_json(Self) -> @json.Json
 pub impl @json.FromJson for DisassembledInstructionPresentationHint
+pub impl @json.ToJson for DisassembledInstructionPresentationHint
 
 pub(all) struct DisconnectArguments {
   restart : Bool?
   terminate_debuggee : Bool?
   suspend_debuggee : Bool?
 }
-pub fn DisconnectArguments::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn DisconnectArguments::to_json(Self) -> Json
-pub impl ToJson for DisconnectArguments
+pub fn DisconnectArguments::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn DisconnectArguments::to_json(Self) -> @json.Json
 pub impl @json.FromJson for DisconnectArguments
+pub impl @json.ToJson for DisconnectArguments
 
 pub(all) struct DisconnectRequest {
   seq : Int32
   arguments : DisconnectArguments?
 }
-pub fn DisconnectRequest::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn DisconnectRequest::to_json(Self) -> Json
-pub impl ToJson for DisconnectRequest
+pub fn DisconnectRequest::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn DisconnectRequest::to_json(Self) -> @json.Json
 pub impl @json.FromJson for DisconnectRequest
+pub impl @json.ToJson for DisconnectRequest
 
 pub(all) struct DisconnectResponse {
   seq : Int32
@@ -637,12 +637,12 @@ pub(all) struct DisconnectResponse {
   success : Bool
   command : String
   message : String?
-  body : Json?
+  body : @json.Json?
 }
-pub fn DisconnectResponse::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn DisconnectResponse::to_json(Self) -> Json
-pub impl ToJson for DisconnectResponse
+pub fn DisconnectResponse::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn DisconnectResponse::to_json(Self) -> @json.Json
 pub impl @json.FromJson for DisconnectResponse
+pub impl @json.ToJson for DisconnectResponse
 
 pub(all) struct ErrorResponse {
   seq : Int32
@@ -652,18 +652,18 @@ pub(all) struct ErrorResponse {
   message : String?
   body : ErrorResponseBody
 }
-pub fn ErrorResponse::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn ErrorResponse::to_json(Self) -> Json
-pub impl ToJson for ErrorResponse
+pub fn ErrorResponse::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn ErrorResponse::to_json(Self) -> @json.Json
 pub impl @json.FromJson for ErrorResponse
+pub impl @json.ToJson for ErrorResponse
 
 pub(all) struct ErrorResponseBody {
   error : Message?
 }
-pub fn ErrorResponseBody::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn ErrorResponseBody::to_json(Self) -> Json
-pub impl ToJson for ErrorResponseBody
+pub fn ErrorResponseBody::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn ErrorResponseBody::to_json(Self) -> @json.Json
 pub impl @json.FromJson for ErrorResponseBody
+pub impl @json.ToJson for ErrorResponseBody
 
 pub(all) struct EvaluateArguments {
   expression : String
@@ -674,19 +674,19 @@ pub(all) struct EvaluateArguments {
   context : String?
   format : ValueFormat?
 }
-pub fn EvaluateArguments::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn EvaluateArguments::to_json(Self) -> Json
-pub impl ToJson for EvaluateArguments
+pub fn EvaluateArguments::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn EvaluateArguments::to_json(Self) -> @json.Json
 pub impl @json.FromJson for EvaluateArguments
+pub impl @json.ToJson for EvaluateArguments
 
 pub(all) struct EvaluateRequest {
   seq : Int32
   arguments : EvaluateArguments
 }
-pub fn EvaluateRequest::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn EvaluateRequest::to_json(Self) -> Json
-pub impl ToJson for EvaluateRequest
+pub fn EvaluateRequest::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn EvaluateRequest::to_json(Self) -> @json.Json
 pub impl @json.FromJson for EvaluateRequest
+pub impl @json.ToJson for EvaluateRequest
 
 pub(all) struct EvaluateResponse {
   seq : Int32
@@ -696,10 +696,10 @@ pub(all) struct EvaluateResponse {
   message : String?
   body : EvaluateResponseBody
 }
-pub fn EvaluateResponse::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn EvaluateResponse::to_json(Self) -> Json
-pub impl ToJson for EvaluateResponse
+pub fn EvaluateResponse::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn EvaluateResponse::to_json(Self) -> @json.Json
 pub impl @json.FromJson for EvaluateResponse
+pub impl @json.ToJson for EvaluateResponse
 
 pub(all) struct EvaluateResponseBody {
   result : String
@@ -711,20 +711,20 @@ pub(all) struct EvaluateResponseBody {
   memory_reference : String?
   value_location_reference : Int32?
 }
-pub fn EvaluateResponseBody::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn EvaluateResponseBody::to_json(Self) -> Json
-pub impl ToJson for EvaluateResponseBody
+pub fn EvaluateResponseBody::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn EvaluateResponseBody::to_json(Self) -> @json.Json
 pub impl @json.FromJson for EvaluateResponseBody
+pub impl @json.ToJson for EvaluateResponseBody
 
 pub(all) struct Event {
   seq : Int32
   event : String
-  body : Json?
+  body : @json.Json?
 }
-pub fn Event::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn Event::to_json(Self) -> Json
-pub impl ToJson for Event
+pub fn Event::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn Event::to_json(Self) -> @json.Json
 pub impl @json.FromJson for Event
+pub impl @json.ToJson for Event
 
 pub(all) enum ExceptionBreakMode {
   Never
@@ -732,10 +732,10 @@ pub(all) enum ExceptionBreakMode {
   Unhandled
   UserUnhandled
 }
-pub fn ExceptionBreakMode::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn ExceptionBreakMode::to_json(Self) -> Json
-pub impl ToJson for ExceptionBreakMode
+pub fn ExceptionBreakMode::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn ExceptionBreakMode::to_json(Self) -> @json.Json
 pub impl @json.FromJson for ExceptionBreakMode
+pub impl @json.ToJson for ExceptionBreakMode
 
 pub(all) struct ExceptionBreakpointsFilter {
   filter : String
@@ -745,10 +745,10 @@ pub(all) struct ExceptionBreakpointsFilter {
   supports_condition : Bool?
   condition_description : String?
 }
-pub fn ExceptionBreakpointsFilter::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn ExceptionBreakpointsFilter::to_json(Self) -> Json
-pub impl ToJson for ExceptionBreakpointsFilter
+pub fn ExceptionBreakpointsFilter::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn ExceptionBreakpointsFilter::to_json(Self) -> @json.Json
 pub impl @json.FromJson for ExceptionBreakpointsFilter
+pub impl @json.ToJson for ExceptionBreakpointsFilter
 
 pub(all) struct ExceptionDetails {
   message : String?
@@ -758,37 +758,37 @@ pub(all) struct ExceptionDetails {
   stack_trace : String?
   inner_exception : Array[ExceptionDetails]?
 }
-pub fn ExceptionDetails::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn ExceptionDetails::to_json(Self) -> Json
-pub impl ToJson for ExceptionDetails
+pub fn ExceptionDetails::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn ExceptionDetails::to_json(Self) -> @json.Json
 pub impl @json.FromJson for ExceptionDetails
+pub impl @json.ToJson for ExceptionDetails
 
 pub(all) struct ExceptionFilterOptions {
   filter_id : String
   condition : String?
   mode : String?
 }
-pub fn ExceptionFilterOptions::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn ExceptionFilterOptions::to_json(Self) -> Json
-pub impl ToJson for ExceptionFilterOptions
+pub fn ExceptionFilterOptions::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn ExceptionFilterOptions::to_json(Self) -> @json.Json
 pub impl @json.FromJson for ExceptionFilterOptions
+pub impl @json.ToJson for ExceptionFilterOptions
 
 pub(all) struct ExceptionInfoArguments {
   thread_id : Int32
 }
-pub fn ExceptionInfoArguments::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn ExceptionInfoArguments::to_json(Self) -> Json
-pub impl ToJson for ExceptionInfoArguments
+pub fn ExceptionInfoArguments::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn ExceptionInfoArguments::to_json(Self) -> @json.Json
 pub impl @json.FromJson for ExceptionInfoArguments
+pub impl @json.ToJson for ExceptionInfoArguments
 
 pub(all) struct ExceptionInfoRequest {
   seq : Int32
   arguments : ExceptionInfoArguments
 }
-pub fn ExceptionInfoRequest::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn ExceptionInfoRequest::to_json(Self) -> Json
-pub impl ToJson for ExceptionInfoRequest
+pub fn ExceptionInfoRequest::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn ExceptionInfoRequest::to_json(Self) -> @json.Json
 pub impl @json.FromJson for ExceptionInfoRequest
+pub impl @json.ToJson for ExceptionInfoRequest
 
 pub(all) struct ExceptionInfoResponse {
   seq : Int32
@@ -798,10 +798,10 @@ pub(all) struct ExceptionInfoResponse {
   message : String?
   body : ExceptionInfoResponseBody
 }
-pub fn ExceptionInfoResponse::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn ExceptionInfoResponse::to_json(Self) -> Json
-pub impl ToJson for ExceptionInfoResponse
+pub fn ExceptionInfoResponse::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn ExceptionInfoResponse::to_json(Self) -> @json.Json
 pub impl @json.FromJson for ExceptionInfoResponse
+pub impl @json.ToJson for ExceptionInfoResponse
 
 pub(all) struct ExceptionInfoResponseBody {
   exception_id : String
@@ -809,73 +809,73 @@ pub(all) struct ExceptionInfoResponseBody {
   break_mode : ExceptionBreakMode
   details : ExceptionDetails?
 }
-pub fn ExceptionInfoResponseBody::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn ExceptionInfoResponseBody::to_json(Self) -> Json
-pub impl ToJson for ExceptionInfoResponseBody
+pub fn ExceptionInfoResponseBody::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn ExceptionInfoResponseBody::to_json(Self) -> @json.Json
 pub impl @json.FromJson for ExceptionInfoResponseBody
+pub impl @json.ToJson for ExceptionInfoResponseBody
 
 pub(all) struct ExceptionOptions {
   path : Array[ExceptionPathSegment]?
   break_mode : ExceptionBreakMode
 }
-pub fn ExceptionOptions::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn ExceptionOptions::to_json(Self) -> Json
-pub impl ToJson for ExceptionOptions
+pub fn ExceptionOptions::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn ExceptionOptions::to_json(Self) -> @json.Json
 pub impl @json.FromJson for ExceptionOptions
+pub impl @json.ToJson for ExceptionOptions
 
 pub(all) struct ExceptionPathSegment {
   negate : Bool?
   names : Array[String]
 }
-pub fn ExceptionPathSegment::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn ExceptionPathSegment::to_json(Self) -> Json
-pub impl ToJson for ExceptionPathSegment
+pub fn ExceptionPathSegment::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn ExceptionPathSegment::to_json(Self) -> @json.Json
 pub impl @json.FromJson for ExceptionPathSegment
+pub impl @json.ToJson for ExceptionPathSegment
 
 pub(all) struct ExitedEvent {
   seq : Int32
   body : ExitedEventBody
 }
-pub fn ExitedEvent::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn ExitedEvent::to_json(Self) -> Json
-pub impl ToJson for ExitedEvent
+pub fn ExitedEvent::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn ExitedEvent::to_json(Self) -> @json.Json
 pub impl @json.FromJson for ExitedEvent
+pub impl @json.ToJson for ExitedEvent
 
 pub(all) struct ExitedEventBody {
   exit_code : Int32
 }
-pub fn ExitedEventBody::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn ExitedEventBody::to_json(Self) -> Json
-pub impl ToJson for ExitedEventBody
+pub fn ExitedEventBody::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn ExitedEventBody::to_json(Self) -> @json.Json
 pub impl @json.FromJson for ExitedEventBody
+pub impl @json.ToJson for ExitedEventBody
 
 pub(all) struct FunctionBreakpoint {
   name : String
   condition : String?
   hit_condition : String?
 }
-pub fn FunctionBreakpoint::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn FunctionBreakpoint::to_json(Self) -> Json
-pub impl ToJson for FunctionBreakpoint
+pub fn FunctionBreakpoint::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn FunctionBreakpoint::to_json(Self) -> @json.Json
 pub impl @json.FromJson for FunctionBreakpoint
+pub impl @json.ToJson for FunctionBreakpoint
 
 pub(all) struct GotoArguments {
   thread_id : Int32
   target_id : Int32
 }
-pub fn GotoArguments::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn GotoArguments::to_json(Self) -> Json
-pub impl ToJson for GotoArguments
+pub fn GotoArguments::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn GotoArguments::to_json(Self) -> @json.Json
 pub impl @json.FromJson for GotoArguments
+pub impl @json.ToJson for GotoArguments
 
 pub(all) struct GotoRequest {
   seq : Int32
   arguments : GotoArguments
 }
-pub fn GotoRequest::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn GotoRequest::to_json(Self) -> Json
-pub impl ToJson for GotoRequest
+pub fn GotoRequest::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn GotoRequest::to_json(Self) -> @json.Json
 pub impl @json.FromJson for GotoRequest
+pub impl @json.ToJson for GotoRequest
 
 pub(all) struct GotoResponse {
   seq : Int32
@@ -883,12 +883,12 @@ pub(all) struct GotoResponse {
   success : Bool
   command : String
   message : String?
-  body : Json?
+  body : @json.Json?
 }
-pub fn GotoResponse::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn GotoResponse::to_json(Self) -> Json
-pub impl ToJson for GotoResponse
+pub fn GotoResponse::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn GotoResponse::to_json(Self) -> @json.Json
 pub impl @json.FromJson for GotoResponse
+pub impl @json.ToJson for GotoResponse
 
 pub(all) struct GotoTarget {
   id : Int32
@@ -899,29 +899,29 @@ pub(all) struct GotoTarget {
   end_column : Int64?
   instruction_pointer_reference : String?
 }
-pub fn GotoTarget::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn GotoTarget::to_json(Self) -> Json
-pub impl ToJson for GotoTarget
+pub fn GotoTarget::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn GotoTarget::to_json(Self) -> @json.Json
 pub impl @json.FromJson for GotoTarget
+pub impl @json.ToJson for GotoTarget
 
 pub(all) struct GotoTargetsArguments {
   source : Source
   line : Int64
   column : Int64?
 }
-pub fn GotoTargetsArguments::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn GotoTargetsArguments::to_json(Self) -> Json
-pub impl ToJson for GotoTargetsArguments
+pub fn GotoTargetsArguments::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn GotoTargetsArguments::to_json(Self) -> @json.Json
 pub impl @json.FromJson for GotoTargetsArguments
+pub impl @json.ToJson for GotoTargetsArguments
 
 pub(all) struct GotoTargetsRequest {
   seq : Int32
   arguments : GotoTargetsArguments
 }
-pub fn GotoTargetsRequest::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn GotoTargetsRequest::to_json(Self) -> Json
-pub impl ToJson for GotoTargetsRequest
+pub fn GotoTargetsRequest::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn GotoTargetsRequest::to_json(Self) -> @json.Json
 pub impl @json.FromJson for GotoTargetsRequest
+pub impl @json.ToJson for GotoTargetsRequest
 
 pub(all) struct GotoTargetsResponse {
   seq : Int32
@@ -931,27 +931,27 @@ pub(all) struct GotoTargetsResponse {
   message : String?
   body : GotoTargetsResponseBody
 }
-pub fn GotoTargetsResponse::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn GotoTargetsResponse::to_json(Self) -> Json
-pub impl ToJson for GotoTargetsResponse
+pub fn GotoTargetsResponse::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn GotoTargetsResponse::to_json(Self) -> @json.Json
 pub impl @json.FromJson for GotoTargetsResponse
+pub impl @json.ToJson for GotoTargetsResponse
 
 pub(all) struct GotoTargetsResponseBody {
   targets : Array[GotoTarget]
 }
-pub fn GotoTargetsResponseBody::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn GotoTargetsResponseBody::to_json(Self) -> Json
-pub impl ToJson for GotoTargetsResponseBody
+pub fn GotoTargetsResponseBody::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn GotoTargetsResponseBody::to_json(Self) -> @json.Json
 pub impl @json.FromJson for GotoTargetsResponseBody
+pub impl @json.ToJson for GotoTargetsResponseBody
 
 pub(all) struct InitializeRequest {
   seq : Int32
   arguments : InitializeRequestArguments
 }
-pub fn InitializeRequest::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn InitializeRequest::to_json(Self) -> Json
-pub impl ToJson for InitializeRequest
+pub fn InitializeRequest::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn InitializeRequest::to_json(Self) -> @json.Json
 pub impl @json.FromJson for InitializeRequest
+pub impl @json.ToJson for InitializeRequest
 
 pub(all) struct InitializeRequestArguments {
   client_id : String?
@@ -972,10 +972,10 @@ pub(all) struct InitializeRequestArguments {
   supports_start_debugging_request : Bool?
   supports_ansi_styling : Bool?
 }
-pub fn InitializeRequestArguments::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn InitializeRequestArguments::to_json(Self) -> Json
-pub impl ToJson for InitializeRequestArguments
+pub fn InitializeRequestArguments::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn InitializeRequestArguments::to_json(Self) -> @json.Json
 pub impl @json.FromJson for InitializeRequestArguments
+pub impl @json.ToJson for InitializeRequestArguments
 
 pub(all) struct InitializeResponse {
   seq : Int32
@@ -985,19 +985,19 @@ pub(all) struct InitializeResponse {
   message : String?
   body : Capabilities?
 }
-pub fn InitializeResponse::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn InitializeResponse::to_json(Self) -> Json
-pub impl ToJson for InitializeResponse
+pub fn InitializeResponse::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn InitializeResponse::to_json(Self) -> @json.Json
 pub impl @json.FromJson for InitializeResponse
+pub impl @json.ToJson for InitializeResponse
 
 pub(all) struct InitializedEvent {
   seq : Int32
-  body : Json?
+  body : @json.Json?
 }
-pub fn InitializedEvent::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn InitializedEvent::to_json(Self) -> Json
-pub impl ToJson for InitializedEvent
+pub fn InitializedEvent::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn InitializedEvent::to_json(Self) -> @json.Json
 pub impl @json.FromJson for InitializedEvent
+pub impl @json.ToJson for InitializedEvent
 
 pub(all) struct InstructionBreakpoint {
   instruction_reference : String
@@ -1006,56 +1006,56 @@ pub(all) struct InstructionBreakpoint {
   hit_condition : String?
   mode : String?
 }
-pub fn InstructionBreakpoint::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn InstructionBreakpoint::to_json(Self) -> Json
-pub impl ToJson for InstructionBreakpoint
+pub fn InstructionBreakpoint::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn InstructionBreakpoint::to_json(Self) -> @json.Json
 pub impl @json.FromJson for InstructionBreakpoint
+pub impl @json.ToJson for InstructionBreakpoint
 
 pub(all) struct InvalidatedAreas {
   value : String
 }
-pub fn InvalidatedAreas::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn InvalidatedAreas::to_json(Self) -> Json
-pub impl ToJson for InvalidatedAreas
+pub fn InvalidatedAreas::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn InvalidatedAreas::to_json(Self) -> @json.Json
 pub impl @json.FromJson for InvalidatedAreas
+pub impl @json.ToJson for InvalidatedAreas
 
 pub(all) struct InvalidatedEvent {
   seq : Int32
   body : InvalidatedEventBody
 }
-pub fn InvalidatedEvent::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn InvalidatedEvent::to_json(Self) -> Json
-pub impl ToJson for InvalidatedEvent
+pub fn InvalidatedEvent::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn InvalidatedEvent::to_json(Self) -> @json.Json
 pub impl @json.FromJson for InvalidatedEvent
+pub impl @json.ToJson for InvalidatedEvent
 
 pub(all) struct InvalidatedEventBody {
   areas : Array[InvalidatedAreas]?
   thread_id : Int32?
   stack_frame_id : Int32?
 }
-pub fn InvalidatedEventBody::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn InvalidatedEventBody::to_json(Self) -> Json
-pub impl ToJson for InvalidatedEventBody
+pub fn InvalidatedEventBody::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn InvalidatedEventBody::to_json(Self) -> @json.Json
 pub impl @json.FromJson for InvalidatedEventBody
+pub impl @json.ToJson for InvalidatedEventBody
 
 pub(all) struct LaunchRequest {
   seq : Int32
   arguments : LaunchRequestArguments
 }
-pub fn LaunchRequest::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn LaunchRequest::to_json(Self) -> Json
-pub impl ToJson for LaunchRequest
+pub fn LaunchRequest::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn LaunchRequest::to_json(Self) -> @json.Json
 pub impl @json.FromJson for LaunchRequest
+pub impl @json.ToJson for LaunchRequest
 
 pub(all) struct LaunchRequestArguments {
   no_debug : Bool?
-  private_restart : Json?
-  additional : Map[String, Json]
+  private_restart : @json.Json?
+  additional : Map[String, @json.Json]
 }
-pub fn LaunchRequestArguments::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn LaunchRequestArguments::to_json(Self) -> Json
-pub impl ToJson for LaunchRequestArguments
+pub fn LaunchRequestArguments::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn LaunchRequestArguments::to_json(Self) -> @json.Json
 pub impl @json.FromJson for LaunchRequestArguments
+pub impl @json.ToJson for LaunchRequestArguments
 
 pub(all) struct LaunchResponse {
   seq : Int32
@@ -1063,57 +1063,57 @@ pub(all) struct LaunchResponse {
   success : Bool
   command : String
   message : String?
-  body : Json?
+  body : @json.Json?
 }
-pub fn LaunchResponse::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn LaunchResponse::to_json(Self) -> Json
-pub impl ToJson for LaunchResponse
+pub fn LaunchResponse::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn LaunchResponse::to_json(Self) -> @json.Json
 pub impl @json.FromJson for LaunchResponse
+pub impl @json.ToJson for LaunchResponse
 
 pub(all) struct LoadedSourceEvent {
   seq : Int32
   body : LoadedSourceEventBody
 }
-pub fn LoadedSourceEvent::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn LoadedSourceEvent::to_json(Self) -> Json
-pub impl ToJson for LoadedSourceEvent
+pub fn LoadedSourceEvent::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn LoadedSourceEvent::to_json(Self) -> @json.Json
 pub impl @json.FromJson for LoadedSourceEvent
+pub impl @json.ToJson for LoadedSourceEvent
 
 pub(all) struct LoadedSourceEventBody {
   reason : LoadedSourceEventBodyReason
   source : Source
 }
-pub fn LoadedSourceEventBody::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn LoadedSourceEventBody::to_json(Self) -> Json
-pub impl ToJson for LoadedSourceEventBody
+pub fn LoadedSourceEventBody::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn LoadedSourceEventBody::to_json(Self) -> @json.Json
 pub impl @json.FromJson for LoadedSourceEventBody
+pub impl @json.ToJson for LoadedSourceEventBody
 
 pub(all) enum LoadedSourceEventBodyReason {
   New
   Changed
   Removed
 }
-pub fn LoadedSourceEventBodyReason::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn LoadedSourceEventBodyReason::to_json(Self) -> Json
-pub impl ToJson for LoadedSourceEventBodyReason
+pub fn LoadedSourceEventBodyReason::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn LoadedSourceEventBodyReason::to_json(Self) -> @json.Json
 pub impl @json.FromJson for LoadedSourceEventBodyReason
+pub impl @json.ToJson for LoadedSourceEventBodyReason
 
 pub(all) struct LoadedSourcesArguments {
-  additional : Map[String, Json]
+  additional : Map[String, @json.Json]
 }
-pub fn LoadedSourcesArguments::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn LoadedSourcesArguments::to_json(Self) -> Json
-pub impl ToJson for LoadedSourcesArguments
+pub fn LoadedSourcesArguments::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn LoadedSourcesArguments::to_json(Self) -> @json.Json
 pub impl @json.FromJson for LoadedSourcesArguments
+pub impl @json.ToJson for LoadedSourcesArguments
 
 pub(all) struct LoadedSourcesRequest {
   seq : Int32
   arguments : LoadedSourcesArguments?
 }
-pub fn LoadedSourcesRequest::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn LoadedSourcesRequest::to_json(Self) -> Json
-pub impl ToJson for LoadedSourcesRequest
+pub fn LoadedSourcesRequest::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn LoadedSourcesRequest::to_json(Self) -> @json.Json
 pub impl @json.FromJson for LoadedSourcesRequest
+pub impl @json.ToJson for LoadedSourcesRequest
 
 pub(all) struct LoadedSourcesResponse {
   seq : Int32
@@ -1123,35 +1123,35 @@ pub(all) struct LoadedSourcesResponse {
   message : String?
   body : LoadedSourcesResponseBody
 }
-pub fn LoadedSourcesResponse::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn LoadedSourcesResponse::to_json(Self) -> Json
-pub impl ToJson for LoadedSourcesResponse
+pub fn LoadedSourcesResponse::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn LoadedSourcesResponse::to_json(Self) -> @json.Json
 pub impl @json.FromJson for LoadedSourcesResponse
+pub impl @json.ToJson for LoadedSourcesResponse
 
 pub(all) struct LoadedSourcesResponseBody {
   sources : Array[Source]
 }
-pub fn LoadedSourcesResponseBody::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn LoadedSourcesResponseBody::to_json(Self) -> Json
-pub impl ToJson for LoadedSourcesResponseBody
+pub fn LoadedSourcesResponseBody::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn LoadedSourcesResponseBody::to_json(Self) -> @json.Json
 pub impl @json.FromJson for LoadedSourcesResponseBody
+pub impl @json.ToJson for LoadedSourcesResponseBody
 
 pub(all) struct LocationsArguments {
   location_reference : Int32
 }
-pub fn LocationsArguments::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn LocationsArguments::to_json(Self) -> Json
-pub impl ToJson for LocationsArguments
+pub fn LocationsArguments::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn LocationsArguments::to_json(Self) -> @json.Json
 pub impl @json.FromJson for LocationsArguments
+pub impl @json.ToJson for LocationsArguments
 
 pub(all) struct LocationsRequest {
   seq : Int32
   arguments : LocationsArguments
 }
-pub fn LocationsRequest::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn LocationsRequest::to_json(Self) -> Json
-pub impl ToJson for LocationsRequest
+pub fn LocationsRequest::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn LocationsRequest::to_json(Self) -> @json.Json
 pub impl @json.FromJson for LocationsRequest
+pub impl @json.ToJson for LocationsRequest
 
 pub(all) struct LocationsResponse {
   seq : Int32
@@ -1161,10 +1161,10 @@ pub(all) struct LocationsResponse {
   message : String?
   body : LocationsResponseBody?
 }
-pub fn LocationsResponse::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn LocationsResponse::to_json(Self) -> Json
-pub impl ToJson for LocationsResponse
+pub fn LocationsResponse::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn LocationsResponse::to_json(Self) -> @json.Json
 pub impl @json.FromJson for LocationsResponse
+pub impl @json.ToJson for LocationsResponse
 
 pub(all) struct LocationsResponseBody {
   source : Source
@@ -1173,29 +1173,29 @@ pub(all) struct LocationsResponseBody {
   end_line : Int64?
   end_column : Int64?
 }
-pub fn LocationsResponseBody::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn LocationsResponseBody::to_json(Self) -> Json
-pub impl ToJson for LocationsResponseBody
+pub fn LocationsResponseBody::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn LocationsResponseBody::to_json(Self) -> @json.Json
 pub impl @json.FromJson for LocationsResponseBody
+pub impl @json.ToJson for LocationsResponseBody
 
 pub(all) struct MemoryEvent {
   seq : Int32
   body : MemoryEventBody
 }
-pub fn MemoryEvent::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn MemoryEvent::to_json(Self) -> Json
-pub impl ToJson for MemoryEvent
+pub fn MemoryEvent::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn MemoryEvent::to_json(Self) -> @json.Json
 pub impl @json.FromJson for MemoryEvent
+pub impl @json.ToJson for MemoryEvent
 
 pub(all) struct MemoryEventBody {
   memory_reference : String
   offset : Int64
   count : Int64
 }
-pub fn MemoryEventBody::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn MemoryEventBody::to_json(Self) -> Json
-pub impl ToJson for MemoryEventBody
+pub fn MemoryEventBody::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn MemoryEventBody::to_json(Self) -> @json.Json
 pub impl @json.FromJson for MemoryEventBody
+pub impl @json.ToJson for MemoryEventBody
 
 pub(all) struct Message {
   id : Int32
@@ -1206,10 +1206,10 @@ pub(all) struct Message {
   url : String?
   url_label : String?
 }
-pub fn Message::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn Message::to_json(Self) -> Json
-pub impl ToJson for Message
+pub fn Message::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn Message::to_json(Self) -> @json.Json
 pub impl @json.FromJson for Message
+pub impl @json.ToJson for Message
 
 pub(all) struct Module {
   id : ModuleId
@@ -1223,65 +1223,65 @@ pub(all) struct Module {
   date_time_stamp : String?
   address_range : String?
 }
-pub fn Module::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn Module::to_json(Self) -> Json
-pub impl ToJson for Module
+pub fn Module::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn Module::to_json(Self) -> @json.Json
 pub impl @json.FromJson for Module
+pub impl @json.ToJson for Module
 
 pub(all) struct ModuleEvent {
   seq : Int32
   body : ModuleEventBody
 }
-pub fn ModuleEvent::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn ModuleEvent::to_json(Self) -> Json
-pub impl ToJson for ModuleEvent
+pub fn ModuleEvent::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn ModuleEvent::to_json(Self) -> @json.Json
 pub impl @json.FromJson for ModuleEvent
+pub impl @json.ToJson for ModuleEvent
 
 pub(all) struct ModuleEventBody {
   reason : ModuleEventBodyReason
   module_ : Module
 }
-pub fn ModuleEventBody::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn ModuleEventBody::to_json(Self) -> Json
-pub impl ToJson for ModuleEventBody
+pub fn ModuleEventBody::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn ModuleEventBody::to_json(Self) -> @json.Json
 pub impl @json.FromJson for ModuleEventBody
+pub impl @json.ToJson for ModuleEventBody
 
 pub(all) enum ModuleEventBodyReason {
   New
   Changed
   Removed
 }
-pub fn ModuleEventBodyReason::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn ModuleEventBodyReason::to_json(Self) -> Json
-pub impl ToJson for ModuleEventBodyReason
+pub fn ModuleEventBodyReason::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn ModuleEventBodyReason::to_json(Self) -> @json.Json
 pub impl @json.FromJson for ModuleEventBodyReason
+pub impl @json.ToJson for ModuleEventBodyReason
 
 pub(all) enum ModuleId {
   Text(String)
   Integer(Int64)
 }
-pub fn ModuleId::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn ModuleId::to_json(Self) -> Json
-pub impl ToJson for ModuleId
+pub fn ModuleId::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn ModuleId::to_json(Self) -> @json.Json
 pub impl @json.FromJson for ModuleId
+pub impl @json.ToJson for ModuleId
 
 pub(all) struct ModulesArguments {
   start_module : Int32?
   module_count : Int64?
 }
-pub fn ModulesArguments::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn ModulesArguments::to_json(Self) -> Json
-pub impl ToJson for ModulesArguments
+pub fn ModulesArguments::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn ModulesArguments::to_json(Self) -> @json.Json
 pub impl @json.FromJson for ModulesArguments
+pub impl @json.ToJson for ModulesArguments
 
 pub(all) struct ModulesRequest {
   seq : Int32
   arguments : ModulesArguments
 }
-pub fn ModulesRequest::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn ModulesRequest::to_json(Self) -> Json
-pub impl ToJson for ModulesRequest
+pub fn ModulesRequest::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn ModulesRequest::to_json(Self) -> @json.Json
 pub impl @json.FromJson for ModulesRequest
+pub impl @json.ToJson for ModulesRequest
 
 pub(all) struct ModulesResponse {
   seq : Int32
@@ -1291,38 +1291,38 @@ pub(all) struct ModulesResponse {
   message : String?
   body : ModulesResponseBody
 }
-pub fn ModulesResponse::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn ModulesResponse::to_json(Self) -> Json
-pub impl ToJson for ModulesResponse
+pub fn ModulesResponse::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn ModulesResponse::to_json(Self) -> @json.Json
 pub impl @json.FromJson for ModulesResponse
+pub impl @json.ToJson for ModulesResponse
 
 pub(all) struct ModulesResponseBody {
   modules : Array[Module]
   total_modules : Int64?
 }
-pub fn ModulesResponseBody::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn ModulesResponseBody::to_json(Self) -> Json
-pub impl ToJson for ModulesResponseBody
+pub fn ModulesResponseBody::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn ModulesResponseBody::to_json(Self) -> @json.Json
 pub impl @json.FromJson for ModulesResponseBody
+pub impl @json.ToJson for ModulesResponseBody
 
 pub(all) struct NextArguments {
   thread_id : Int32
   single_thread : Bool?
   granularity : SteppingGranularity?
 }
-pub fn NextArguments::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn NextArguments::to_json(Self) -> Json
-pub impl ToJson for NextArguments
+pub fn NextArguments::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn NextArguments::to_json(Self) -> @json.Json
 pub impl @json.FromJson for NextArguments
+pub impl @json.ToJson for NextArguments
 
 pub(all) struct NextRequest {
   seq : Int32
   arguments : NextArguments
 }
-pub fn NextRequest::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn NextRequest::to_json(Self) -> Json
-pub impl ToJson for NextRequest
+pub fn NextRequest::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn NextRequest::to_json(Self) -> @json.Json
 pub impl @json.FromJson for NextRequest
+pub impl @json.ToJson for NextRequest
 
 pub(all) struct NextResponse {
   seq : Int32
@@ -1330,21 +1330,21 @@ pub(all) struct NextResponse {
   success : Bool
   command : String
   message : String?
-  body : Json?
+  body : @json.Json?
 }
-pub fn NextResponse::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn NextResponse::to_json(Self) -> Json
-pub impl ToJson for NextResponse
+pub fn NextResponse::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn NextResponse::to_json(Self) -> @json.Json
 pub impl @json.FromJson for NextResponse
+pub impl @json.ToJson for NextResponse
 
 pub(all) struct OutputEvent {
   seq : Int32
   body : OutputEventBody
 }
-pub fn OutputEvent::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn OutputEvent::to_json(Self) -> Json
-pub impl ToJson for OutputEvent
+pub fn OutputEvent::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn OutputEvent::to_json(Self) -> @json.Json
 pub impl @json.FromJson for OutputEvent
+pub impl @json.ToJson for OutputEvent
 
 pub(all) struct OutputEventBody {
   category : String?
@@ -1354,40 +1354,40 @@ pub(all) struct OutputEventBody {
   source : Source?
   line : Int64?
   column : Int64?
-  data : Json?
+  data : @json.Json?
   location_reference : Int32?
 }
-pub fn OutputEventBody::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn OutputEventBody::to_json(Self) -> Json
-pub impl ToJson for OutputEventBody
+pub fn OutputEventBody::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn OutputEventBody::to_json(Self) -> @json.Json
 pub impl @json.FromJson for OutputEventBody
+pub impl @json.ToJson for OutputEventBody
 
 pub(all) enum OutputEventBodyGroup {
   Start
   StartCollapsed
   End
 }
-pub fn OutputEventBodyGroup::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn OutputEventBodyGroup::to_json(Self) -> Json
-pub impl ToJson for OutputEventBodyGroup
+pub fn OutputEventBodyGroup::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn OutputEventBodyGroup::to_json(Self) -> @json.Json
 pub impl @json.FromJson for OutputEventBodyGroup
+pub impl @json.ToJson for OutputEventBodyGroup
 
 pub(all) struct PauseArguments {
   thread_id : Int32
 }
-pub fn PauseArguments::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn PauseArguments::to_json(Self) -> Json
-pub impl ToJson for PauseArguments
+pub fn PauseArguments::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn PauseArguments::to_json(Self) -> @json.Json
 pub impl @json.FromJson for PauseArguments
+pub impl @json.ToJson for PauseArguments
 
 pub(all) struct PauseRequest {
   seq : Int32
   arguments : PauseArguments
 }
-pub fn PauseRequest::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn PauseRequest::to_json(Self) -> Json
-pub impl ToJson for PauseRequest
+pub fn PauseRequest::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn PauseRequest::to_json(Self) -> @json.Json
 pub impl @json.FromJson for PauseRequest
+pub impl @json.ToJson for PauseRequest
 
 pub(all) struct PauseResponse {
   seq : Int32
@@ -1395,21 +1395,21 @@ pub(all) struct PauseResponse {
   success : Bool
   command : String
   message : String?
-  body : Json?
+  body : @json.Json?
 }
-pub fn PauseResponse::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn PauseResponse::to_json(Self) -> Json
-pub impl ToJson for PauseResponse
+pub fn PauseResponse::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn PauseResponse::to_json(Self) -> @json.Json
 pub impl @json.FromJson for PauseResponse
+pub impl @json.ToJson for PauseResponse
 
 pub(all) struct ProcessEvent {
   seq : Int32
   body : ProcessEventBody
 }
-pub fn ProcessEvent::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn ProcessEvent::to_json(Self) -> Json
-pub impl ToJson for ProcessEvent
+pub fn ProcessEvent::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn ProcessEvent::to_json(Self) -> @json.Json
 pub impl @json.FromJson for ProcessEvent
+pub impl @json.ToJson for ProcessEvent
 
 pub(all) struct ProcessEventBody {
   name : String
@@ -1418,47 +1418,47 @@ pub(all) struct ProcessEventBody {
   start_method : ProcessEventBodyStartMethod?
   pointer_size : Int64?
 }
-pub fn ProcessEventBody::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn ProcessEventBody::to_json(Self) -> Json
-pub impl ToJson for ProcessEventBody
+pub fn ProcessEventBody::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn ProcessEventBody::to_json(Self) -> @json.Json
 pub impl @json.FromJson for ProcessEventBody
+pub impl @json.ToJson for ProcessEventBody
 
 pub(all) enum ProcessEventBodyStartMethod {
   Launch
   Attach
   AttachForSuspendedLaunch
 }
-pub fn ProcessEventBodyStartMethod::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn ProcessEventBodyStartMethod::to_json(Self) -> Json
-pub impl ToJson for ProcessEventBodyStartMethod
+pub fn ProcessEventBodyStartMethod::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn ProcessEventBodyStartMethod::to_json(Self) -> @json.Json
 pub impl @json.FromJson for ProcessEventBodyStartMethod
+pub impl @json.ToJson for ProcessEventBodyStartMethod
 
 pub(all) struct ProgressEndEvent {
   seq : Int32
   body : ProgressEndEventBody
 }
-pub fn ProgressEndEvent::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn ProgressEndEvent::to_json(Self) -> Json
-pub impl ToJson for ProgressEndEvent
+pub fn ProgressEndEvent::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn ProgressEndEvent::to_json(Self) -> @json.Json
 pub impl @json.FromJson for ProgressEndEvent
+pub impl @json.ToJson for ProgressEndEvent
 
 pub(all) struct ProgressEndEventBody {
   progress_id : String
   message : String?
 }
-pub fn ProgressEndEventBody::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn ProgressEndEventBody::to_json(Self) -> Json
-pub impl ToJson for ProgressEndEventBody
+pub fn ProgressEndEventBody::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn ProgressEndEventBody::to_json(Self) -> @json.Json
 pub impl @json.FromJson for ProgressEndEventBody
+pub impl @json.ToJson for ProgressEndEventBody
 
 pub(all) struct ProgressStartEvent {
   seq : Int32
   body : ProgressStartEventBody
 }
-pub fn ProgressStartEvent::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn ProgressStartEvent::to_json(Self) -> Json
-pub impl ToJson for ProgressStartEvent
+pub fn ProgressStartEvent::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn ProgressStartEvent::to_json(Self) -> @json.Json
 pub impl @json.FromJson for ProgressStartEvent
+pub impl @json.ToJson for ProgressStartEvent
 
 pub(all) struct ProgressStartEventBody {
   progress_id : String
@@ -1468,57 +1468,57 @@ pub(all) struct ProgressStartEventBody {
   message : String?
   percentage : Double?
 }
-pub fn ProgressStartEventBody::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn ProgressStartEventBody::to_json(Self) -> Json
-pub impl ToJson for ProgressStartEventBody
+pub fn ProgressStartEventBody::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn ProgressStartEventBody::to_json(Self) -> @json.Json
 pub impl @json.FromJson for ProgressStartEventBody
+pub impl @json.ToJson for ProgressStartEventBody
 
 pub(all) struct ProgressUpdateEvent {
   seq : Int32
   body : ProgressUpdateEventBody
 }
-pub fn ProgressUpdateEvent::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn ProgressUpdateEvent::to_json(Self) -> Json
-pub impl ToJson for ProgressUpdateEvent
+pub fn ProgressUpdateEvent::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn ProgressUpdateEvent::to_json(Self) -> @json.Json
 pub impl @json.FromJson for ProgressUpdateEvent
+pub impl @json.ToJson for ProgressUpdateEvent
 
 pub(all) struct ProgressUpdateEventBody {
   progress_id : String
   message : String?
   percentage : Double?
 }
-pub fn ProgressUpdateEventBody::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn ProgressUpdateEventBody::to_json(Self) -> Json
-pub impl ToJson for ProgressUpdateEventBody
+pub fn ProgressUpdateEventBody::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn ProgressUpdateEventBody::to_json(Self) -> @json.Json
 pub impl @json.FromJson for ProgressUpdateEventBody
+pub impl @json.ToJson for ProgressUpdateEventBody
 
 pub(all) struct ProtocolMessage {
   seq : Int32
   type_ : String
 }
-pub fn ProtocolMessage::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn ProtocolMessage::to_json(Self) -> Json
-pub impl ToJson for ProtocolMessage
+pub fn ProtocolMessage::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn ProtocolMessage::to_json(Self) -> @json.Json
 pub impl @json.FromJson for ProtocolMessage
+pub impl @json.ToJson for ProtocolMessage
 
 pub(all) struct ReadMemoryArguments {
   memory_reference : String
   offset : Int64?
   count : Int64
 }
-pub fn ReadMemoryArguments::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn ReadMemoryArguments::to_json(Self) -> Json
-pub impl ToJson for ReadMemoryArguments
+pub fn ReadMemoryArguments::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn ReadMemoryArguments::to_json(Self) -> @json.Json
 pub impl @json.FromJson for ReadMemoryArguments
+pub impl @json.ToJson for ReadMemoryArguments
 
 pub(all) struct ReadMemoryRequest {
   seq : Int32
   arguments : ReadMemoryArguments
 }
-pub fn ReadMemoryRequest::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn ReadMemoryRequest::to_json(Self) -> Json
-pub impl ToJson for ReadMemoryRequest
+pub fn ReadMemoryRequest::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn ReadMemoryRequest::to_json(Self) -> @json.Json
 pub impl @json.FromJson for ReadMemoryRequest
+pub impl @json.ToJson for ReadMemoryRequest
 
 pub(all) struct ReadMemoryResponse {
   seq : Int32
@@ -1528,30 +1528,30 @@ pub(all) struct ReadMemoryResponse {
   message : String?
   body : ReadMemoryResponseBody?
 }
-pub fn ReadMemoryResponse::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn ReadMemoryResponse::to_json(Self) -> Json
-pub impl ToJson for ReadMemoryResponse
+pub fn ReadMemoryResponse::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn ReadMemoryResponse::to_json(Self) -> @json.Json
 pub impl @json.FromJson for ReadMemoryResponse
+pub impl @json.ToJson for ReadMemoryResponse
 
 pub(all) struct ReadMemoryResponseBody {
   address : String
   unreadable_bytes : Int64?
   data : String?
 }
-pub fn ReadMemoryResponseBody::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn ReadMemoryResponseBody::to_json(Self) -> Json
-pub impl ToJson for ReadMemoryResponseBody
+pub fn ReadMemoryResponseBody::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn ReadMemoryResponseBody::to_json(Self) -> @json.Json
 pub impl @json.FromJson for ReadMemoryResponseBody
+pub impl @json.ToJson for ReadMemoryResponseBody
 
 pub(all) struct Request {
   seq : Int32
   command : String
-  arguments : Json?
+  arguments : @json.Json?
 }
-pub fn Request::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn Request::to_json(Self) -> Json
-pub impl ToJson for Request
+pub fn Request::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn Request::to_json(Self) -> @json.Json
 pub impl @json.FromJson for Request
+pub impl @json.ToJson for Request
 
 pub(all) struct Response {
   seq : Int32
@@ -1559,46 +1559,46 @@ pub(all) struct Response {
   success : Bool
   command : String
   message : String?
-  body : Json?
+  body : @json.Json?
 }
-pub fn Response::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn Response::to_json(Self) -> Json
-pub impl ToJson for Response
+pub fn Response::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn Response::to_json(Self) -> @json.Json
 pub impl @json.FromJson for Response
+pub impl @json.ToJson for Response
 
 pub(all) struct RestartArguments {
   arguments : RestartArgumentsArguments?
 }
-pub fn RestartArguments::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn RestartArguments::to_json(Self) -> Json
-pub impl ToJson for RestartArguments
+pub fn RestartArguments::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn RestartArguments::to_json(Self) -> @json.Json
 pub impl @json.FromJson for RestartArguments
+pub impl @json.ToJson for RestartArguments
 
 pub(all) enum RestartArgumentsArguments {
   First(LaunchRequestArguments)
   Second(AttachRequestArguments)
 }
-pub fn RestartArgumentsArguments::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn RestartArgumentsArguments::to_json(Self) -> Json
-pub impl ToJson for RestartArgumentsArguments
+pub fn RestartArgumentsArguments::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn RestartArgumentsArguments::to_json(Self) -> @json.Json
 pub impl @json.FromJson for RestartArgumentsArguments
+pub impl @json.ToJson for RestartArgumentsArguments
 
 pub(all) struct RestartFrameArguments {
   frame_id : Int32
 }
-pub fn RestartFrameArguments::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn RestartFrameArguments::to_json(Self) -> Json
-pub impl ToJson for RestartFrameArguments
+pub fn RestartFrameArguments::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn RestartFrameArguments::to_json(Self) -> @json.Json
 pub impl @json.FromJson for RestartFrameArguments
+pub impl @json.ToJson for RestartFrameArguments
 
 pub(all) struct RestartFrameRequest {
   seq : Int32
   arguments : RestartFrameArguments
 }
-pub fn RestartFrameRequest::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn RestartFrameRequest::to_json(Self) -> Json
-pub impl ToJson for RestartFrameRequest
+pub fn RestartFrameRequest::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn RestartFrameRequest::to_json(Self) -> @json.Json
 pub impl @json.FromJson for RestartFrameRequest
+pub impl @json.ToJson for RestartFrameRequest
 
 pub(all) struct RestartFrameResponse {
   seq : Int32
@@ -1606,21 +1606,21 @@ pub(all) struct RestartFrameResponse {
   success : Bool
   command : String
   message : String?
-  body : Json?
+  body : @json.Json?
 }
-pub fn RestartFrameResponse::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn RestartFrameResponse::to_json(Self) -> Json
-pub impl ToJson for RestartFrameResponse
+pub fn RestartFrameResponse::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn RestartFrameResponse::to_json(Self) -> @json.Json
 pub impl @json.FromJson for RestartFrameResponse
+pub impl @json.ToJson for RestartFrameResponse
 
 pub(all) struct RestartRequest {
   seq : Int32
   arguments : RestartArguments?
 }
-pub fn RestartRequest::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn RestartRequest::to_json(Self) -> Json
-pub impl ToJson for RestartRequest
+pub fn RestartRequest::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn RestartRequest::to_json(Self) -> @json.Json
 pub impl @json.FromJson for RestartRequest
+pub impl @json.ToJson for RestartRequest
 
 pub(all) struct RestartResponse {
   seq : Int32
@@ -1628,30 +1628,30 @@ pub(all) struct RestartResponse {
   success : Bool
   command : String
   message : String?
-  body : Json?
+  body : @json.Json?
 }
-pub fn RestartResponse::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn RestartResponse::to_json(Self) -> Json
-pub impl ToJson for RestartResponse
+pub fn RestartResponse::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn RestartResponse::to_json(Self) -> @json.Json
 pub impl @json.FromJson for RestartResponse
+pub impl @json.ToJson for RestartResponse
 
 pub(all) struct ReverseContinueArguments {
   thread_id : Int32
   single_thread : Bool?
 }
-pub fn ReverseContinueArguments::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn ReverseContinueArguments::to_json(Self) -> Json
-pub impl ToJson for ReverseContinueArguments
+pub fn ReverseContinueArguments::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn ReverseContinueArguments::to_json(Self) -> @json.Json
 pub impl @json.FromJson for ReverseContinueArguments
+pub impl @json.ToJson for ReverseContinueArguments
 
 pub(all) struct ReverseContinueRequest {
   seq : Int32
   arguments : ReverseContinueArguments
 }
-pub fn ReverseContinueRequest::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn ReverseContinueRequest::to_json(Self) -> Json
-pub impl ToJson for ReverseContinueRequest
+pub fn ReverseContinueRequest::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn ReverseContinueRequest::to_json(Self) -> @json.Json
 pub impl @json.FromJson for ReverseContinueRequest
+pub impl @json.ToJson for ReverseContinueRequest
 
 pub(all) struct ReverseContinueResponse {
   seq : Int32
@@ -1659,21 +1659,21 @@ pub(all) struct ReverseContinueResponse {
   success : Bool
   command : String
   message : String?
-  body : Json?
+  body : @json.Json?
 }
-pub fn ReverseContinueResponse::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn ReverseContinueResponse::to_json(Self) -> Json
-pub impl ToJson for ReverseContinueResponse
+pub fn ReverseContinueResponse::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn ReverseContinueResponse::to_json(Self) -> @json.Json
 pub impl @json.FromJson for ReverseContinueResponse
+pub impl @json.ToJson for ReverseContinueResponse
 
 pub(all) struct RunInTerminalRequest {
   seq : Int32
   arguments : RunInTerminalRequestArguments
 }
-pub fn RunInTerminalRequest::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn RunInTerminalRequest::to_json(Self) -> Json
-pub impl ToJson for RunInTerminalRequest
+pub fn RunInTerminalRequest::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn RunInTerminalRequest::to_json(Self) -> @json.Json
 pub impl @json.FromJson for RunInTerminalRequest
+pub impl @json.ToJson for RunInTerminalRequest
 
 pub(all) struct RunInTerminalRequestArguments {
   kind : RunInTerminalRequestArgumentsKind?
@@ -1683,28 +1683,28 @@ pub(all) struct RunInTerminalRequestArguments {
   env : Map[String, RunInTerminalRequestArgumentsEnvValue]?
   args_can_be_interpreted_by_shell : Bool?
 }
-pub fn RunInTerminalRequestArguments::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn RunInTerminalRequestArguments::to_json(Self) -> Json
-pub impl ToJson for RunInTerminalRequestArguments
+pub fn RunInTerminalRequestArguments::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn RunInTerminalRequestArguments::to_json(Self) -> @json.Json
 pub impl @json.FromJson for RunInTerminalRequestArguments
+pub impl @json.ToJson for RunInTerminalRequestArguments
 
 pub(all) enum RunInTerminalRequestArgumentsEnvValue {
   Text(String)
   NullValue
 }
-pub fn RunInTerminalRequestArgumentsEnvValue::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn RunInTerminalRequestArgumentsEnvValue::to_json(Self) -> Json
-pub impl ToJson for RunInTerminalRequestArgumentsEnvValue
+pub fn RunInTerminalRequestArgumentsEnvValue::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn RunInTerminalRequestArgumentsEnvValue::to_json(Self) -> @json.Json
 pub impl @json.FromJson for RunInTerminalRequestArgumentsEnvValue
+pub impl @json.ToJson for RunInTerminalRequestArgumentsEnvValue
 
 pub(all) enum RunInTerminalRequestArgumentsKind {
   Integrated
   External
 }
-pub fn RunInTerminalRequestArgumentsKind::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn RunInTerminalRequestArgumentsKind::to_json(Self) -> Json
-pub impl ToJson for RunInTerminalRequestArgumentsKind
+pub fn RunInTerminalRequestArgumentsKind::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn RunInTerminalRequestArgumentsKind::to_json(Self) -> @json.Json
 pub impl @json.FromJson for RunInTerminalRequestArgumentsKind
+pub impl @json.ToJson for RunInTerminalRequestArgumentsKind
 
 pub(all) struct RunInTerminalResponse {
   seq : Int32
@@ -1714,19 +1714,19 @@ pub(all) struct RunInTerminalResponse {
   message : String?
   body : RunInTerminalResponseBody
 }
-pub fn RunInTerminalResponse::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn RunInTerminalResponse::to_json(Self) -> Json
-pub impl ToJson for RunInTerminalResponse
+pub fn RunInTerminalResponse::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn RunInTerminalResponse::to_json(Self) -> @json.Json
 pub impl @json.FromJson for RunInTerminalResponse
+pub impl @json.ToJson for RunInTerminalResponse
 
 pub(all) struct RunInTerminalResponseBody {
   process_id : Int32?
   shell_process_id : Int32?
 }
-pub fn RunInTerminalResponseBody::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn RunInTerminalResponseBody::to_json(Self) -> Json
-pub impl ToJson for RunInTerminalResponseBody
+pub fn RunInTerminalResponseBody::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn RunInTerminalResponseBody::to_json(Self) -> @json.Json
 pub impl @json.FromJson for RunInTerminalResponseBody
+pub impl @json.ToJson for RunInTerminalResponseBody
 
 pub(all) struct Scope {
   name : String
@@ -1741,27 +1741,27 @@ pub(all) struct Scope {
   end_line : Int64?
   end_column : Int64?
 }
-pub fn Scope::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn Scope::to_json(Self) -> Json
-pub impl ToJson for Scope
+pub fn Scope::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn Scope::to_json(Self) -> @json.Json
 pub impl @json.FromJson for Scope
+pub impl @json.ToJson for Scope
 
 pub(all) struct ScopesArguments {
   frame_id : Int32
 }
-pub fn ScopesArguments::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn ScopesArguments::to_json(Self) -> Json
-pub impl ToJson for ScopesArguments
+pub fn ScopesArguments::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn ScopesArguments::to_json(Self) -> @json.Json
 pub impl @json.FromJson for ScopesArguments
+pub impl @json.ToJson for ScopesArguments
 
 pub(all) struct ScopesRequest {
   seq : Int32
   arguments : ScopesArguments
 }
-pub fn ScopesRequest::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn ScopesRequest::to_json(Self) -> Json
-pub impl ToJson for ScopesRequest
+pub fn ScopesRequest::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn ScopesRequest::to_json(Self) -> @json.Json
 pub impl @json.FromJson for ScopesRequest
+pub impl @json.ToJson for ScopesRequest
 
 pub(all) struct ScopesResponse {
   seq : Int32
@@ -1771,18 +1771,18 @@ pub(all) struct ScopesResponse {
   message : String?
   body : ScopesResponseBody
 }
-pub fn ScopesResponse::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn ScopesResponse::to_json(Self) -> Json
-pub impl ToJson for ScopesResponse
+pub fn ScopesResponse::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn ScopesResponse::to_json(Self) -> @json.Json
 pub impl @json.FromJson for ScopesResponse
+pub impl @json.ToJson for ScopesResponse
 
 pub(all) struct ScopesResponseBody {
   scopes : Array[Scope]
 }
-pub fn ScopesResponseBody::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn ScopesResponseBody::to_json(Self) -> Json
-pub impl ToJson for ScopesResponseBody
+pub fn ScopesResponseBody::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn ScopesResponseBody::to_json(Self) -> @json.Json
 pub impl @json.FromJson for ScopesResponseBody
+pub impl @json.ToJson for ScopesResponseBody
 
 pub(all) struct SetBreakpointsArguments {
   source : Source
@@ -1790,19 +1790,19 @@ pub(all) struct SetBreakpointsArguments {
   lines : Array[Int64]?
   source_modified : Bool?
 }
-pub fn SetBreakpointsArguments::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn SetBreakpointsArguments::to_json(Self) -> Json
-pub impl ToJson for SetBreakpointsArguments
+pub fn SetBreakpointsArguments::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn SetBreakpointsArguments::to_json(Self) -> @json.Json
 pub impl @json.FromJson for SetBreakpointsArguments
+pub impl @json.ToJson for SetBreakpointsArguments
 
 pub(all) struct SetBreakpointsRequest {
   seq : Int32
   arguments : SetBreakpointsArguments
 }
-pub fn SetBreakpointsRequest::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn SetBreakpointsRequest::to_json(Self) -> Json
-pub impl ToJson for SetBreakpointsRequest
+pub fn SetBreakpointsRequest::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn SetBreakpointsRequest::to_json(Self) -> @json.Json
 pub impl @json.FromJson for SetBreakpointsRequest
+pub impl @json.ToJson for SetBreakpointsRequest
 
 pub(all) struct SetBreakpointsResponse {
   seq : Int32
@@ -1812,35 +1812,35 @@ pub(all) struct SetBreakpointsResponse {
   message : String?
   body : SetBreakpointsResponseBody
 }
-pub fn SetBreakpointsResponse::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn SetBreakpointsResponse::to_json(Self) -> Json
-pub impl ToJson for SetBreakpointsResponse
+pub fn SetBreakpointsResponse::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn SetBreakpointsResponse::to_json(Self) -> @json.Json
 pub impl @json.FromJson for SetBreakpointsResponse
+pub impl @json.ToJson for SetBreakpointsResponse
 
 pub(all) struct SetBreakpointsResponseBody {
   breakpoints : Array[Breakpoint]
 }
-pub fn SetBreakpointsResponseBody::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn SetBreakpointsResponseBody::to_json(Self) -> Json
-pub impl ToJson for SetBreakpointsResponseBody
+pub fn SetBreakpointsResponseBody::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn SetBreakpointsResponseBody::to_json(Self) -> @json.Json
 pub impl @json.FromJson for SetBreakpointsResponseBody
+pub impl @json.ToJson for SetBreakpointsResponseBody
 
 pub(all) struct SetDataBreakpointsArguments {
   breakpoints : Array[DataBreakpoint]
 }
-pub fn SetDataBreakpointsArguments::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn SetDataBreakpointsArguments::to_json(Self) -> Json
-pub impl ToJson for SetDataBreakpointsArguments
+pub fn SetDataBreakpointsArguments::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn SetDataBreakpointsArguments::to_json(Self) -> @json.Json
 pub impl @json.FromJson for SetDataBreakpointsArguments
+pub impl @json.ToJson for SetDataBreakpointsArguments
 
 pub(all) struct SetDataBreakpointsRequest {
   seq : Int32
   arguments : SetDataBreakpointsArguments
 }
-pub fn SetDataBreakpointsRequest::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn SetDataBreakpointsRequest::to_json(Self) -> Json
-pub impl ToJson for SetDataBreakpointsRequest
+pub fn SetDataBreakpointsRequest::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn SetDataBreakpointsRequest::to_json(Self) -> @json.Json
 pub impl @json.FromJson for SetDataBreakpointsRequest
+pub impl @json.ToJson for SetDataBreakpointsRequest
 
 pub(all) struct SetDataBreakpointsResponse {
   seq : Int32
@@ -1850,37 +1850,37 @@ pub(all) struct SetDataBreakpointsResponse {
   message : String?
   body : SetDataBreakpointsResponseBody
 }
-pub fn SetDataBreakpointsResponse::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn SetDataBreakpointsResponse::to_json(Self) -> Json
-pub impl ToJson for SetDataBreakpointsResponse
+pub fn SetDataBreakpointsResponse::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn SetDataBreakpointsResponse::to_json(Self) -> @json.Json
 pub impl @json.FromJson for SetDataBreakpointsResponse
+pub impl @json.ToJson for SetDataBreakpointsResponse
 
 pub(all) struct SetDataBreakpointsResponseBody {
   breakpoints : Array[Breakpoint]
 }
-pub fn SetDataBreakpointsResponseBody::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn SetDataBreakpointsResponseBody::to_json(Self) -> Json
-pub impl ToJson for SetDataBreakpointsResponseBody
+pub fn SetDataBreakpointsResponseBody::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn SetDataBreakpointsResponseBody::to_json(Self) -> @json.Json
 pub impl @json.FromJson for SetDataBreakpointsResponseBody
+pub impl @json.ToJson for SetDataBreakpointsResponseBody
 
 pub(all) struct SetExceptionBreakpointsArguments {
   filters : Array[String]
   filter_options : Array[ExceptionFilterOptions]?
   exception_options : Array[ExceptionOptions]?
 }
-pub fn SetExceptionBreakpointsArguments::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn SetExceptionBreakpointsArguments::to_json(Self) -> Json
-pub impl ToJson for SetExceptionBreakpointsArguments
+pub fn SetExceptionBreakpointsArguments::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn SetExceptionBreakpointsArguments::to_json(Self) -> @json.Json
 pub impl @json.FromJson for SetExceptionBreakpointsArguments
+pub impl @json.ToJson for SetExceptionBreakpointsArguments
 
 pub(all) struct SetExceptionBreakpointsRequest {
   seq : Int32
   arguments : SetExceptionBreakpointsArguments
 }
-pub fn SetExceptionBreakpointsRequest::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn SetExceptionBreakpointsRequest::to_json(Self) -> Json
-pub impl ToJson for SetExceptionBreakpointsRequest
+pub fn SetExceptionBreakpointsRequest::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn SetExceptionBreakpointsRequest::to_json(Self) -> @json.Json
 pub impl @json.FromJson for SetExceptionBreakpointsRequest
+pub impl @json.ToJson for SetExceptionBreakpointsRequest
 
 pub(all) struct SetExceptionBreakpointsResponse {
   seq : Int32
@@ -1890,18 +1890,18 @@ pub(all) struct SetExceptionBreakpointsResponse {
   message : String?
   body : SetExceptionBreakpointsResponseBody?
 }
-pub fn SetExceptionBreakpointsResponse::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn SetExceptionBreakpointsResponse::to_json(Self) -> Json
-pub impl ToJson for SetExceptionBreakpointsResponse
+pub fn SetExceptionBreakpointsResponse::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn SetExceptionBreakpointsResponse::to_json(Self) -> @json.Json
 pub impl @json.FromJson for SetExceptionBreakpointsResponse
+pub impl @json.ToJson for SetExceptionBreakpointsResponse
 
 pub(all) struct SetExceptionBreakpointsResponseBody {
   breakpoints : Array[Breakpoint]?
 }
-pub fn SetExceptionBreakpointsResponseBody::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn SetExceptionBreakpointsResponseBody::to_json(Self) -> Json
-pub impl ToJson for SetExceptionBreakpointsResponseBody
+pub fn SetExceptionBreakpointsResponseBody::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn SetExceptionBreakpointsResponseBody::to_json(Self) -> @json.Json
 pub impl @json.FromJson for SetExceptionBreakpointsResponseBody
+pub impl @json.ToJson for SetExceptionBreakpointsResponseBody
 
 pub(all) struct SetExpressionArguments {
   expression : String
@@ -1909,19 +1909,19 @@ pub(all) struct SetExpressionArguments {
   frame_id : Int32?
   format : ValueFormat?
 }
-pub fn SetExpressionArguments::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn SetExpressionArguments::to_json(Self) -> Json
-pub impl ToJson for SetExpressionArguments
+pub fn SetExpressionArguments::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn SetExpressionArguments::to_json(Self) -> @json.Json
 pub impl @json.FromJson for SetExpressionArguments
+pub impl @json.ToJson for SetExpressionArguments
 
 pub(all) struct SetExpressionRequest {
   seq : Int32
   arguments : SetExpressionArguments
 }
-pub fn SetExpressionRequest::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn SetExpressionRequest::to_json(Self) -> Json
-pub impl ToJson for SetExpressionRequest
+pub fn SetExpressionRequest::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn SetExpressionRequest::to_json(Self) -> @json.Json
 pub impl @json.FromJson for SetExpressionRequest
+pub impl @json.ToJson for SetExpressionRequest
 
 pub(all) struct SetExpressionResponse {
   seq : Int32
@@ -1931,10 +1931,10 @@ pub(all) struct SetExpressionResponse {
   message : String?
   body : SetExpressionResponseBody
 }
-pub fn SetExpressionResponse::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn SetExpressionResponse::to_json(Self) -> Json
-pub impl ToJson for SetExpressionResponse
+pub fn SetExpressionResponse::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn SetExpressionResponse::to_json(Self) -> @json.Json
 pub impl @json.FromJson for SetExpressionResponse
+pub impl @json.ToJson for SetExpressionResponse
 
 pub(all) struct SetExpressionResponseBody {
   value : String
@@ -1946,27 +1946,27 @@ pub(all) struct SetExpressionResponseBody {
   memory_reference : String?
   value_location_reference : Int32?
 }
-pub fn SetExpressionResponseBody::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn SetExpressionResponseBody::to_json(Self) -> Json
-pub impl ToJson for SetExpressionResponseBody
+pub fn SetExpressionResponseBody::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn SetExpressionResponseBody::to_json(Self) -> @json.Json
 pub impl @json.FromJson for SetExpressionResponseBody
+pub impl @json.ToJson for SetExpressionResponseBody
 
 pub(all) struct SetFunctionBreakpointsArguments {
   breakpoints : Array[FunctionBreakpoint]
 }
-pub fn SetFunctionBreakpointsArguments::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn SetFunctionBreakpointsArguments::to_json(Self) -> Json
-pub impl ToJson for SetFunctionBreakpointsArguments
+pub fn SetFunctionBreakpointsArguments::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn SetFunctionBreakpointsArguments::to_json(Self) -> @json.Json
 pub impl @json.FromJson for SetFunctionBreakpointsArguments
+pub impl @json.ToJson for SetFunctionBreakpointsArguments
 
 pub(all) struct SetFunctionBreakpointsRequest {
   seq : Int32
   arguments : SetFunctionBreakpointsArguments
 }
-pub fn SetFunctionBreakpointsRequest::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn SetFunctionBreakpointsRequest::to_json(Self) -> Json
-pub impl ToJson for SetFunctionBreakpointsRequest
+pub fn SetFunctionBreakpointsRequest::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn SetFunctionBreakpointsRequest::to_json(Self) -> @json.Json
 pub impl @json.FromJson for SetFunctionBreakpointsRequest
+pub impl @json.ToJson for SetFunctionBreakpointsRequest
 
 pub(all) struct SetFunctionBreakpointsResponse {
   seq : Int32
@@ -1976,35 +1976,35 @@ pub(all) struct SetFunctionBreakpointsResponse {
   message : String?
   body : SetFunctionBreakpointsResponseBody
 }
-pub fn SetFunctionBreakpointsResponse::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn SetFunctionBreakpointsResponse::to_json(Self) -> Json
-pub impl ToJson for SetFunctionBreakpointsResponse
+pub fn SetFunctionBreakpointsResponse::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn SetFunctionBreakpointsResponse::to_json(Self) -> @json.Json
 pub impl @json.FromJson for SetFunctionBreakpointsResponse
+pub impl @json.ToJson for SetFunctionBreakpointsResponse
 
 pub(all) struct SetFunctionBreakpointsResponseBody {
   breakpoints : Array[Breakpoint]
 }
-pub fn SetFunctionBreakpointsResponseBody::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn SetFunctionBreakpointsResponseBody::to_json(Self) -> Json
-pub impl ToJson for SetFunctionBreakpointsResponseBody
+pub fn SetFunctionBreakpointsResponseBody::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn SetFunctionBreakpointsResponseBody::to_json(Self) -> @json.Json
 pub impl @json.FromJson for SetFunctionBreakpointsResponseBody
+pub impl @json.ToJson for SetFunctionBreakpointsResponseBody
 
 pub(all) struct SetInstructionBreakpointsArguments {
   breakpoints : Array[InstructionBreakpoint]
 }
-pub fn SetInstructionBreakpointsArguments::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn SetInstructionBreakpointsArguments::to_json(Self) -> Json
-pub impl ToJson for SetInstructionBreakpointsArguments
+pub fn SetInstructionBreakpointsArguments::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn SetInstructionBreakpointsArguments::to_json(Self) -> @json.Json
 pub impl @json.FromJson for SetInstructionBreakpointsArguments
+pub impl @json.ToJson for SetInstructionBreakpointsArguments
 
 pub(all) struct SetInstructionBreakpointsRequest {
   seq : Int32
   arguments : SetInstructionBreakpointsArguments
 }
-pub fn SetInstructionBreakpointsRequest::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn SetInstructionBreakpointsRequest::to_json(Self) -> Json
-pub impl ToJson for SetInstructionBreakpointsRequest
+pub fn SetInstructionBreakpointsRequest::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn SetInstructionBreakpointsRequest::to_json(Self) -> @json.Json
 pub impl @json.FromJson for SetInstructionBreakpointsRequest
+pub impl @json.ToJson for SetInstructionBreakpointsRequest
 
 pub(all) struct SetInstructionBreakpointsResponse {
   seq : Int32
@@ -2014,18 +2014,18 @@ pub(all) struct SetInstructionBreakpointsResponse {
   message : String?
   body : SetInstructionBreakpointsResponseBody
 }
-pub fn SetInstructionBreakpointsResponse::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn SetInstructionBreakpointsResponse::to_json(Self) -> Json
-pub impl ToJson for SetInstructionBreakpointsResponse
+pub fn SetInstructionBreakpointsResponse::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn SetInstructionBreakpointsResponse::to_json(Self) -> @json.Json
 pub impl @json.FromJson for SetInstructionBreakpointsResponse
+pub impl @json.ToJson for SetInstructionBreakpointsResponse
 
 pub(all) struct SetInstructionBreakpointsResponseBody {
   breakpoints : Array[Breakpoint]
 }
-pub fn SetInstructionBreakpointsResponseBody::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn SetInstructionBreakpointsResponseBody::to_json(Self) -> Json
-pub impl ToJson for SetInstructionBreakpointsResponseBody
+pub fn SetInstructionBreakpointsResponseBody::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn SetInstructionBreakpointsResponseBody::to_json(Self) -> @json.Json
 pub impl @json.FromJson for SetInstructionBreakpointsResponseBody
+pub impl @json.ToJson for SetInstructionBreakpointsResponseBody
 
 pub(all) struct SetVariableArguments {
   variables_reference : Int32
@@ -2033,19 +2033,19 @@ pub(all) struct SetVariableArguments {
   value : String
   format : ValueFormat?
 }
-pub fn SetVariableArguments::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn SetVariableArguments::to_json(Self) -> Json
-pub impl ToJson for SetVariableArguments
+pub fn SetVariableArguments::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn SetVariableArguments::to_json(Self) -> @json.Json
 pub impl @json.FromJson for SetVariableArguments
+pub impl @json.ToJson for SetVariableArguments
 
 pub(all) struct SetVariableRequest {
   seq : Int32
   arguments : SetVariableArguments
 }
-pub fn SetVariableRequest::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn SetVariableRequest::to_json(Self) -> Json
-pub impl ToJson for SetVariableRequest
+pub fn SetVariableRequest::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn SetVariableRequest::to_json(Self) -> @json.Json
 pub impl @json.FromJson for SetVariableRequest
+pub impl @json.ToJson for SetVariableRequest
 
 pub(all) struct SetVariableResponse {
   seq : Int32
@@ -2055,10 +2055,10 @@ pub(all) struct SetVariableResponse {
   message : String?
   body : SetVariableResponseBody
 }
-pub fn SetVariableResponse::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn SetVariableResponse::to_json(Self) -> Json
-pub impl ToJson for SetVariableResponse
+pub fn SetVariableResponse::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn SetVariableResponse::to_json(Self) -> @json.Json
 pub impl @json.FromJson for SetVariableResponse
+pub impl @json.ToJson for SetVariableResponse
 
 pub(all) struct SetVariableResponseBody {
   value : String
@@ -2069,10 +2069,10 @@ pub(all) struct SetVariableResponseBody {
   memory_reference : String?
   value_location_reference : Int32?
 }
-pub fn SetVariableResponseBody::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn SetVariableResponseBody::to_json(Self) -> Json
-pub impl ToJson for SetVariableResponseBody
+pub fn SetVariableResponseBody::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn SetVariableResponseBody::to_json(Self) -> @json.Json
 pub impl @json.FromJson for SetVariableResponseBody
+pub impl @json.ToJson for SetVariableResponseBody
 
 pub(all) struct Source {
   name : String?
@@ -2081,22 +2081,22 @@ pub(all) struct Source {
   presentation_hint : SourcePresentationHint?
   origin : String?
   sources : Array[Source]?
-  adapter_data : Json?
+  adapter_data : @json.Json?
   checksums : Array[Checksum]?
 }
-pub fn Source::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn Source::to_json(Self) -> Json
-pub impl ToJson for Source
+pub fn Source::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn Source::to_json(Self) -> @json.Json
 pub impl @json.FromJson for Source
+pub impl @json.ToJson for Source
 
 pub(all) struct SourceArguments {
   source : Source?
   source_reference : Int32
 }
-pub fn SourceArguments::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn SourceArguments::to_json(Self) -> Json
-pub impl ToJson for SourceArguments
+pub fn SourceArguments::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn SourceArguments::to_json(Self) -> @json.Json
 pub impl @json.FromJson for SourceArguments
+pub impl @json.ToJson for SourceArguments
 
 pub(all) struct SourceBreakpoint {
   line : Int64
@@ -2106,29 +2106,29 @@ pub(all) struct SourceBreakpoint {
   log_message : String?
   mode : String?
 }
-pub fn SourceBreakpoint::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn SourceBreakpoint::to_json(Self) -> Json
-pub impl ToJson for SourceBreakpoint
+pub fn SourceBreakpoint::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn SourceBreakpoint::to_json(Self) -> @json.Json
 pub impl @json.FromJson for SourceBreakpoint
+pub impl @json.ToJson for SourceBreakpoint
 
 pub(all) enum SourcePresentationHint {
   Normal
   Emphasize
   Deemphasize
 }
-pub fn SourcePresentationHint::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn SourcePresentationHint::to_json(Self) -> Json
-pub impl ToJson for SourcePresentationHint
+pub fn SourcePresentationHint::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn SourcePresentationHint::to_json(Self) -> @json.Json
 pub impl @json.FromJson for SourcePresentationHint
+pub impl @json.ToJson for SourcePresentationHint
 
 pub(all) struct SourceRequest {
   seq : Int32
   arguments : SourceArguments
 }
-pub fn SourceRequest::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn SourceRequest::to_json(Self) -> Json
-pub impl ToJson for SourceRequest
+pub fn SourceRequest::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn SourceRequest::to_json(Self) -> @json.Json
 pub impl @json.FromJson for SourceRequest
+pub impl @json.ToJson for SourceRequest
 
 pub(all) struct SourceResponse {
   seq : Int32
@@ -2138,19 +2138,19 @@ pub(all) struct SourceResponse {
   message : String?
   body : SourceResponseBody
 }
-pub fn SourceResponse::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn SourceResponse::to_json(Self) -> Json
-pub impl ToJson for SourceResponse
+pub fn SourceResponse::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn SourceResponse::to_json(Self) -> @json.Json
 pub impl @json.FromJson for SourceResponse
+pub impl @json.ToJson for SourceResponse
 
 pub(all) struct SourceResponseBody {
   content : String
   mime_type : String?
 }
-pub fn SourceResponseBody::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn SourceResponseBody::to_json(Self) -> Json
-pub impl ToJson for SourceResponseBody
+pub fn SourceResponseBody::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn SourceResponseBody::to_json(Self) -> @json.Json
 pub impl @json.FromJson for SourceResponseBody
+pub impl @json.ToJson for SourceResponseBody
 
 pub(all) struct StackFrame {
   id : Int32
@@ -2165,10 +2165,10 @@ pub(all) struct StackFrame {
   module_id : StackFrameModuleId?
   presentation_hint : StackFramePresentationHint?
 }
-pub fn StackFrame::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn StackFrame::to_json(Self) -> Json
-pub impl ToJson for StackFrame
+pub fn StackFrame::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn StackFrame::to_json(Self) -> @json.Json
 pub impl @json.FromJson for StackFrame
+pub impl @json.ToJson for StackFrame
 
 pub(all) struct StackFrameFormat {
   hex : Bool?
@@ -2180,29 +2180,29 @@ pub(all) struct StackFrameFormat {
   module_ : Bool?
   include_all : Bool?
 }
-pub fn StackFrameFormat::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn StackFrameFormat::to_json(Self) -> Json
-pub impl ToJson for StackFrameFormat
+pub fn StackFrameFormat::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn StackFrameFormat::to_json(Self) -> @json.Json
 pub impl @json.FromJson for StackFrameFormat
+pub impl @json.ToJson for StackFrameFormat
 
 pub(all) enum StackFrameModuleId {
   Text(String)
   Integer(Int64)
 }
-pub fn StackFrameModuleId::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn StackFrameModuleId::to_json(Self) -> Json
-pub impl ToJson for StackFrameModuleId
+pub fn StackFrameModuleId::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn StackFrameModuleId::to_json(Self) -> @json.Json
 pub impl @json.FromJson for StackFrameModuleId
+pub impl @json.ToJson for StackFrameModuleId
 
 pub(all) enum StackFramePresentationHint {
   Normal
   Label
   Subtle
 }
-pub fn StackFramePresentationHint::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn StackFramePresentationHint::to_json(Self) -> Json
-pub impl ToJson for StackFramePresentationHint
+pub fn StackFramePresentationHint::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn StackFramePresentationHint::to_json(Self) -> @json.Json
 pub impl @json.FromJson for StackFramePresentationHint
+pub impl @json.ToJson for StackFramePresentationHint
 
 pub(all) struct StackTraceArguments {
   thread_id : Int32
@@ -2210,19 +2210,19 @@ pub(all) struct StackTraceArguments {
   levels : Int64?
   format : StackFrameFormat?
 }
-pub fn StackTraceArguments::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn StackTraceArguments::to_json(Self) -> Json
-pub impl ToJson for StackTraceArguments
+pub fn StackTraceArguments::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn StackTraceArguments::to_json(Self) -> @json.Json
 pub impl @json.FromJson for StackTraceArguments
+pub impl @json.ToJson for StackTraceArguments
 
 pub(all) struct StackTraceRequest {
   seq : Int32
   arguments : StackTraceArguments
 }
-pub fn StackTraceRequest::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn StackTraceRequest::to_json(Self) -> Json
-pub impl ToJson for StackTraceRequest
+pub fn StackTraceRequest::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn StackTraceRequest::to_json(Self) -> @json.Json
 pub impl @json.FromJson for StackTraceRequest
+pub impl @json.ToJson for StackTraceRequest
 
 pub(all) struct StackTraceResponse {
   seq : Int32
@@ -2232,56 +2232,56 @@ pub(all) struct StackTraceResponse {
   message : String?
   body : StackTraceResponseBody
 }
-pub fn StackTraceResponse::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn StackTraceResponse::to_json(Self) -> Json
-pub impl ToJson for StackTraceResponse
+pub fn StackTraceResponse::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn StackTraceResponse::to_json(Self) -> @json.Json
 pub impl @json.FromJson for StackTraceResponse
+pub impl @json.ToJson for StackTraceResponse
 
 pub(all) struct StackTraceResponseBody {
   stack_frames : Array[StackFrame]
   total_frames : Int64?
 }
-pub fn StackTraceResponseBody::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn StackTraceResponseBody::to_json(Self) -> Json
-pub impl ToJson for StackTraceResponseBody
+pub fn StackTraceResponseBody::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn StackTraceResponseBody::to_json(Self) -> @json.Json
 pub impl @json.FromJson for StackTraceResponseBody
+pub impl @json.ToJson for StackTraceResponseBody
 
 pub(all) struct StartDebuggingRequest {
   seq : Int32
   arguments : StartDebuggingRequestArguments
 }
-pub fn StartDebuggingRequest::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn StartDebuggingRequest::to_json(Self) -> Json
-pub impl ToJson for StartDebuggingRequest
+pub fn StartDebuggingRequest::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn StartDebuggingRequest::to_json(Self) -> @json.Json
 pub impl @json.FromJson for StartDebuggingRequest
+pub impl @json.ToJson for StartDebuggingRequest
 
 pub(all) struct StartDebuggingRequestArguments {
-  configuration : Map[String, Json]
+  configuration : Map[String, @json.Json]
   output_presentation : StartDebuggingRequestArgumentsOutputPresentation?
   request : StartDebuggingRequestArgumentsRequest
 }
-pub fn StartDebuggingRequestArguments::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn StartDebuggingRequestArguments::to_json(Self) -> Json
-pub impl ToJson for StartDebuggingRequestArguments
+pub fn StartDebuggingRequestArguments::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn StartDebuggingRequestArguments::to_json(Self) -> @json.Json
 pub impl @json.FromJson for StartDebuggingRequestArguments
+pub impl @json.ToJson for StartDebuggingRequestArguments
 
 pub(all) enum StartDebuggingRequestArgumentsOutputPresentation {
   Separate
   MergeWithParent
 }
-pub fn StartDebuggingRequestArgumentsOutputPresentation::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn StartDebuggingRequestArgumentsOutputPresentation::to_json(Self) -> Json
-pub impl ToJson for StartDebuggingRequestArgumentsOutputPresentation
+pub fn StartDebuggingRequestArgumentsOutputPresentation::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn StartDebuggingRequestArgumentsOutputPresentation::to_json(Self) -> @json.Json
 pub impl @json.FromJson for StartDebuggingRequestArgumentsOutputPresentation
+pub impl @json.ToJson for StartDebuggingRequestArgumentsOutputPresentation
 
 pub(all) enum StartDebuggingRequestArgumentsRequest {
   Launch
   Attach
 }
-pub fn StartDebuggingRequestArgumentsRequest::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn StartDebuggingRequestArgumentsRequest::to_json(Self) -> Json
-pub impl ToJson for StartDebuggingRequestArgumentsRequest
+pub fn StartDebuggingRequestArgumentsRequest::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn StartDebuggingRequestArgumentsRequest::to_json(Self) -> @json.Json
 pub impl @json.FromJson for StartDebuggingRequestArgumentsRequest
+pub impl @json.ToJson for StartDebuggingRequestArgumentsRequest
 
 pub(all) struct StartDebuggingResponse {
   seq : Int32
@@ -2289,31 +2289,31 @@ pub(all) struct StartDebuggingResponse {
   success : Bool
   command : String
   message : String?
-  body : Json?
+  body : @json.Json?
 }
-pub fn StartDebuggingResponse::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn StartDebuggingResponse::to_json(Self) -> Json
-pub impl ToJson for StartDebuggingResponse
+pub fn StartDebuggingResponse::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn StartDebuggingResponse::to_json(Self) -> @json.Json
 pub impl @json.FromJson for StartDebuggingResponse
+pub impl @json.ToJson for StartDebuggingResponse
 
 pub(all) struct StepBackArguments {
   thread_id : Int32
   single_thread : Bool?
   granularity : SteppingGranularity?
 }
-pub fn StepBackArguments::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn StepBackArguments::to_json(Self) -> Json
-pub impl ToJson for StepBackArguments
+pub fn StepBackArguments::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn StepBackArguments::to_json(Self) -> @json.Json
 pub impl @json.FromJson for StepBackArguments
+pub impl @json.ToJson for StepBackArguments
 
 pub(all) struct StepBackRequest {
   seq : Int32
   arguments : StepBackArguments
 }
-pub fn StepBackRequest::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn StepBackRequest::to_json(Self) -> Json
-pub impl ToJson for StepBackRequest
+pub fn StepBackRequest::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn StepBackRequest::to_json(Self) -> @json.Json
 pub impl @json.FromJson for StepBackRequest
+pub impl @json.ToJson for StepBackRequest
 
 pub(all) struct StepBackResponse {
   seq : Int32
@@ -2321,12 +2321,12 @@ pub(all) struct StepBackResponse {
   success : Bool
   command : String
   message : String?
-  body : Json?
+  body : @json.Json?
 }
-pub fn StepBackResponse::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn StepBackResponse::to_json(Self) -> Json
-pub impl ToJson for StepBackResponse
+pub fn StepBackResponse::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn StepBackResponse::to_json(Self) -> @json.Json
 pub impl @json.FromJson for StepBackResponse
+pub impl @json.ToJson for StepBackResponse
 
 pub(all) struct StepInArguments {
   thread_id : Int32
@@ -2334,19 +2334,19 @@ pub(all) struct StepInArguments {
   target_id : Int32?
   granularity : SteppingGranularity?
 }
-pub fn StepInArguments::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn StepInArguments::to_json(Self) -> Json
-pub impl ToJson for StepInArguments
+pub fn StepInArguments::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn StepInArguments::to_json(Self) -> @json.Json
 pub impl @json.FromJson for StepInArguments
+pub impl @json.ToJson for StepInArguments
 
 pub(all) struct StepInRequest {
   seq : Int32
   arguments : StepInArguments
 }
-pub fn StepInRequest::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn StepInRequest::to_json(Self) -> Json
-pub impl ToJson for StepInRequest
+pub fn StepInRequest::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn StepInRequest::to_json(Self) -> @json.Json
 pub impl @json.FromJson for StepInRequest
+pub impl @json.ToJson for StepInRequest
 
 pub(all) struct StepInResponse {
   seq : Int32
@@ -2354,12 +2354,12 @@ pub(all) struct StepInResponse {
   success : Bool
   command : String
   message : String?
-  body : Json?
+  body : @json.Json?
 }
-pub fn StepInResponse::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn StepInResponse::to_json(Self) -> Json
-pub impl ToJson for StepInResponse
+pub fn StepInResponse::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn StepInResponse::to_json(Self) -> @json.Json
 pub impl @json.FromJson for StepInResponse
+pub impl @json.ToJson for StepInResponse
 
 pub(all) struct StepInTarget {
   id : Int32
@@ -2369,27 +2369,27 @@ pub(all) struct StepInTarget {
   end_line : Int64?
   end_column : Int64?
 }
-pub fn StepInTarget::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn StepInTarget::to_json(Self) -> Json
-pub impl ToJson for StepInTarget
+pub fn StepInTarget::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn StepInTarget::to_json(Self) -> @json.Json
 pub impl @json.FromJson for StepInTarget
+pub impl @json.ToJson for StepInTarget
 
 pub(all) struct StepInTargetsArguments {
   frame_id : Int32
 }
-pub fn StepInTargetsArguments::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn StepInTargetsArguments::to_json(Self) -> Json
-pub impl ToJson for StepInTargetsArguments
+pub fn StepInTargetsArguments::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn StepInTargetsArguments::to_json(Self) -> @json.Json
 pub impl @json.FromJson for StepInTargetsArguments
+pub impl @json.ToJson for StepInTargetsArguments
 
 pub(all) struct StepInTargetsRequest {
   seq : Int32
   arguments : StepInTargetsArguments
 }
-pub fn StepInTargetsRequest::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn StepInTargetsRequest::to_json(Self) -> Json
-pub impl ToJson for StepInTargetsRequest
+pub fn StepInTargetsRequest::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn StepInTargetsRequest::to_json(Self) -> @json.Json
 pub impl @json.FromJson for StepInTargetsRequest
+pub impl @json.ToJson for StepInTargetsRequest
 
 pub(all) struct StepInTargetsResponse {
   seq : Int32
@@ -2399,37 +2399,37 @@ pub(all) struct StepInTargetsResponse {
   message : String?
   body : StepInTargetsResponseBody
 }
-pub fn StepInTargetsResponse::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn StepInTargetsResponse::to_json(Self) -> Json
-pub impl ToJson for StepInTargetsResponse
+pub fn StepInTargetsResponse::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn StepInTargetsResponse::to_json(Self) -> @json.Json
 pub impl @json.FromJson for StepInTargetsResponse
+pub impl @json.ToJson for StepInTargetsResponse
 
 pub(all) struct StepInTargetsResponseBody {
   targets : Array[StepInTarget]
 }
-pub fn StepInTargetsResponseBody::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn StepInTargetsResponseBody::to_json(Self) -> Json
-pub impl ToJson for StepInTargetsResponseBody
+pub fn StepInTargetsResponseBody::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn StepInTargetsResponseBody::to_json(Self) -> @json.Json
 pub impl @json.FromJson for StepInTargetsResponseBody
+pub impl @json.ToJson for StepInTargetsResponseBody
 
 pub(all) struct StepOutArguments {
   thread_id : Int32
   single_thread : Bool?
   granularity : SteppingGranularity?
 }
-pub fn StepOutArguments::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn StepOutArguments::to_json(Self) -> Json
-pub impl ToJson for StepOutArguments
+pub fn StepOutArguments::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn StepOutArguments::to_json(Self) -> @json.Json
 pub impl @json.FromJson for StepOutArguments
+pub impl @json.ToJson for StepOutArguments
 
 pub(all) struct StepOutRequest {
   seq : Int32
   arguments : StepOutArguments
 }
-pub fn StepOutRequest::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn StepOutRequest::to_json(Self) -> Json
-pub impl ToJson for StepOutRequest
+pub fn StepOutRequest::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn StepOutRequest::to_json(Self) -> @json.Json
 pub impl @json.FromJson for StepOutRequest
+pub impl @json.ToJson for StepOutRequest
 
 pub(all) struct StepOutResponse {
   seq : Int32
@@ -2437,31 +2437,31 @@ pub(all) struct StepOutResponse {
   success : Bool
   command : String
   message : String?
-  body : Json?
+  body : @json.Json?
 }
-pub fn StepOutResponse::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn StepOutResponse::to_json(Self) -> Json
-pub impl ToJson for StepOutResponse
+pub fn StepOutResponse::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn StepOutResponse::to_json(Self) -> @json.Json
 pub impl @json.FromJson for StepOutResponse
+pub impl @json.ToJson for StepOutResponse
 
 pub(all) enum SteppingGranularity {
   Statement
   Line
   Instruction
 }
-pub fn SteppingGranularity::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn SteppingGranularity::to_json(Self) -> Json
-pub impl ToJson for SteppingGranularity
+pub fn SteppingGranularity::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn SteppingGranularity::to_json(Self) -> @json.Json
 pub impl @json.FromJson for SteppingGranularity
+pub impl @json.ToJson for SteppingGranularity
 
 pub(all) struct StoppedEvent {
   seq : Int32
   body : StoppedEventBody
 }
-pub fn StoppedEvent::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn StoppedEvent::to_json(Self) -> Json
-pub impl ToJson for StoppedEvent
+pub fn StoppedEvent::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn StoppedEvent::to_json(Self) -> @json.Json
 pub impl @json.FromJson for StoppedEvent
+pub impl @json.ToJson for StoppedEvent
 
 pub(all) struct StoppedEventBody {
   reason : String
@@ -2472,27 +2472,27 @@ pub(all) struct StoppedEventBody {
   all_threads_stopped : Bool?
   hit_breakpoint_ids : Array[Int32]?
 }
-pub fn StoppedEventBody::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn StoppedEventBody::to_json(Self) -> Json
-pub impl ToJson for StoppedEventBody
+pub fn StoppedEventBody::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn StoppedEventBody::to_json(Self) -> @json.Json
 pub impl @json.FromJson for StoppedEventBody
+pub impl @json.ToJson for StoppedEventBody
 
 pub(all) struct TerminateArguments {
   restart : Bool?
 }
-pub fn TerminateArguments::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn TerminateArguments::to_json(Self) -> Json
-pub impl ToJson for TerminateArguments
+pub fn TerminateArguments::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn TerminateArguments::to_json(Self) -> @json.Json
 pub impl @json.FromJson for TerminateArguments
+pub impl @json.ToJson for TerminateArguments
 
 pub(all) struct TerminateRequest {
   seq : Int32
   arguments : TerminateArguments?
 }
-pub fn TerminateRequest::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn TerminateRequest::to_json(Self) -> Json
-pub impl ToJson for TerminateRequest
+pub fn TerminateRequest::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn TerminateRequest::to_json(Self) -> @json.Json
 pub impl @json.FromJson for TerminateRequest
+pub impl @json.ToJson for TerminateRequest
 
 pub(all) struct TerminateResponse {
   seq : Int32
@@ -2500,29 +2500,29 @@ pub(all) struct TerminateResponse {
   success : Bool
   command : String
   message : String?
-  body : Json?
+  body : @json.Json?
 }
-pub fn TerminateResponse::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn TerminateResponse::to_json(Self) -> Json
-pub impl ToJson for TerminateResponse
+pub fn TerminateResponse::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn TerminateResponse::to_json(Self) -> @json.Json
 pub impl @json.FromJson for TerminateResponse
+pub impl @json.ToJson for TerminateResponse
 
 pub(all) struct TerminateThreadsArguments {
   thread_ids : Array[Int32]?
 }
-pub fn TerminateThreadsArguments::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn TerminateThreadsArguments::to_json(Self) -> Json
-pub impl ToJson for TerminateThreadsArguments
+pub fn TerminateThreadsArguments::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn TerminateThreadsArguments::to_json(Self) -> @json.Json
 pub impl @json.FromJson for TerminateThreadsArguments
+pub impl @json.ToJson for TerminateThreadsArguments
 
 pub(all) struct TerminateThreadsRequest {
   seq : Int32
   arguments : TerminateThreadsArguments
 }
-pub fn TerminateThreadsRequest::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn TerminateThreadsRequest::to_json(Self) -> Json
-pub impl ToJson for TerminateThreadsRequest
+pub fn TerminateThreadsRequest::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn TerminateThreadsRequest::to_json(Self) -> @json.Json
 pub impl @json.FromJson for TerminateThreadsRequest
+pub impl @json.ToJson for TerminateThreadsRequest
 
 pub(all) struct TerminateThreadsResponse {
   seq : Int32
@@ -2530,65 +2530,65 @@ pub(all) struct TerminateThreadsResponse {
   success : Bool
   command : String
   message : String?
-  body : Json?
+  body : @json.Json?
 }
-pub fn TerminateThreadsResponse::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn TerminateThreadsResponse::to_json(Self) -> Json
-pub impl ToJson for TerminateThreadsResponse
+pub fn TerminateThreadsResponse::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn TerminateThreadsResponse::to_json(Self) -> @json.Json
 pub impl @json.FromJson for TerminateThreadsResponse
+pub impl @json.ToJson for TerminateThreadsResponse
 
 pub(all) struct TerminatedEvent {
   seq : Int32
   body : TerminatedEventBody?
 }
-pub fn TerminatedEvent::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn TerminatedEvent::to_json(Self) -> Json
-pub impl ToJson for TerminatedEvent
+pub fn TerminatedEvent::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn TerminatedEvent::to_json(Self) -> @json.Json
 pub impl @json.FromJson for TerminatedEvent
+pub impl @json.ToJson for TerminatedEvent
 
 pub(all) struct TerminatedEventBody {
-  restart : Json?
+  restart : @json.Json?
 }
-pub fn TerminatedEventBody::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn TerminatedEventBody::to_json(Self) -> Json
-pub impl ToJson for TerminatedEventBody
+pub fn TerminatedEventBody::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn TerminatedEventBody::to_json(Self) -> @json.Json
 pub impl @json.FromJson for TerminatedEventBody
+pub impl @json.ToJson for TerminatedEventBody
 
 pub(all) struct Thread {
   id : Int32
   name : String
 }
-pub fn Thread::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn Thread::to_json(Self) -> Json
-pub impl ToJson for Thread
+pub fn Thread::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn Thread::to_json(Self) -> @json.Json
 pub impl @json.FromJson for Thread
+pub impl @json.ToJson for Thread
 
 pub(all) struct ThreadEvent {
   seq : Int32
   body : ThreadEventBody
 }
-pub fn ThreadEvent::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn ThreadEvent::to_json(Self) -> Json
-pub impl ToJson for ThreadEvent
+pub fn ThreadEvent::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn ThreadEvent::to_json(Self) -> @json.Json
 pub impl @json.FromJson for ThreadEvent
+pub impl @json.ToJson for ThreadEvent
 
 pub(all) struct ThreadEventBody {
   reason : String
   thread_id : Int32
 }
-pub fn ThreadEventBody::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn ThreadEventBody::to_json(Self) -> Json
-pub impl ToJson for ThreadEventBody
+pub fn ThreadEventBody::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn ThreadEventBody::to_json(Self) -> @json.Json
 pub impl @json.FromJson for ThreadEventBody
+pub impl @json.ToJson for ThreadEventBody
 
 pub(all) struct ThreadsRequest {
   seq : Int32
-  arguments : Json?
+  arguments : @json.Json?
 }
-pub fn ThreadsRequest::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn ThreadsRequest::to_json(Self) -> Json
-pub impl ToJson for ThreadsRequest
+pub fn ThreadsRequest::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn ThreadsRequest::to_json(Self) -> @json.Json
 pub impl @json.FromJson for ThreadsRequest
+pub impl @json.ToJson for ThreadsRequest
 
 pub(all) struct ThreadsResponse {
   seq : Int32
@@ -2598,26 +2598,26 @@ pub(all) struct ThreadsResponse {
   message : String?
   body : ThreadsResponseBody
 }
-pub fn ThreadsResponse::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn ThreadsResponse::to_json(Self) -> Json
-pub impl ToJson for ThreadsResponse
+pub fn ThreadsResponse::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn ThreadsResponse::to_json(Self) -> @json.Json
 pub impl @json.FromJson for ThreadsResponse
+pub impl @json.ToJson for ThreadsResponse
 
 pub(all) struct ThreadsResponseBody {
   threads : Array[Thread]
 }
-pub fn ThreadsResponseBody::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn ThreadsResponseBody::to_json(Self) -> Json
-pub impl ToJson for ThreadsResponseBody
+pub fn ThreadsResponseBody::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn ThreadsResponseBody::to_json(Self) -> @json.Json
 pub impl @json.FromJson for ThreadsResponseBody
+pub impl @json.ToJson for ThreadsResponseBody
 
 pub(all) struct ValueFormat {
   hex : Bool?
 }
-pub fn ValueFormat::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn ValueFormat::to_json(Self) -> Json
-pub impl ToJson for ValueFormat
+pub fn ValueFormat::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn ValueFormat::to_json(Self) -> @json.Json
 pub impl @json.FromJson for ValueFormat
+pub impl @json.ToJson for ValueFormat
 
 pub(all) struct Variable {
   name : String
@@ -2632,10 +2632,10 @@ pub(all) struct Variable {
   declaration_location_reference : Int32?
   value_location_reference : Int32?
 }
-pub fn Variable::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn Variable::to_json(Self) -> Json
-pub impl ToJson for Variable
+pub fn Variable::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn Variable::to_json(Self) -> @json.Json
 pub impl @json.FromJson for Variable
+pub impl @json.ToJson for Variable
 
 pub(all) struct VariablePresentationHint {
   kind : String?
@@ -2643,10 +2643,10 @@ pub(all) struct VariablePresentationHint {
   visibility : String?
   lazy_ : Bool?
 }
-pub fn VariablePresentationHint::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn VariablePresentationHint::to_json(Self) -> Json
-pub impl ToJson for VariablePresentationHint
+pub fn VariablePresentationHint::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn VariablePresentationHint::to_json(Self) -> @json.Json
 pub impl @json.FromJson for VariablePresentationHint
+pub impl @json.ToJson for VariablePresentationHint
 
 pub(all) struct VariablesArguments {
   variables_reference : Int32
@@ -2655,28 +2655,28 @@ pub(all) struct VariablesArguments {
   count : Int64?
   format : ValueFormat?
 }
-pub fn VariablesArguments::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn VariablesArguments::to_json(Self) -> Json
-pub impl ToJson for VariablesArguments
+pub fn VariablesArguments::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn VariablesArguments::to_json(Self) -> @json.Json
 pub impl @json.FromJson for VariablesArguments
+pub impl @json.ToJson for VariablesArguments
 
 pub(all) enum VariablesArgumentsFilter {
   Indexed
   Named
 }
-pub fn VariablesArgumentsFilter::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn VariablesArgumentsFilter::to_json(Self) -> Json
-pub impl ToJson for VariablesArgumentsFilter
+pub fn VariablesArgumentsFilter::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn VariablesArgumentsFilter::to_json(Self) -> @json.Json
 pub impl @json.FromJson for VariablesArgumentsFilter
+pub impl @json.ToJson for VariablesArgumentsFilter
 
 pub(all) struct VariablesRequest {
   seq : Int32
   arguments : VariablesArguments
 }
-pub fn VariablesRequest::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn VariablesRequest::to_json(Self) -> Json
-pub impl ToJson for VariablesRequest
+pub fn VariablesRequest::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn VariablesRequest::to_json(Self) -> @json.Json
 pub impl @json.FromJson for VariablesRequest
+pub impl @json.ToJson for VariablesRequest
 
 pub(all) struct VariablesResponse {
   seq : Int32
@@ -2686,18 +2686,18 @@ pub(all) struct VariablesResponse {
   message : String?
   body : VariablesResponseBody
 }
-pub fn VariablesResponse::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn VariablesResponse::to_json(Self) -> Json
-pub impl ToJson for VariablesResponse
+pub fn VariablesResponse::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn VariablesResponse::to_json(Self) -> @json.Json
 pub impl @json.FromJson for VariablesResponse
+pub impl @json.ToJson for VariablesResponse
 
 pub(all) struct VariablesResponseBody {
   variables : Array[Variable]
 }
-pub fn VariablesResponseBody::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn VariablesResponseBody::to_json(Self) -> Json
-pub impl ToJson for VariablesResponseBody
+pub fn VariablesResponseBody::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn VariablesResponseBody::to_json(Self) -> @json.Json
 pub impl @json.FromJson for VariablesResponseBody
+pub impl @json.ToJson for VariablesResponseBody
 
 pub(all) struct WriteMemoryArguments {
   memory_reference : String
@@ -2705,19 +2705,19 @@ pub(all) struct WriteMemoryArguments {
   allow_partial : Bool?
   data : String
 }
-pub fn WriteMemoryArguments::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn WriteMemoryArguments::to_json(Self) -> Json
-pub impl ToJson for WriteMemoryArguments
+pub fn WriteMemoryArguments::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn WriteMemoryArguments::to_json(Self) -> @json.Json
 pub impl @json.FromJson for WriteMemoryArguments
+pub impl @json.ToJson for WriteMemoryArguments
 
 pub(all) struct WriteMemoryRequest {
   seq : Int32
   arguments : WriteMemoryArguments
 }
-pub fn WriteMemoryRequest::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn WriteMemoryRequest::to_json(Self) -> Json
-pub impl ToJson for WriteMemoryRequest
+pub fn WriteMemoryRequest::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn WriteMemoryRequest::to_json(Self) -> @json.Json
 pub impl @json.FromJson for WriteMemoryRequest
+pub impl @json.ToJson for WriteMemoryRequest
 
 pub(all) struct WriteMemoryResponse {
   seq : Int32
@@ -2727,19 +2727,19 @@ pub(all) struct WriteMemoryResponse {
   message : String?
   body : WriteMemoryResponseBody?
 }
-pub fn WriteMemoryResponse::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn WriteMemoryResponse::to_json(Self) -> Json
-pub impl ToJson for WriteMemoryResponse
+pub fn WriteMemoryResponse::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn WriteMemoryResponse::to_json(Self) -> @json.Json
 pub impl @json.FromJson for WriteMemoryResponse
+pub impl @json.ToJson for WriteMemoryResponse
 
 pub(all) struct WriteMemoryResponseBody {
   offset : Int64?
   bytes_written : Int64?
 }
-pub fn WriteMemoryResponseBody::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
-pub fn WriteMemoryResponseBody::to_json(Self) -> Json
-pub impl ToJson for WriteMemoryResponseBody
+pub fn WriteMemoryResponseBody::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn WriteMemoryResponseBody::to_json(Self) -> @json.Json
 pub impl @json.FromJson for WriteMemoryResponseBody
+pub impl @json.ToJson for WriteMemoryResponseBody
 
 // Type aliases
 

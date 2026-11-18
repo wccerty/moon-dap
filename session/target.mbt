@@ -47,9 +47,10 @@ pub(all) enum TargetEvent {
 }
 
 ///|
+#derive(Debug)
 pub(all) suberror TargetError {
   TargetError(String)
-} derive(Debug)
+}
 
 ///|
 pub extend TargetError with @debug.Debug::{to_repr}
@@ -72,6 +73,12 @@ pub fn EventSink::emit(
 pub(all) struct BreakpointSpec {
   line : Int64
   column : Int64?
+}
+
+///|
+pub(all) struct ConditionalBreakpointSpec {
+  position : BreakpointSpec
+  condition : String?
 }
 
 ///|
@@ -195,6 +202,13 @@ pub(open) trait DebugTarget {
   fn breakpoint_location_provider(Self) -> ((String, BreakpointRange) -> Array[
     BreakpointSpec,
   ] raise TargetError)? = _
+  /// 提供时接管同一文件的普通和条件断点。返回结果与请求逐项对应。
+  fn conditional_breakpoint_provider(Self) -> ((
+    String,
+    Array[ConditionalBreakpointSpec],
+  ) -> Array[BreakpointResult] raise TargetError)? = _
+  /// 在暂停时按可选目标帧读取表达式，不修改目标状态。
+  fn evaluation_provider(Self) -> ((Int32?, String) -> String raise TargetError)? = _
   fn resume_execution(Self, Int32, ResumeMode) -> Unit raise TargetError
   fn pause(Self, Int32) -> Unit raise TargetError
   fn threads(Self) -> Array[Thread] raise TargetError
@@ -207,5 +221,15 @@ pub(open) trait DebugTarget {
 
 ///|
 impl DebugTarget with fn breakpoint_location_provider(_) {
+  None
+}
+
+///|
+impl DebugTarget with fn conditional_breakpoint_provider(_) {
+  None
+}
+
+///|
+impl DebugTarget with fn evaluation_provider(_) {
   None
 }

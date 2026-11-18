@@ -1,4 +1,5 @@
 ///|
+#derive(Eq, Debug)
 pub(all) enum FrameError {
   InvalidHeader
   MissingLength
@@ -7,7 +8,7 @@ pub(all) enum FrameError {
   HeaderTooLarge
   BodyTooLarge
   TruncatedFrame
-} derive(Eq, Debug)
+}
 
 ///|
 pub extend FrameError with Eq::{not_equal, equal}

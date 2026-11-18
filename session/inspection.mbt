@@ -108,3 +108,15 @@ fn Session::variables(self : Session, req : @protocol.Request) -> Json raise {
   }
   self.reply(req, body={ "variables": Json::array(variables) })
 }
+
+///|
+fn Session::evaluate(self : Session, req : @protocol.Request) -> Json raise {
+  guard self.evaluate_provider is Some(provider) else {
+    raise RequestFailure("notSupported", "目标不支持表达式求值")
+  }
+  self.require_stopped()
+  let args : @protocol.EvaluateArguments = arguments(req)
+  let frame = args.frame_id.map(id => self.frame_refs.handle(id))
+  let value = provider(frame, args.expression)
+  self.reply(req, body={ "result": value, "variablesReference": 0 })
+}

@@ -88,23 +88,28 @@ fn Session::set_breakpoints(
       "invalidArguments", "行断点需要本地源码路径",
     )
   }
-  let valid = []
+  let valid : Array[ConditionalBreakpointSpec] = []
   let skipped = []
   let (lines_at_one, columns_at_one) = self.coordinates()
   match args.breakpoints {
     Some(items) =>
       for bp in items {
-        let unsupported = bp.condition is Some(_) ||
+        let unsupported = (
+            bp.condition is Some(_) && self.condition_provider is None
+          ) ||
           bp.hit_condition is Some(_) ||
           bp.log_message is Some(_) ||
           bp.mode is Some(_)
         skipped.push(unsupported)
         if !unsupported {
           valid.push({
-            line: incoming_position(bp.line, lines_at_one),
-            column: bp.column.map(value => {
-              incoming_position(value, columns_at_one)
-            }),
+            position: {
+              line: incoming_position(bp.line, lines_at_one),
+              column: bp.column.map(value => {
+                incoming_position(value, columns_at_one)
+              }),
+            },
+            condition: bp.condition,
           })
         }
       }
@@ -112,12 +117,18 @@ fn Session::set_breakpoints(
       for line in args.lines.unwrap_or([]) {
         skipped.push(false)
         valid.push({
-          line: incoming_position(line, lines_at_one),
-          column: None,
+          position: {
+            line: incoming_position(line, lines_at_one),
+            column: None,
+          },
+          condition: None,
         })
       }
   }
-  let installed = self.target.set_breakpoints(path, valid)
+  let installed = match self.condition_provider {
+    Some(provider) => provider(path, valid)
+    None => self.target.set_breakpoints(path, valid.map(item => item.position))
+  }
   guard installed.length() == valid.length() else {
     raise TargetError("断点结果数与提交的断点数不一致")
   }

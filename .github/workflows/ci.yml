@@ -23,7 +23,7 @@ jobs:
           node-version: '22'
       - name: 安装固定版 MoonBit
         env:
-          MOONBIT_INSTALL_VERSION: '0.10.17+d971670cd'
+          MOONBIT_INSTALL_VERSION: '0.10.20+65efd5b93'
         run: |
           set -o pipefail
           curl -fsSL https://cli.moonbitlang.com/install/unix.sh | bash
@@ -48,3 +48,5 @@ jobs:
           python scripts/check_schema.py
           python scripts/test_e2e.py
           node --test tests/vscode_client.cjs
+      - name: 第三方 MoonBpfLab 运行时接入
+        run: python scripts/test_bpflab.py

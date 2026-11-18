@@ -1,0 +1,17 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "wccerty/moon-dap-bpflab-example"
+
+// Values
+
+// Errors
+
+// Types and methods
+type BpfTarget
+
+type Program
+
+type Watchpoint
+
+// Type aliases
+
+// Traits

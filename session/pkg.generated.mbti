@@ -3,20 +3,23 @@ package "wccerty/moon-dap/session"
 
 import {
   "moonbitlang/core/debug",
+  "moonbitlang/core/json",
 }
 
 // Values
 
 // Errors
+#derive(@debug.Debug)
 pub suberror SessionError {
   SequenceExhausted
   ReusedRequestSequence(Int32)
-} derive(@debug.Debug)
+}
 pub fn SessionError::to_repr(Self) -> @debug.Repr
 
+#derive(@debug.Debug)
 pub(all) suberror TargetError {
   TargetError(String)
-} derive(@debug.Debug)
+}
 pub fn TargetError::to_repr(Self) -> @debug.Repr
 
 // Types and methods
@@ -41,6 +44,11 @@ pub(all) struct BreakpointSpec {
   column : Int64?
 }
 
+pub(all) struct ConditionalBreakpointSpec {
+  position : BreakpointSpec
+  condition : String?
+}
+
 pub(all) enum DisconnectMode {
   Terminate
   Detach
@@ -61,6 +69,7 @@ pub(all) struct Page {
 }
 pub fn[T] Page::slice(Self, Array[T]) -> Array[T]
 
+#derive(Eq, @debug.Debug)
 pub(all) enum Phase {
   New
   Ready
@@ -69,7 +78,7 @@ pub(all) enum Phase {
   Stopped
   Terminated
   Closed
-} derive(Eq, @debug.Debug)
+}
 pub fn Phase::equal(Self, Self) -> Bool
 pub fn Phase::not_equal(Self, Self) -> Bool
 pub fn Phase::to_repr(Self) -> @debug.Repr
@@ -90,10 +99,10 @@ pub(all) struct Scope {
 type Session
 pub async fn Session::close(Self) -> Unit
 pub fn Session::coordinates(Self) -> (Bool, Bool)
-pub async fn Session::handle(Self, Json) -> Array[Json]
+pub async fn Session::handle(Self, @json.Json) -> Array[@json.Json]
 pub fn Session::new(&DebugTarget) -> Self
 pub fn Session::phase(Self) -> Phase
-pub async fn Session::poll(Self) -> Array[Json]
+pub async fn Session::poll(Self) -> Array[@json.Json]
 
 pub(all) struct SourceLocation {
   path : String
@@ -165,10 +174,12 @@ pub(all) struct VariableQuery {
 
 // Traits
 pub(open) trait DebugTarget {
-  async fn prepare(Self, StartMode, Json, EventSink) -> Unit
+  async fn prepare(Self, StartMode, @json.Json, EventSink) -> Unit
   fn start(Self) -> Unit raise TargetError
   fn set_breakpoints(Self, String, Array[BreakpointSpec]) -> Array[BreakpointResult] raise TargetError
   fn breakpoint_location_provider(Self) -> ((String, BreakpointRange) -> Array[BreakpointSpec] raise TargetError)? = _
+  fn conditional_breakpoint_provider(Self) -> ((String, Array[ConditionalBreakpointSpec]) -> Array[BreakpointResult] raise TargetError)? = _
+  fn evaluation_provider(Self) -> ((Int32?, String) -> String raise TargetError)? = _
   fn resume_execution(Self, Int32, ResumeMode) -> Unit raise TargetError
   fn pause(Self, Int32) -> Unit raise TargetError
   fn threads(Self) -> Array[Thread] raise TargetError

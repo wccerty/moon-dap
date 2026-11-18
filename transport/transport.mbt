@@ -17,11 +17,12 @@ pub fn Options::default() -> Options {
 }
 
 ///|
+#derive(Debug)
 pub suberror TransportError {
   InvalidFrame(@framing.FrameError)
   OutgoingFrameTooLarge
   InvalidOptions
-} derive(Debug)
+}
 
 ///|
 pub extend TransportError with @debug.Debug::{to_repr}

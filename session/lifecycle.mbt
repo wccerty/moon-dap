@@ -203,6 +203,7 @@ async fn Session::dispatch(
     "stackTrace" => [self.stack_trace(req)]
     "scopes" => [self.scopes(req)]
     "variables" => [self.variables(req)]
+    "evaluate" => [self.evaluate(req)]
     _ => [self.failure(req, "notSupported", "未实现请求 \{req.command}")]
   }
 }

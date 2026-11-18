@@ -1,4 +1,5 @@
 ///|
+#derive(Eq, Debug)
 pub(all) enum Phase {
   New
   Ready
@@ -7,7 +8,7 @@ pub(all) enum Phase {
   Stopped
   Terminated
   Closed
-} derive(Eq, Debug)
+}
 
 ///|
 pub extend Phase with Eq::{equal, not_equal}
@@ -16,10 +17,11 @@ pub extend Phase with Eq::{equal, not_equal}
 pub extend Phase with @debug.Debug::{to_repr}
 
 ///|
+#derive(Debug)
 pub suberror SessionError {
   SequenceExhausted
   ReusedRequestSequence(Int32)
-} derive(Debug)
+}
 
 ///|
 pub extend SessionError with @debug.Debug::{to_repr}
@@ -28,6 +30,10 @@ pub extend SessionError with @debug.Debug::{to_repr}
 struct Session {
   target : &DebugTarget
   location_provider : ((String, BreakpointRange) -> Array[BreakpointSpec] raise TargetError)?
+  condition_provider : ((String, Array[ConditionalBreakpointSpec]) -> Array[
+    BreakpointResult,
+  ] raise TargetError)?
+  evaluate_provider : ((Int32?, String) -> String raise TargetError)?
   events : Array[TargetEvent]
   frame_refs : References
   variable_refs : References
@@ -48,6 +54,8 @@ pub fn Session::new(target : &DebugTarget) -> Session {
   {
     target,
     location_provider: target.breakpoint_location_provider(),
+    condition_provider: target.conditional_breakpoint_provider(),
+    evaluate_provider: target.evaluation_provider(),
     events: [],
     frame_refs: References::new(),
     variable_refs: References::new(),
@@ -166,6 +174,12 @@ fn Session::initialize(self : Session, req : @protocol.Request) -> Json raise {
   ])
   if self.location_provider is Some(_) {
     capabilities.set("supportsBreakpointLocationsRequest", Json::boolean(true))
+  }
+  if self.condition_provider is Some(_) {
+    capabilities.set("supportsConditionalBreakpoints", Json::boolean(true))
+  }
+  if self.evaluate_provider is Some(_) {
+    capabilities.set("supportsEvaluateForHovers", Json::boolean(true))
   }
   self.reply(req, body=Json::object(capabilities))
 }
