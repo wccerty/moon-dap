@@ -1,0 +1,120 @@
+2026-11-19 Windows x64 可靠性回归
+MOONC_OVERRIDE 指向已安装的 moonc.exe，MOONRUN_OVERRIDE 指向 moonrun.exe。Python 使用项目 .venv。
+
+> moon version --all
+moon 0.1.20261104 (940aa18 2026-11-04) ~\.moon\bin\moon.exe
+moonc v0.10.20+65efd5b93 (2026-11-05) ~\.moon\bin\moonc.exe
+moonrun 0.1.20261104 (940aa18 2026-11-04) ~\.moon\bin\moonrun.exe
+
+Feature flags enabled: rr_moon_mod,rr_moon_pkg
+
+exit=0
+
+> moon check --target native --deny-warn
+Finished. moon: ran 6 tasks, now up to date
+
+exit=0
+
+> moon fmt --check
+Finished. moon: ran 30 tasks, now up to date
+
+exit=0
+
+> .\.venv\Scripts\python.exe scripts/generate_protocol.py --check
+已核对 192 项 Schema 定义
+
+exit=0
+
+> moon test --target native
+  正在创建库 <仓库>\_build\native\debug\test\framing\framing.internal_test.lib 和对象 <仓库>\_build\native\debug\test\framing\framing.internal_test.exp
+  正在创建库 <仓库>\_build\native\debug\test\protocol\protocol.blackbox_test.lib 和对象 <仓库>\_build\native\debug\test\protocol\protocol.blackbox_test.exp
+  正在创建库 <仓库>\_build\native\debug\test\framing\framing.blackbox_test.lib 和对象 <仓库>\_build\native\debug\test\framing\framing.blackbox_test.exp
+  正在创建库 <仓库>\_build\native\debug\test\framing\framing.whitebox_test.lib 和对象 <仓库>\_build\native\debug\test\framing\framing.whitebox_test.exp
+  正在创建库 <仓库>\_build\native\debug\test\tests\codec_fixture\codec_fixture.internal_test.lib 和对象 <仓库>\_build\native\debug\test\tests\codec_fixture\codec_fixture.internal_test.exp
+  正在创建库 <仓库>\_build\native\debug\test\session\session.blackbox_test.lib 和对象 <仓库>\_build\native\debug\test\session\session.blackbox_test.exp
+  正在创建库 <仓库>\_build\native\debug\test\session\session.internal_test.lib 和对象 <仓库>\_build\native\debug\test\session\session.internal_test.exp
+  正在创建库 <仓库>\_build\native\debug\test\protocol\protocol.internal_test.lib 和对象 <仓库>\_build\native\debug\test\protocol\protocol.internal_test.exp
+  正在创建库 <仓库>\_build\native\debug\test\transport\transport.blackbox_test.lib 和对象 <仓库>\_build\native\debug\test\transport\transport.blackbox_test.exp
+  正在创建库 <仓库>\_build\native\debug\test\transport\transport.internal_test.lib 和对象 <仓库>\_build\native\debug\test\transport\transport.internal_test.exp
+  正在创建库 <仓库>\_build\native\debug\test\protocol\protocol.whitebox_test.lib 和对象 <仓库>\_build\native\debug\test\protocol\protocol.whitebox_test.exp
+  正在创建库 <仓库>\_build\native\debug\test\examples\minilang\minilang.internal_test.lib 和对象 <仓库>\_build\native\debug\test\examples\minilang\minilang.internal_test.exp
+  正在创建库 <仓库>\_build\native\debug\test\tests\codec_fixture\codec_fixture.blackbox_test.lib 和对象 <仓库>\_build\native\debug\test\tests\codec_fixture\codec_fixture.blackbox_test.exp
+  正在创建库 <仓库>\_build\native\debug\test\session\session.whitebox_test.lib 和对象 <仓库>\_build\native\debug\test\session\session.whitebox_test.exp
+  正在创建库 <仓库>\_build\native\debug\test\transport\transport.whitebox_test.lib 和对象 <仓库>\_build\native\debug\test\transport\transport.whitebox_test.exp
+  正在创建库 <仓库>\_build\native\debug\test\examples\minilang\minilang.blackbox_test.lib 和对象 <仓库>\_build\native\debug\test\examples\minilang\minilang.blackbox_test.exp
+Total tests: 23, passed: 23, failed: 0.
+
+exit=0
+
+> moon build --target native
+  正在创建库 <仓库>\_build\native\debug\build\examples\minilang\minilang.lib 和对象 <仓库>\_build\native\debug\build\examples\minilang\minilang.exp
+Finished. moon: ran 4 tasks, now up to date
+Artifacts:
+  wccerty/moon-dap/examples/minilang    native  <仓库>\_build\native\debug\build\examples\minilang\minilang.exe
+  wccerty/moon-dap/tests/codec_fixture  native  <仓库>\_build\native\debug\build\tests\codec_fixture\codec_fixture.exe
+
+exit=0
+
+> .\.venv\Scripts\python.exe scripts/check_schema.py
+Draft 4 校验通过：11 个 MoonBit 往返样本
+
+exit=0
+
+> .\.venv\Scripts\python.exe scripts/test_e2e.py
+test_breakpoint_locations_zero_based (__main__.DapE2E.test_breakpoint_locations_zero_based) ... ok
+  28 条请求，39 条响应或事件均已按顺序校验
+test_stdio (__main__.DapE2E.test_stdio) ... ok
+test_stdio_eof_during_configuration (__main__.DapE2E.test_stdio_eof_during_configuration) ... ok
+test_stdio_rejects_bad_header (__main__.DapE2E.test_stdio_rejects_bad_header) ... ok
+  28 条请求，39 条响应或事件均已按顺序校验
+test_tcp_and_isolation (__main__.DapE2E.test_tcp_and_isolation) ... ok
+test_tcp_survives_invalid_clients (__main__.DapE2E.test_tcp_survives_invalid_clients) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 16.324s
+
+OK
+
+exit=0
+
+> node --test tests/vscode_client.cjs
+✔ 官方 DAP 测试客户端命中断点并检查变量 (63.1456ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 1
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 194.595
+
+exit=0
+
+> .\.venv\Scripts\python.exe scripts/test_bpflab.py
+  正在创建库 <仓库>\examples\bpflab\_build\native\debug\build\wccerty\moon-dap-bpflab-example\moon-dap-bpflab-example.lib 和对象 <仓库>\examples\bpflab\_build\native\debug\build\wccerty\moon-dap-bpflab-example\moon-dap-bpflab-example.exp
+Finished. moon: ran 4 tasks, now up to date
+test_breakpoint_replacement_and_clear (__main__.BpfAdapterTest.test_breakpoint_replacement_and_clear) ... ok
+test_debug_session (__main__.BpfAdapterTest.test_debug_session) ... ok
+test_launch_failure_can_retry (__main__.BpfAdapterTest.test_launch_failure_can_retry) ... ok
+MoonBpfLab 外部 VM：条件断点命中 r0=2，单步后 r0=3，继续运行返回 r0=4
+
+----------------------------------------------------------------------
+Ran 3 tests in 2.333s
+
+OK
+
+exit=0
+
+> .\.venv\Scripts\python.exe scripts/test_bpflab.py
+Finished. moon: no work to do
+test_breakpoint_replacement_and_clear (__main__.BpfAdapterTest.test_breakpoint_replacement_and_clear) ... ok
+test_debug_session (__main__.BpfAdapterTest.test_debug_session) ... ok
+test_launch_failure_can_retry (__main__.BpfAdapterTest.test_launch_failure_can_retry) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.757s
+
+OK
+MoonBpfLab 外部 VM：条件断点命中 r0=2，单步后 r0=3，继续运行返回 r0=4
+
+exit=0

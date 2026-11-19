@@ -36,3 +36,19 @@ Windows x64 本机使用 Moon CLI `0.1.20261023 (3778465)`、`moonc v0.10.17+d97
 在 Windows x64 使用 MoonBit `v0.10.20+65efd5b93` 复测，检查、格式、生成结果核对及 native 构建通过。共通过 22 项 MoonBit 测试、11 个 Draft 4 样本、5 项迷你解释器端到端测试及 1 项官方 DAP 客户端测试。
 
 `python scripts/test_bpflab.py` 另运行 1 项独立的外部 VM 测试。测试在条件 `r0 == 2` 命中断点，单步得到 3，继续执行后输出 4 并正常退出。Windows 实测使用直接调用 `moonc.exe` 的进程级配置。复现命令与接入边界见 [MoonBpfLab 接入案例](../examples/bpflab/README.md)。
+
+## 2026-11-19 可靠性回归
+
+Windows x64 使用 `moonc v0.10.20+65efd5b93`。`moon check --target native --deny-warn`、`moon fmt --check`、生成代码一致性校验及 native 构建均退出 0。完整命令和输出记录在 [本地可靠性验证日志](reliability-verification.txt)。
+
+| 验证项目 | 实际结果 |
+| --- | --- |
+| `moon test --target native` | 23 项通过，0 失败。新增的传输层测试通过 `serve` 入口触发运行时轮询失败，验证阻塞的异步清理受到 `request_timeout_ms` 限制、取消时执行收尾，并且目标清理只调用一次。 |
+| `python scripts/check_schema.py` | 11 个 MoonBit 往返样本通过 Draft 4 校验。 |
+| `python scripts/test_e2e.py` | 6 项通过。新增 TCP 回归依次发送非法头部、无效 UTF-8、无效 JSON、重复 JSON 键和截断帧，确认每个异常连接关闭，已有会话仍可响应，监听器仍可接收新会话。 |
+| `node --test tests/vscode_client.cjs` | 1 项官方 DAP 客户端测试通过。 |
+| `python scripts/test_bpflab.py` | 3 项通过。覆盖完整外部 VM 调试会话、条件断点替换与清除、`uint64` 最大值条件，以及三种启动错误后在原连接重试。 |
+
+两处修复均先通过回归测试复现。修复前，传输测试触发外层保护超时，断言出现 `None != Some(true)`。为会话轮询加上超时后，同一测试收到传输层自身的 `TimeoutError` 并通过。外部案例曾将字符串 `stopOnEntry: "true"` 当作关闭处理，测试收到 `initialized` 事件；修复后返回 `targetError`，随后可用正确参数重新启动。
+
+这里的超时依赖异步方法配合取消。目标的同步 `poll` 仍须执行有界工作并及时返回。本次编辑器相关回归使用官方 DAP 测试客户端，外部 VM 使用 stdio 脚本验收。

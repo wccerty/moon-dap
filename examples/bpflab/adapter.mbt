@@ -76,11 +76,18 @@ impl @session.DebugTarget for BpfTarget with fn prepare(
       "示例仅支持 launch，并需要 program 源码路径",
     )
   }
+  let stop_on_entry = match options {
+    { "stopOnEntry": True, .. } => true
+    { "stopOnEntry": False, .. } => false
+    { "stopOnEntry": _, .. } =>
+      raise @session.TargetError("stopOnEntry 需要布尔值")
+    _ => false
+  }
   let program = parse_program(path, @fs.read_file(path).text())
   self.program = Some(program)
   self.machine = Some(@bpf.Machine::new_default(program.instructions, []))
   self.sink = Some(sink)
-  self.stop_on_entry = options is { "stopOnEntry": True, .. }
+  self.stop_on_entry = stop_on_entry
 }
 
 ///|

@@ -3,6 +3,8 @@
 import json
 from pathlib import Path
 import subprocess
+import tempfile
+import unittest
 
 from test_e2e import Client, TIMEOUT, process
 
@@ -87,5 +89,69 @@ def verify(binary):
     print("MoonBpfLab 外部 VM：条件断点命中 r0=2，单步后 r0=3，继续运行返回 r0=4")
 
 
+class BpfAdapterTest(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.binary = build_adapter()
+
+    def test_debug_session(self):
+        verify(self.binary)
+
+    def test_launch_failure_can_retry(self):
+        program = str(EXAMPLE / "counter.bpf")
+        with tempfile.TemporaryDirectory() as directory, process(binary=self.binary) as proc:
+            invalid = Path(directory) / "invalid.bpf"
+            invalid.write_text("[183, 0]\n", encoding="utf-8")
+            client = Client(proc.stdout, proc.stdin)
+            client.request("initialize", {"adapterID": "moon-bpflab"})
+            for arguments in [
+                {"program": program, "stopOnEntry": "true"},
+                {"program": str(invalid)},
+                {"program": str(Path(directory) / "missing.bpf")},
+            ]:
+                with self.subTest(arguments=arguments):
+                    failed = client.request("launch", arguments, success=False)
+                    self.assertEqual(failed["message"], "targetError")
+
+            launch = client.send("launch", {"program": program, "stopOnEntry": True})
+            client.event("initialized")
+            client.request("configurationDone")
+            client.reply(launch)
+            self.assertEqual(client.event("stopped")["reason"], "entry")
+            self.assertEqual(client.request("evaluate", {"expression": "r0"})["body"]["result"], "0")
+            client.request("disconnect")
+            self.assertFalse(client.sent)
+            self.assertEqual(proc.wait(timeout=TIMEOUT), 0)
+
+    def test_breakpoint_replacement_and_clear(self):
+        program = str(EXAMPLE / "counter.bpf")
+        for replacement in [
+            [{"line": 3, "condition": "r0 == 18446744073709551615"}],
+            [],
+        ]:
+            with self.subTest(replacement=replacement), process(binary=self.binary) as proc:
+                client = Client(proc.stdout, proc.stdin)
+                client.request("initialize", {"adapterID": "moon-bpflab"})
+                launch = client.send("launch", {"program": program})
+                client.event("initialized")
+                source = {"path": program}
+                installed = client.request("setBreakpoints", {
+                    "source": source, "breakpoints": [{"line": 3, "condition": "r0 == 2"}],
+                })["body"]["breakpoints"]
+                self.assertTrue(installed[0]["verified"])
+                replaced = client.request("setBreakpoints", {
+                    "source": source, "breakpoints": replacement,
+                })["body"]["breakpoints"]
+                self.assertEqual([item["verified"] for item in replaced], [True] * len(replacement))
+                client.request("configurationDone")
+                client.reply(launch)
+                self.assertEqual(client.event("output")["output"], "r0 = 4\n")
+                self.assertEqual(client.event("exited")["exitCode"], 0)
+                client.event("terminated")
+                client.request("disconnect")
+                self.assertFalse(client.sent)
+                self.assertEqual(proc.wait(timeout=TIMEOUT), 0)
+
+
 if __name__ == "__main__":
-    verify(build_adapter())
+    unittest.main(verbosity=2)
