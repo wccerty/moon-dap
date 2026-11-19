@@ -3,6 +3,7 @@ pub(all) struct Options {
   max_header : Int32
   max_body : Int32
   poll_ms : Int32
+  /// 请求处理、异步轮询、每条消息写入及连接结束清理各自的超时。
   request_timeout_ms : Int32
 }
 
@@ -105,7 +106,10 @@ async fn run_session(
       }
       None => ()
     }
-    send(writer, session.poll(), options)
+    let events = @async.with_timeout(options.request_timeout_ms, () => {
+      session.poll()
+    })
+    send(writer, events, options)
   }
 }
 

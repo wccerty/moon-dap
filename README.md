@@ -122,4 +122,6 @@ python scripts/test_bpflab.py
 
 Schema 校验读取 MoonBit 生成的往返样本和示例会话中的实际消息，按具体消息定义运行 JSON Schema Draft 4 校验。更新基线时替换 `vendor/dap` 中的固定输入，更新生成脚本中的提交和 SHA-256，运行 `python scripts/generate_protocol.py` 重新生成并审查覆盖表和接口变化。
 
+传输层的 `Options.request_timeout_ms` 分别限制请求、异步轮询、单条消息写入和结束清理。回归测试覆盖轮询失败时的阻塞清理，以及非法头部、UTF-8、JSON、重复键和截断帧对 TCP 连接的隔离。目标的同步 `poll` 方法需要及时返回，以配合异步调度与取消。[验证命令与结果](docs/verification.md)
+
 项目采用 Apache-2.0。上游规范的来源、署名与许可证见 [vendor/dap](vendor/dap/README.md)。

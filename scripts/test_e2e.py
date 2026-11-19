@@ -263,6 +263,32 @@ class DapE2E(unittest.TestCase):
 
             debug_session(first, verify_other_connection)
 
+    def test_tcp_survives_invalid_clients(self):
+        invalid_bodies = [
+            b"\xff",
+            b'{"seq":',
+            b'{"seq":1,"seq":2,"type":"request","command":"threads"}',
+        ]
+        invalid_frames = [b"Content-Length: +7\r\n\r\n{}"] + [
+            f"Content-Length: {len(body)}\r\n\r\n".encode() + body
+            for body in invalid_bodies
+        ]
+        invalid_frames.append(b"Content-Length: 20\r\n\r\n{}")
+        with listener() as port, connect(port) as healthy:
+            healthy.initialize()
+            for frame in invalid_frames:
+                with self.subTest(frame=frame):
+                    with socket.create_connection(("127.0.0.1", port), timeout=TIMEOUT) as bad:
+                        bad.sendall(frame)
+                        bad.shutdown(socket.SHUT_WR)
+                        self.assertEqual(bad.recv(1), b"")
+                    failure = healthy.request("threads", success=False)
+                    self.assertEqual(failure["message"], "invalidState")
+            healthy.request("disconnect")
+            with connect(port) as later:
+                later.initialize()
+                later.request("disconnect")
+
     def test_stdio_eof_during_configuration(self):
         with process("--stdio") as proc:
             client = Client(proc.stdout, proc.stdin)
