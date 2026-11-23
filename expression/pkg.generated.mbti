@@ -1,0 +1,43 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "wccerty/moon-dap/expression"
+
+import {
+  "moonbitlang/core/debug",
+  "moonbitlang/core/json",
+}
+
+// Values
+pub fn is_identifier(String) -> Bool
+
+pub fn is_name_part(UInt16) -> Bool
+
+pub fn is_name_start(UInt16) -> Bool
+
+pub fn replace(@json.Json, Array[Selector], @json.Json) -> @json.Json raise ExpressionError
+
+pub fn require_bool(@json.Json) -> Bool raise ExpressionError
+
+// Errors
+#derive(@debug.Debug)
+pub(all) suberror ExpressionError {
+  InvalidSyntax(Int32, String)
+  InvalidValue(String)
+}
+pub fn ExpressionError::message(Self) -> String
+pub fn ExpressionError::to_repr(Self) -> @debug.Repr
+
+// Types and methods
+type Expression
+pub fn Expression::evaluate(Self, (String) -> @json.Json?) -> @json.Json raise ExpressionError
+pub fn Expression::parse(String) -> Self raise ExpressionError
+pub fn Expression::selection(Self, (String) -> @json.Json?) -> (String, Array[Selector]) raise ExpressionError
+
+pub(all) enum Selector {
+  Field(String)
+  Index(Int32)
+}
+pub fn Selector::access(Self, @json.Json) -> @json.Json raise ExpressionError
+
+// Type aliases
+
+// Traits
