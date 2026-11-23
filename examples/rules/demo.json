@@ -1,0 +1,17 @@
+{
+  "entry": "main",
+  "input": {
+    "quantity": 2,
+    "unit": 5
+  },
+  "sources": [
+    {
+      "name": "main",
+      "text": "rule main account\njson summary = {\"stages\":[{\"score\":4}, {\"score\":9}]}\ncall unit = price account\nlet retry = 0\nlabel loop\nlet retry = retry + 1\nwhen done retry >= 2\ngoto loop\nlabel done\nemit summary.stages[0].score\nreturn unit + summary.stages[0].score\nend\n"
+    },
+    {
+      "name": "pricing",
+      "text": "rule price order\nlet total = order.quantity * order.unit\nassert total >= 0\nreturn total\nend\n"
+    }
+  ]
+}
