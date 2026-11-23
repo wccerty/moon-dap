@@ -48,6 +48,7 @@ jobs:
         run: |
           python scripts/check_schema.py
           python scripts/test_e2e.py
+          python scripts/test_rules.py
           node --test tests/vscode_client.cjs
       - name: 第三方 MoonBpfLab 运行时接入
         run: python scripts/test_bpflab.py

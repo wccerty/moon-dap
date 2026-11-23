@@ -14,7 +14,7 @@ moondbg 面向 MoonBit 原生程序，通过 `lldb-dap` 执行调试，也包含
 
 ```text
 moon update
-moon add wccerty/moon-dap@0.1.1
+moon add wccerty/moon-dap@0.2.0
 moon add moonbitlang/async@0.20.6
 ```
 
@@ -29,7 +29,7 @@ members = ["interpreter", "moon-dap"]
 ```moonbit
 import {
   "moonbitlang/async@0.20.6",
-  "wccerty/moon-dap@0.1.1",
+  "wccerty/moon-dap@0.2.0",
 }
 ```
 
@@ -88,12 +88,16 @@ async fn main { @transport.serve_stdio(OneLine::{ sink: None, ready: false }) }
 | `breakpoint_location_provider` | 可选。为编辑器查询给定源码范围内可设断点的位置。范围包含端点，列号以 UTF-16 代码单元计。 |
 | `conditional_breakpoint_provider` | 可选。用目标自己的语法处理条件断点，并返回验证结果。 |
 | `evaluation_provider` | 可选。读取暂停状态中的表达式值，支持编辑器监视和悬停。 |
+| `source_provider` | 可选。提供会话级内存源码引用，支持列举、读取和下断点。 |
+| `breakpoint_providers` | 可选。提供函数断点，并按目标声明启用命中次数和日志断点。 |
+| `inspection_providers` | 可选。提供展开式求值、修改变量、表达式赋值、补全和异常快照。 |
 | `resume_execution` / `pause` / `poll` | 接受执行命令并推进有界工作，在安全点发送停止事件。 |
 | `threads` / `stack_trace` / `scopes` / `variables` | 通过目标句柄提供栈和变量。一次暂停中的句柄须稳定，恢复后由库废弃对外引用。 |
 | `session.EventSink.emit` | 发送停止、输出、退出和终止等通知。 |
 | `transport.serve_stdio` / `listen_loopback` / `serve_tcp` | 在 native 上驱动会话。TCP 的目标工厂为每个连接创建独立实例。 |
 | `transport.serve` | 在已有异步 reader 和 writer 上接入一个会话。 |
 | `framing` / `protocol` | 独立的 UTF-8 字节分帧、DAP 类型与 JSON 编解码。 |
+| `expression` | 在 JSON 值上执行受限的调试表达式，支持字段、下标和复制后写回。 |
 
 ## 示例与覆盖范围
 
@@ -101,13 +105,15 @@ async fn main { @transport.serve_stdio(OneLine::{ sink: None, ready: false }) }
 
 构建 `examples/minilang` 后可通过 stdio 或 TCP 调试 `demo.mdap`。示例包含函数调用、打印、嵌套记录和数组。[VS Code 与 Neovim 演示步骤](https://github.com/wccerty/moon-dap/tree/main/examples/minilang)
 
-| Schema 项目 | 第一版覆盖 | 总数 |
-| --- | ---: | ---: |
-| 请求 | 18，含按目标能力启用的 `attach`、`breakpointLocations`、`evaluate` 及兼容空筛选的 `setExceptionBreakpoints` | 45 |
-| 事件 | 7 | 17 |
-| `Capabilities` | 5 | 42 |
+规则引擎示例提供两个内存源码文件。调试器可以设置函数断点、按命中次数打印日志、补全字段并修改当前规则的参数或嵌套变量。端到端测试验证修改影响了最终执行结果。[规则引擎示例](https://github.com/wccerty/moon-dap/tree/main/examples/rules)
 
-完整协议类型从官方 Schema 生成。第一版使用本地文件路径，提供源码行断点和目标级执行控制。条件和只读表达式采用目标定义的语法。内置传输以 native 为目标。后续考虑动态源码和异常筛选。[协议覆盖](docs/coverage.md) · [验证记录](docs/verification.md) · [路线图](docs/plan.md)
+| Schema 项目 | 当前版本覆盖 | 总数 |
+| --- | ---: | ---: |
+| 请求 | 25，含按目标能力启用的动态源码、函数断点、赋值及补全 | 45 |
+| 事件 | 7 | 17 |
+| `Capabilities` | 13 | 42 |
+
+完整协议类型从官方 Schema 生成。客户端可以调试本地路径，也可以读取目标公开的内存源码。条件和表达式使用目标定义的语法，赋值只在暂停期间开放。内置传输面向 native，异常筛选留待后续扩展。[协议覆盖](docs/coverage.md) · [验证记录](docs/verification.md) · [路线图](docs/plan.md)
 
 ## 测试与维护
 
@@ -124,6 +130,7 @@ moon test --target native
 moon build --target native
 python scripts/check_schema.py
 python scripts/test_e2e.py
+python scripts/test_rules.py
 node --test tests/vscode_client.cjs
 python scripts/test_bpflab.py
 ```

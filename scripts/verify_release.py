@@ -14,11 +14,11 @@ REQUIRED = {
     "LICENSE", "README.md", "moon.mod", "protocol/generated.mbt",
     "vendor/dap/License-code.txt", "vendor/dap/License.txt",
     "vendor/dap/README.md", "vendor/dap/debugAdapterProtocol.json",
-    *(f"{name}/moon.pkg" for name in ("framing", "protocol", "session", "transport")),
-    *(f"{name}/pkg.generated.mbti" for name in ("framing", "protocol", "session", "transport")),
+    *(f"{name}/moon.pkg" for name in ("expression", "framing", "protocol", "session", "transport")),
+    *(f"{name}/pkg.generated.mbti" for name in ("expression", "framing", "protocol", "session", "transport")),
 }
 TOP_LEVEL = {"LICENSE", "README.md", "moon.mod"}
-DIRECTORIES = {"docs", "framing", "protocol", "session", "transport", "vendor"}
+DIRECTORIES = {"docs", "expression", "framing", "protocol", "session", "transport", "vendor"}
 
 
 def check_archive(path):
@@ -51,6 +51,13 @@ def verify_registry():
         assert not (module / "moon.work").exists()
         subprocess.run(["moon", "tree"], cwd=module, check=True)
         verify(build_adapter(module))
+        rules = module / "rules"
+        rules.mkdir()
+        for source in (ROOT / "examples/rules").glob("*.mbt"):
+            if not source.stem.endswith("_wbtest"):
+                shutil.copyfile(source, rules / source.name)
+        shutil.copyfile(ROOT / "examples/rules/moon.pkg", rules / "moon.pkg")
+        subprocess.run(["moon", "build", "--target", "native", "rules"], cwd=module, check=True)
     print("已从 Mooncakes 安装依赖并完成独立模块的真实 DAP 会话")
 
 

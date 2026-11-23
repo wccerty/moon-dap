@@ -76,3 +76,19 @@ VS Code 实测发现同一轮询间隔内的计时与请求出队竞争。修复
 | `nvim --headless -u NONE -i NONE -l tests/neovim_bpflab.lua` | Neovim 0.12.6，nvim-dap 固定在 `cfa2d58f4537aca6ca83e2de1a0d9f1491121264`。实际输出「Neovim：ELF 源码断点、三层真实调用栈、寄存器求值和步出通过」，退出 0。 |
 
 归档预检使用 `moon publish --dry-run`，允许解包后的独立目录同步依赖。发布后运行 `moon update` 和 `python scripts/verify_release.py --registry`，从注册表下载库，在不带 `moon.work` 的临时模块中构建外部适配器并跑完整 stdio 调试会话。首次 Windows 编译有异步依赖的 `EINVAL` 宏重定义警告，构建成功。
+
+## 0.2.0 规则引擎及扩展接口
+
+Windows x64 使用 `moonc v0.10.20+65efd5b93`。由于本机 `moonc.cmd` 在扩展后的 native 链接命令上达到 Windows 命令行长度限制，本次测试进程通过 `MOONC_OVERRIDE` 直接调用已安装的 `moonc.exe`。
+
+| 实际执行 | 结果 |
+| --- | --- |
+| `moon info --target native`、`moon check --target native --deny-warn`、`moon fmt --check` | 均退出 0。 |
+| `python scripts/generate_protocol.py --check` | 核对 192 项 Schema 定义。 |
+| `moon test --target native`、`moon build --target native` | 53 项 MoonBit 测试通过，构建成功。 |
+| `python scripts/check_schema.py`、`python scripts/test_e2e.py` | 11 个 Schema 样本和 7 项传输会话测试通过。 |
+| `python scripts/test_rules.py` | 2 项真实 stdio 会话通过。读取两份内存源码，验证断点、赋值后结果 22、替换后旧引用以及异常调用栈。 |
+| `python scripts/test_bpflab.py`、`node --test tests/vscode_client.cjs` | 4 项外部 VM 测试及 1 项官方 DAP 客户端测试通过。 |
+| `moon package --frozen`、`python scripts/verify_release.py --archive <归档路径>` | 校验 42 个文件，归档包含 5 个库包和许可证。 |
+
+规则引擎新增功能使用 DAP 客户端脚本验收。前述 VS Code、Neovim 实测记录对应 MoonBpfLab 示例。
