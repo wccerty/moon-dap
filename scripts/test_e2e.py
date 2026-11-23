@@ -8,6 +8,7 @@ import queue
 import socket
 import subprocess
 import threading
+import time
 import unittest
 
 from check_schema import SCHEMA, validate
@@ -296,6 +297,26 @@ class DapE2E(unittest.TestCase):
             client.send("launch", {"program": str(PROGRAM)})
             client.event("initialized")
             proc.stdin.close()
+            self.assertEqual(proc.wait(timeout=TIMEOUT), 0)
+
+    def test_stopped_polling_delivers_requests(self):
+        with process("--stdio") as proc:
+            client = Client(proc.stdout, proc.stdin)
+            client.initialize()
+            launch = client.send("launch", {"program": str(PROGRAM), "stopOnEntry": True})
+            client.event("initialized")
+            client.request("configurationDone")
+            client.reply(launch)
+            self.assertEqual(client.event("stopped")["reason"], "entry")
+            requests = []
+            for index in range(64):
+                time.sleep((17 + index % 7) / 1000)
+                requests.append(client.send("threads" if index % 2 else "stackTrace",
+                                            {"threadId": 1} if index % 2 == 0 else None))
+            for seq in requests:
+                client.reply(seq)
+            client.request("disconnect")
+            self.assertFalse(client.sent)
             self.assertEqual(proc.wait(timeout=TIMEOUT), 0)
 
     def test_breakpoint_locations_zero_based(self):

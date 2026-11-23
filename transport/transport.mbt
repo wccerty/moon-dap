@@ -84,9 +84,8 @@ async fn run_session(
 ) -> Unit {
   while session.phase() != Closed {
     let wait = match session.phase() {
-      Running => @async.with_timeout_opt(options.poll_ms, () => inbox.get())
-      Stopped =>
-        @async.with_timeout_opt(options.poll_ms.max(20), () => inbox.get())
+      Running => wait_for_input(inbox, options.poll_ms)
+      Stopped => wait_for_input(inbox, options.poll_ms.max(20))
       _ => Some(inbox.get())
     }
     match wait {
@@ -111,6 +110,16 @@ async fn run_session(
     })
     send(writer, events, options)
   }
+}
+
+///|
+async fn wait_for_input(inbox : @async.Queue[Input], delay : Int32) -> Input? {
+  if inbox.try_get() is Some(input) {
+    return Some(input)
+  }
+  // 计时期间让输入保留在队列中，避免成功出队的值被计时结果覆盖。
+  @async.sleep(delay)
+  inbox.try_get()
 }
 
 ///|
