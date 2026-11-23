@@ -10,7 +10,15 @@ moondbg 面向 MoonBit 原生程序，通过 `lldb-dap` 执行调试，也包含
 
 ## 快速开始
 
-当前分发方式是 Git 源码或本地源码。若 `interpreter` 和 `moon-dap` 是同一目录下的两个模块，在它们的父目录创建 `moon.work`。
+在已有 MoonBit 模块中安装 `wccerty/moon-dap`。[Mooncakes 包页面](https://mooncakes.io/docs/wccerty/moon-dap)
+
+```text
+moon update
+moon add wccerty/moon-dap@0.1.0
+moon add moonbitlang/async@0.20.6
+```
+
+如需从源码开发，若 `interpreter` 和 `moon-dap` 是同一目录下的两个模块，在它们的父目录创建 `moon.work`。
 
 ```text
 members = ["interpreter", "moon-dap"]
@@ -89,9 +97,9 @@ async fn main { @transport.serve_stdio(OneLine::{ sink: None, ready: false }) }
 
 ## 示例与覆盖范围
 
-第三方接入案例使用从 Mooncakes 获取的 MoonBpfLab 虚拟机。测试会在寄存器达到指定值时命中条件断点，查看表达式结果，单步并校验退出前的寄存器输出。[接入成本、复现命令与范围](examples/bpflab/README.md)
+第三方接入案例使用从 Mooncakes 获取的 MoonBpfLab 虚拟机。计数例验证条件断点、寄存器求值和退出结果。ELF 示例使用独立源码映射支持多文件断点、栈分页和按调用深度步进，可用 VS Code 或 Neovim 复现。[接入成本、复现命令与范围](https://github.com/wccerty/moon-dap/tree/main/examples/bpflab)
 
-构建 `examples/minilang` 后可通过 stdio 或 TCP 调试 `demo.mdap`。示例包含函数调用、打印、嵌套记录和数组。[VS Code 与 Neovim 演示步骤](examples/minilang/README.md)
+构建 `examples/minilang` 后可通过 stdio 或 TCP 调试 `demo.mdap`。示例包含函数调用、打印、嵌套记录和数组。[VS Code 与 Neovim 演示步骤](https://github.com/wccerty/moon-dap/tree/main/examples/minilang)
 
 | Schema 项目 | 第一版覆盖 | 总数 |
 | --- | ---: | ---: |

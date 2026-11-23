@@ -1,0 +1,6 @@
+/本地材料/
+/examples/
+/scripts/
+/tests/
+**/*_test.mbt
+**/*_wbtest.mbt

@@ -50,3 +50,7 @@ jobs:
           node --test tests/vscode_client.cjs
       - name: 第三方 MoonBpfLab 运行时接入
         run: python scripts/test_bpflab.py
+      - name: 验证待发布库归档
+        run: |
+          moon package --frozen
+          python scripts/verify_release.py --archive _build/publish/wccerty-moon-dap-*.zip
