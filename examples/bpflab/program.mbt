@@ -1,14 +1,31 @@
 ///|
 struct Program {
-  path : String
   instructions : Array[@bpf.Insn]
-  lines : Array[Int32]
+  locations : Map[Int32, SourceEntry]
+}
+
+///|
+#derive(FromJson)
+struct SourceEntry {
+  pc : Int32
+  path : String
+  line : Int32
+  name : String
+}
+
+///|
+fn source_key(path : String) -> String {
+  if @env.get_env_var("OS") == Some("Windows_NT") {
+    path.replace_all(old="\\", new="/").to_lower()
+  } else {
+    path
+  }
 }
 
 ///|
 fn parse_program(path : String, source : String) -> Program raise {
   let instructions = []
-  let lines = []
+  let locations = Map([])
   let mut line = 0
   for raw in source.split("\n") {
     line += 1
@@ -24,15 +41,61 @@ fn parse_program(path : String, source : String) -> Program raise {
         "第 \{line} 行需要 opcode、dst、src、offset、imm",
       )
     }
+    let pc = instructions.length()
     instructions.push(
       @bpf.insn(fields[0], fields[1], fields[2], fields[3], fields[4]),
     )
-    lines.push(line)
+    locations.set(pc, { pc, path, line, name: "BPF 指令", })
   }
   guard !instructions.is_empty() else {
     raise @session.TargetError("程序没有指令")
   }
-  { path, instructions, lines, }
+  { instructions, locations, }
+}
+
+///|
+async fn load_program(path : String, options : Json) -> Program {
+  let data = @fs.read_file(path)
+  let format = match options {
+    { "programFormat": String(value), .. } => value
+    { "programFormat": _, .. } =>
+      raise @session.TargetError("programFormat 需要字符串")
+    _ => "text"
+  }
+  if format == "text" {
+    return parse_program(path, data.text())
+  }
+  guard format == "elf" else {
+    raise @session.TargetError("programFormat 可选 text 或 elf")
+  }
+  guard options is { "sourceMap": String(map_path), .. } && !map_path.is_empty() else {
+    raise @session.TargetError("ELF 调试需要 sourceMap 文件路径")
+  }
+  let bytes = data.binary().iter().map(byte => byte.to_int()).collect()
+  let image = @bpf.load_elf(bytes)
+  guard image.entry == 0 && !image.text.is_empty() else {
+    raise @session.TargetError(
+      "示例需要从 .text 的第一条指令开始执行",
+    )
+  }
+  let entries : Array[SourceEntry] = @json.from_json(
+    @json.parse(@fs.read_file(map_path).text(), reject_duplicate_keys=true),
+  )
+  let locations = Map([])
+  for entry in entries {
+    guard entry.pc >= 0 &&
+      entry.pc < image.text.length() &&
+      entry.line > 0 &&
+      !entry.path.is_empty() &&
+      !entry.name.is_empty() &&
+      !locations.contains(entry.pc) else {
+      raise @session.TargetError(
+        "无效或重复的源码映射 PC \{entry.pc}",
+      )
+    }
+    locations.set(entry.pc, entry)
+  }
+  { instructions: image.text, locations, }
 }
 
 ///|

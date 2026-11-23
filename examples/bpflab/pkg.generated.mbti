@@ -1,6 +1,10 @@
 // Generated using `moon info`, DON'T EDIT IT
 package "wccerty/moon-dap-bpflab-example"
 
+import {
+  "moonbitlang/core/json",
+}
+
 // Values
 
 // Errors
@@ -9,6 +13,9 @@ package "wccerty/moon-dap-bpflab-example"
 type BpfTarget
 
 type Program
+
+#derive(@json.FromJson)
+type SourceEntry
 
 type Watchpoint
 

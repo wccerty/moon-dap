@@ -2,6 +2,7 @@ import {
   "btlqql/moon_bpflab" @bpf,
   "moonbitlang/async",
   "moonbitlang/async/fs",
+  "moonbitlang/core/env",
   "moonbitlang/core/json",
   "moonbitlang/core/string",
   "wccerty/moon-dap/session",

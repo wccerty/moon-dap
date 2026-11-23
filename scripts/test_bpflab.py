@@ -2,6 +2,7 @@
 
 import json
 from pathlib import Path
+import struct
 import subprocess
 import tempfile
 import unittest
@@ -13,10 +14,48 @@ ROOT = Path(__file__).resolve().parents[1]
 EXAMPLE = ROOT / "examples/bpflab"
 
 
-def build_adapter():
+def build_elf_example(directory):
+    """从两份源码生成已解析相对调用的 ELF64/BPF 示例及 PC 映射。"""
+    instructions = bytearray()
+    entries = []
+    for file, functions in [("main.bpf", ("main",)), ("helper.bpf", ("increment", "add_one"))]:
+        path = EXAMPLE / "demo" / file
+        for line, source in enumerate(path.read_text(encoding="utf-8").splitlines(), start=1):
+            if not source.strip() or source.lstrip().startswith("#"):
+                continue
+            op, dst, src, offset, imm = json.loads(source)
+            pc = len(entries)
+            name = functions[-1] if pc >= 6 else functions[0]
+            entries.append({"pc": pc, "path": str(path), "line": line, "name": name})
+            instructions += struct.pack("<BBhi", op, dst | (src << 4), offset, imm)
+    strings = b"\0.text\0.shstrtab\0"
+    text_offset = 64
+    strings_offset = text_offset + len(instructions)
+    sections_offset = (strings_offset + len(strings) + 7) & ~7
+    header = struct.pack(
+        "<16sHHIQQQIHHHHHH", b"\x7fELF\x02\x01\x01", 1, 247, 1, 0, 0,
+        sections_offset, 0, 64, 0, 0, 64, 3, 2,
+    )
+    text = struct.pack(
+        "<IIQQQQIIQQ", 1, 1, 6, 0, text_offset, len(instructions), 0, 0, 8, 0,
+    )
+    string_table = struct.pack(
+        "<IIQQQQIIQQ", 7, 3, 0, 0, strings_offset, len(strings), 0, 0, 1, 0,
+    )
+    elf_file = directory / "nested.o"
+    elf_file.write_bytes(
+        (header + instructions + strings).ljust(sections_offset, b"\0")
+        + bytes(64) + text + string_table
+    )
+    map_file = directory / "nested.json"
+    map_file.write_text(json.dumps(entries, ensure_ascii=False, indent=2), encoding="utf-8")
+    return {"program": str(elf_file), "programFormat": "elf", "sourceMap": str(map_file)}
+
+
+def build_adapter(module=EXAMPLE):
     run = subprocess.run(
         ["moon", "build", "--target", "native", "--output-json", "."],
-        cwd=EXAMPLE, text=True, encoding="utf-8", stdout=subprocess.PIPE, check=True,
+        cwd=module, text=True, encoding="utf-8", stdout=subprocess.PIPE, check=True,
     )
     for line in run.stdout.splitlines():
         if line.startswith("{"):
@@ -97,6 +136,63 @@ class BpfAdapterTest(unittest.TestCase):
     def test_debug_session(self):
         verify(self.binary)
 
+    def test_elf_source_map_and_nested_stepping(self):
+        with tempfile.TemporaryDirectory() as directory, process(binary=self.binary) as proc:
+            options = build_elf_example(Path(directory))
+            client = Client(proc.stdout, proc.stdin)
+            capabilities = client.request("initialize", {"adapterID": "moon-bpflab"})["body"]
+            self.assertTrue(capabilities["supportsBreakpointLocationsRequest"])
+            invalid = Path(directory) / "invalid.json"
+            entry = json.loads(Path(options["sourceMap"]).read_text(encoding="utf-8"))[0]
+            invalid.write_text(json.dumps([entry, entry]), encoding="utf-8")
+            failed = client.request("launch", {**options, "sourceMap": str(invalid)}, success=False)
+            self.assertEqual(failed["message"], "targetError")
+            launch = client.send("launch", options)
+            client.event("initialized")
+            main = str(EXAMPLE / "demo/main.bpf")
+            helper = str(EXAMPLE / "demo/helper.bpf")
+            for path, line in [(main, 3), (helper, 4)]:
+                candidates = client.request("breakpointLocations", {
+                    "source": {"path": path}, "line": line,
+                })["body"]["breakpoints"]
+                self.assertEqual(candidates, [{"line": line, "column": 1}])
+                self.assertTrue(client.request("setBreakpoints", {
+                    "source": {"path": path}, "breakpoints": [{"line": line}],
+                })["body"]["breakpoints"][0]["verified"])
+            client.request("configurationDone")
+            client.reply(launch)
+
+            def frames(**page):
+                return client.request("stackTrace", {"threadId": 1, **page})["body"]
+
+            self.assertEqual(client.event("stopped")["reason"], "breakpoint")
+            self.assertEqual(frames()["stackFrames"][0]["source"]["path"], main)
+            client.request("continue", {"threadId": 1})
+            self.assertEqual(client.event("stopped")["reason"], "breakpoint")
+            stack = frames()["stackFrames"]
+            self.assertEqual([(f["name"], f["line"], f["source"]["path"]) for f in stack], [
+                ("add_one", 4, helper), ("increment", 2, helper), ("main", 3, main),
+            ])
+            self.assertEqual(frames(startFrame=1, levels=1), {"stackFrames": stack[1:2], "totalFrames": 3})
+            self.assertEqual(client.request("scopes", {"frameId": stack[1]["id"]})["body"]["scopes"], [])
+            client.request("evaluate", {"expression": "r0", "frameId": stack[1]["id"]}, success=False)
+            for name, line in [("increment", 3), ("main", 4)]:
+                client.request("stepOut", {"threadId": 1})
+                self.assertEqual(client.event("stopped")["reason"], "step")
+                frame = frames()["stackFrames"][0]
+                self.assertEqual((frame["name"], frame["line"]), (name, line))
+            client.request("setBreakpoints", {"source": {"path": helper}, "breakpoints": []})
+            client.request("next", {"threadId": 1})
+            self.assertEqual(client.event("stopped")["reason"], "step")
+            self.assertEqual(frames()["stackFrames"][0]["line"], 5)
+            self.assertEqual(client.request("evaluate", {"expression": "r0"})["body"]["result"], "3")
+            client.request("continue", {"threadId": 1})
+            self.assertEqual(client.event("output")["output"], "r0 = 3\n")
+            self.assertEqual(client.event("exited")["exitCode"], 0)
+            client.event("terminated")
+            client.request("disconnect")
+            self.assertEqual(proc.wait(timeout=TIMEOUT), 0)
+
     def test_launch_failure_can_retry(self):
         program = str(EXAMPLE / "counter.bpf")
         with tempfile.TemporaryDirectory() as directory, process(binary=self.binary) as proc:
@@ -154,4 +250,12 @@ class BpfAdapterTest(unittest.TestCase):
 
 
 if __name__ == "__main__":
-    unittest.main(verbosity=2)
+    import sys
+
+    if len(sys.argv) == 3 and sys.argv[1] == "--prepare-example":
+        directory = Path(sys.argv[2]).resolve()
+        directory.mkdir(parents=True, exist_ok=True)
+        config = {**build_elf_example(directory), "adapter": str(build_adapter())}
+        print(json.dumps(config, ensure_ascii=False))
+    else:
+        unittest.main(verbosity=2)

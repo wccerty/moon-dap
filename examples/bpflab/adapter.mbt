@@ -10,9 +10,11 @@ struct BpfTarget {
   mut program : Program?
   mut machine : @bpf.Machine?
   mut sink : @session.EventSink?
-  mut breakpoints : Array[Watchpoint]
+  breakpoints : Map[String, Array[Watchpoint]]
+  mut next_breakpoint_id : Int32
   mut paused : Bool
-  mut single_step : Bool
+  mut step_mode : @session.ResumeMode
+  mut step_depth : Int32
   mut skip_breakpoint : Bool
   mut stop_on_entry : Bool
 }
@@ -23,9 +25,11 @@ fn BpfTarget::new() -> BpfTarget {
     program: None,
     machine: None,
     sink: None,
-    breakpoints: [],
+    breakpoints: Map([]),
+    next_breakpoint_id: 1,
     paused: false,
-    single_step: false,
+    step_mode: Continue,
+    step_depth: 0,
     skip_breakpoint: false,
     stop_on_entry: false,
   }
@@ -83,7 +87,7 @@ impl @session.DebugTarget for BpfTarget with fn prepare(
       raise @session.TargetError("stopOnEntry 需要布尔值")
     _ => false
   }
-  let program = parse_program(path, @fs.read_file(path).text())
+  let program = load_program(path, options)
   self.program = Some(program)
   self.machine = Some(@bpf.Machine::new_default(program.instructions, []))
   self.sink = Some(sink)
@@ -114,17 +118,24 @@ fn BpfTarget::replace_breakpoints(
   path : String,
   requests : Array[@session.ConditionalBreakpointSpec],
 ) -> Array[@session.BreakpointResult] {
-  guard self.program is Some(program) &&
-    path.replace_all(old="\\", new="/") ==
-    program.path.replace_all(old="\\", new="/") else {
+  guard self.program is Some(program) else {
     return requests.map(item => rejected(item.position.line, "源码未加载"))
+  }
+  let key = source_key(path)
+  let by_line : Map[Int64, Array[Int32]] = Map([])
+  for pc, entry in program.locations {
+    if source_key(entry.path) == key {
+      let line = entry.line.to_int64()
+      let indices = by_line.get(line).unwrap_or([])
+      indices.push(pc)
+      by_line.set(line, indices)
+    }
   }
   let installed = []
   let results : Array[@session.BreakpointResult] = []
-  for index, item in requests {
+  for item in requests {
     let line = item.position.line
-    guard program.lines.search_by(candidate => candidate.to_int64() == line)
-      is Some(pc) else {
+    guard by_line.get(line) is Some(indices) else {
       results.push(rejected(line, "该行没有可执行指令"))
       continue
     }
@@ -134,8 +145,11 @@ fn BpfTarget::replace_breakpoints(
         continue
       }
     }
-    let id = index + 1
-    installed.push({ id, pc, condition: predicate, })
+    let id = self.next_breakpoint_id
+    self.next_breakpoint_id += 1
+    for pc in indices {
+      installed.push({ id, pc, condition: predicate, })
+    }
     results.push({
       id: Some(id),
       verified: true,
@@ -144,8 +158,39 @@ fn BpfTarget::replace_breakpoints(
       message: None,
     })
   }
-  self.breakpoints = installed
+  if installed.is_empty() {
+    self.breakpoints.remove(key)
+  } else {
+    self.breakpoints.set(key, installed)
+  }
   results
+}
+
+///|
+impl @session.DebugTarget for BpfTarget with fn breakpoint_location_provider(
+  self,
+) {
+  Some((path, range) => {
+    let positions = []
+    let seen = Map([])
+    if self.program is Some(program) {
+      let key = source_key(path)
+      for _, entry in program.locations {
+        let position : @session.BreakpointSpec = {
+          line: entry.line.to_int64(),
+          column: Some(1L),
+        }
+        if source_key(entry.path) == key &&
+          range.contains(position) &&
+          !seen.contains(entry.line) {
+          seen.set(entry.line, true)
+          positions.push(position)
+        }
+      }
+    }
+    positions.sort_by_key(position => position.line)
+    positions
+  })
 }
 
 ///|
@@ -169,7 +214,12 @@ impl @session.DebugTarget for BpfTarget with fn conditional_breakpoint_provider(
 
 ///|
 impl @session.DebugTarget for BpfTarget with fn evaluation_provider(self) {
-  Some((_, expression) => {
+  Some((frame, expression) => {
+    guard frame is None || frame is Some(1) else {
+      raise @session.TargetError(
+        "只有最上层栈帧可读取当前寄存器",
+      )
+    }
     let regs = self.runtime().snapshot().regs
     if expression.contains("==") {
       let (register, expected) = condition(expression)
@@ -182,11 +232,12 @@ impl @session.DebugTarget for BpfTarget with fn evaluation_provider(self) {
 
 ///|
 impl @session.DebugTarget for BpfTarget with fn resume_execution(self, _, mode) {
-  guard !(mode is StepOut) else {
-    raise @session.TargetError("示例仅支持指令步入和步过")
+  let depth = self.runtime().call_stack.length()
+  guard !(mode is StepOut) || depth > 0 else {
+    raise @session.TargetError("最外层栈帧无法步出")
   }
-  self.skip_breakpoint = true
-  self.single_step = !(mode is Continue)
+  self.step_mode = mode
+  self.step_depth = depth
   self.paused = false
 }
 
@@ -201,16 +252,25 @@ impl @session.DebugTarget for BpfTarget with fn poll(self) {
     return
   }
   let machine = self.runtime()
-  if !self.skip_breakpoint {
-    let hits = self.breakpoints.filter(point => {
-      point.pc == machine.pc &&
-      (match point.condition {
-        Some((reg, expected)) => machine.vm.regs[reg] == expected
-        None => true
-      })
-    })
+  if !self.skip_breakpoint &&
+    self.program is Some(program) &&
+    program.locations.get(machine.pc) is Some(entry) &&
+    self.breakpoints.get(source_key(entry.path)) is Some(points) {
+    let hits = []
+    for point in points {
+      if point.pc == machine.pc &&
+        point.condition
+        .map(pair => {
+          let (register, expected) = pair
+          machine.vm.regs[register] == expected
+        })
+        .unwrap_or(true) {
+        hits.push(point.id)
+      }
+    }
     if !hits.is_empty() {
-      self.stop(Breakpoint, hits.map(point => point.id))
+      self.skip_breakpoint = true
+      self.stop(Breakpoint, hits)
       return
     }
   }
@@ -226,8 +286,19 @@ impl @session.DebugTarget for BpfTarget with fn poll(self) {
       self.emit(Output("stdout", "r0 = \{result}\n"))
       self.emit(Exited(0))
     }
-    Continue if self.single_step => self.stop(Step, [])
-    Continue | BreakpointHit(_) => ()
+    Continue => {
+      let depth = machine.call_stack.length()
+      let stopped = match self.step_mode {
+        Continue => false
+        StepIn => true
+        StepOver => depth <= self.step_depth
+        StepOut => depth < self.step_depth
+      }
+      if stopped {
+        self.stop(Step, [])
+      }
+    }
+    BreakpointHit(_) => ()
   }
 }
 
@@ -239,27 +310,40 @@ impl @session.DebugTarget for BpfTarget with fn threads(_) {
 ///|
 impl @session.DebugTarget for BpfTarget with fn stack_trace(self, _, page) {
   let machine = self.runtime()
-  guard self.program is Some(program) &&
-    program.lines.get(machine.pc) is Some(line) else {
-    return { frames: [], total: 0L, }
+  guard self.program is Some(program) else { return { frames: [], total: 0L, } }
+  let frames = [program.frame(machine.pc, 1)]
+  let depth = machine.call_stack.length()
+  for index in 0..<depth {
+    let return_pc = machine.call_stack[depth - index - 1]
+    frames.push(program.frame(return_pc - 1, index + 2))
   }
-  let frames : Array[@session.Frame] = [
-    {
-      handle: 1,
-      name: "BPF 指令",
-      location: Some({
-        path: program.path,
-        line: line.to_int64(),
-        column: Some(1L),
-      }),
-    },
-  ]
-  { frames: page.slice(frames), total: 1L, }
+  { frames: page.slice(frames), total: frames.length().to_int64(), }
 }
 
 ///|
-impl @session.DebugTarget for BpfTarget with fn scopes(_, _) {
-  [{ name: "寄存器", handle: 1, expensive: false, }]
+fn Program::frame(self : Program, pc : Int32, handle : Int32) -> @session.Frame {
+  match self.locations.get(pc) {
+    Some(entry) =>
+      {
+        handle,
+        name: entry.name,
+        location: Some({
+          path: entry.path,
+          line: entry.line.to_int64(),
+          column: Some(1L),
+        }),
+      }
+    None => { handle, name: "BPF PC \{pc}", location: None, }
+  }
+}
+
+///|
+impl @session.DebugTarget for BpfTarget with fn scopes(_, frame) {
+  if frame == 1 {
+    [{ name: "寄存器", handle: 1, expensive: false, }]
+  } else {
+    []
+  }
 }
 
 ///|
@@ -286,7 +370,7 @@ impl @session.DebugTarget for BpfTarget with fn disconnect(self, _) {
   self.sink = None
   self.machine = None
   self.program = None
-  self.breakpoints = []
+  self.breakpoints.clear()
 }
 
 ///|
