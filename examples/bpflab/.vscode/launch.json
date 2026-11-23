@@ -1,0 +1,13 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "moon-dap-bpflab",
+      "request": "launch",
+      "name": "调试 ELF 嵌套调用",
+      "program": "${env:MOON_DAP_BPF_PROGRAM}",
+      "programFormat": "elf",
+      "sourceMap": "${env:MOON_DAP_BPF_SOURCE_MAP}"
+    }
+  ]
+}

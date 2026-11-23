@@ -1,0 +1,33 @@
+{
+  "name": "moon-dap-bpflab",
+  "displayName": "MoonBpfLab 本地调试示例",
+  "description": "通过 stdio 调试 MoonBpfLab 示例",
+  "version": "0.1.0",
+  "publisher": "wccerty",
+  "engines": { "vscode": "^1.90.0" },
+  "main": "./extension.cjs",
+  "activationEvents": ["onDebugResolve:moon-dap-bpflab"],
+  "contributes": {
+    "languages": [
+      { "id": "moon-dap-bpflab", "aliases": ["MoonBpfLab 示例"], "extensions": [".bpf"] }
+    ],
+    "breakpoints": [{ "language": "moon-dap-bpflab" }],
+    "debuggers": [
+      {
+        "type": "moon-dap-bpflab",
+        "label": "MoonBpfLab",
+        "languages": ["moon-dap-bpflab"],
+        "configurationAttributes": {
+          "launch": {
+            "required": ["program"],
+            "properties": {
+              "program": { "type": "string", "description": "待调试的文本指令或 ELF 文件" },
+              "programFormat": { "enum": ["text", "elf"], "default": "text" },
+              "sourceMap": { "type": "string", "description": "ELF 源码映射文件路径" }
+            }
+          }
+        }
+      }
+    ]
+  }
+}
