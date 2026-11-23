@@ -38,6 +38,7 @@ jobs:
           moon version --all
           moon check --target native --deny-warn
           moon fmt --check
+          moon -C examples/bpflab fmt --check
           python scripts/generate_protocol.py --check
       - name: 单元测试和构建
         run: |

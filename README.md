@@ -14,7 +14,7 @@ moondbg 面向 MoonBit 原生程序，通过 `lldb-dap` 执行调试，也包含
 
 ```text
 moon update
-moon add wccerty/moon-dap@0.1.0
+moon add wccerty/moon-dap@0.1.1
 moon add moonbitlang/async@0.20.6
 ```
 
@@ -29,7 +29,7 @@ members = ["interpreter", "moon-dap"]
 ```moonbit
 import {
   "moonbitlang/async@0.20.6",
-  "wccerty/moon-dap@0.1.0",
+  "wccerty/moon-dap@0.1.1",
 }
 ```
 

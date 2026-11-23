@@ -52,3 +52,27 @@ Windows x64 使用 `moonc v0.10.20+65efd5b93`。`moon check --target native --de
 两处修复均先通过回归测试复现。修复前，传输测试触发外层保护超时，断言出现 `None != Some(true)`。为会话轮询加上超时后，同一测试收到传输层自身的 `TimeoutError` 并通过。外部案例曾将字符串 `stopOnEntry: "true"` 当作关闭处理，测试收到 `initialized` 事件；修复后返回 `targetError`，随后可用正确参数重新启动。
 
 这里的超时依赖异步方法配合取消。目标的同步 `poll` 仍须执行有界工作并及时返回。本次编辑器相关回归使用官方 DAP 测试客户端，外部 VM 使用 stdio 脚本验收。
+
+## 2026-11-23 注册表发布与外部 VM 验收
+
+Windows x64 使用 `moonc v0.10.20+65efd5b93`。发行版库归档包含四个库包、公共接口与协议生成产物，保留项目及 Microsoft 规范许可证。归档检查拒绝本地材料、编辑器测试和其他发布范围外的目录。[Mooncakes 包](https://mooncakes.io/docs/wccerty/moon-dap)
+
+| 实际执行 | 结果 |
+| --- | --- |
+| `moon check --target native --deny-warn`、`moon fmt --check`、`moon -C examples/bpflab fmt --check` | 退出 0。 |
+| `python scripts/generate_protocol.py --check` | 核对 192 项 Schema 定义。 |
+| `moon test --target native`、`moon build --target native` | 23 项测试通过，构建成功。 |
+| `python scripts/check_schema.py`、`python scripts/test_e2e.py`、`node --test tests/vscode_client.cjs` | 11 个往返样本、7 项端到端测试、1 项官方客户端测试全部通过。 |
+| `python scripts/test_bpflab.py` | 4 项通过。新增用例验证 ELF 的两文件断点、三层栈分页、步过、步出和实际寄存器值。 |
+| `moon package --frozen`、`python scripts/verify_release.py --archive <归档路径>` | 校验 34 个归档文件。 |
+
+VS Code 实测发现同一轮询间隔内的计时与请求出队竞争。修复前，暂停期回归收到 `request_seq: 6`，此前发送的 `request_seq: 5` 未收到响应。修复后，测试以错开的间隔发送 64 条栈和线程请求，逐条收到正确响应。[暂停期回归测试](../scripts/test_e2e.py)
+
+在 Windows 上用 `python scripts/test_bpflab.py --prepare-example _build/editor-demo` 构建适配器并生成 ELF，在独立配置中完成两次编辑器验收。环境变量设置见 [外部案例](../examples/bpflab/README.md)。
+
+| 实际命令 | 结果 |
+| --- | --- |
+| `code --wait --user-data-dir <专用目录> --extensions-dir <专用目录> --disable-workspace-trust --extensionDevelopmentPath=<外部案例/vscode> --extensionTestsPath=<外部案例/vscode/smoke.cjs> <外部案例>` | 使用签名有效的 VS Code 1.147.0 测试副本。命中 `helper.bpf` 第 4 行，断言三个栈帧，求值 `r0` 得 1，通过编辑器步出命令返回 `increment`。扩展宿主与 CLI 均退出 0。 |
+| `nvim --headless -u NONE -i NONE -l tests/neovim_bpflab.lua` | Neovim 0.12.6，nvim-dap 固定在 `cfa2d58f4537aca6ca83e2de1a0d9f1491121264`。实际输出「Neovim：ELF 源码断点、三层真实调用栈、寄存器求值和步出通过」，退出 0。 |
+
+归档预检使用 `moon publish --dry-run`，允许解包后的独立目录同步依赖。发布后运行 `moon update` 和 `python scripts/verify_release.py --registry`，从注册表下载库，在不带 `moon.work` 的临时模块中构建外部适配器并跑完整 stdio 调试会话。首次 Windows 编译有异步依赖的 `EINVAL` 宏重定义警告，构建成功。
