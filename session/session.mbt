@@ -34,9 +34,13 @@ struct Session {
     BreakpointResult,
   ] raise TargetError)?
   evaluate_provider : ((Int32?, String) -> String raise TargetError)?
+  source_provider : SourceProvider?
+  inspection : InspectionProviders
+  breakpoint_providers : BreakpointProviders
   events : Array[TargetEvent]
   frame_refs : References
   variable_refs : References
+  source_refs : References
   mut phase : Phase
   mut next_sequence : Int64
   mut last_request : Int32
@@ -56,9 +60,13 @@ pub fn Session::new(target : &DebugTarget) -> Session {
     location_provider: target.breakpoint_location_provider(),
     condition_provider: target.conditional_breakpoint_provider(),
     evaluate_provider: target.evaluation_provider(),
+    source_provider: target.source_provider(),
+    inspection: target.inspection_providers(),
+    breakpoint_providers: target.breakpoint_providers(),
     events: [],
     frame_refs: References::new(),
     variable_refs: References::new(),
+    source_refs: References::new(),
     phase: New,
     next_sequence: 1L,
     last_request: 0,
@@ -181,6 +189,7 @@ fn Session::initialize(self : Session, req : @protocol.Request) -> Json raise {
   if self.evaluate_provider is Some(_) {
     capabilities.set("supportsEvaluateForHovers", Json::boolean(true))
   }
+  self.add_extension_capabilities(capabilities)
   self.reply(req, body=Json::object(capabilities))
 }
 

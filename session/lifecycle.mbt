@@ -56,6 +56,7 @@ pub async fn Session::close(self : Session) -> Unit {
   self.phase = Closed
   self.pending_start = None
   self.clear_references()
+  self.source_refs.clear()
   self.release()
 }
 
@@ -89,7 +90,11 @@ async fn Session::begin(
       if @async.is_cancellation_error(error) {
         raise error
       }
-      let detail = self.release_after_failure(error.to_string())
+      let detail = match error {
+        TargetError(detail) => detail
+        _ => error.to_string()
+      }
+      let detail = self.release_after_failure(detail)
       return [self.failure(req, "targetError", detail)]
     }
   }
@@ -192,6 +197,7 @@ async fn Session::dispatch(
     "configurationDone" => self.configuration_done(req)
     "disconnect" => self.disconnect(req)
     "setBreakpoints" => [self.set_breakpoints(req)]
+    "setFunctionBreakpoints" => [self.set_function_breakpoints(req)]
     "breakpointLocations" => [self.breakpoint_locations(req)]
     "setExceptionBreakpoints" => [self.exception_breakpoints(req)]
     "continue" => [self.resume_execution(req, Continue)]
@@ -204,6 +210,12 @@ async fn Session::dispatch(
     "scopes" => [self.scopes(req)]
     "variables" => [self.variables(req)]
     "evaluate" => [self.evaluate(req)]
+    "setVariable" => [self.assign_variable(req)]
+    "setExpression" => [self.assign_expression(req)]
+    "completions" => [self.complete(req)]
+    "exceptionInfo" => [self.exception_info(req)]
+    "loadedSources" => [self.loaded_sources(req)]
+    "source" => [self.source_contents(req)]
     _ => [self.failure(req, "notSupported", "未实现请求 \{req.command}")]
   }
 }

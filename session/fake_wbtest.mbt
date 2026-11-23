@@ -6,6 +6,9 @@ priv struct FakeTarget {
   mut fail_prepare : Bool
   mut fail_start : Bool
   mut start_stopped : Bool
+  mut source_test_provider : SourceProvider?
+  mut inspection_test_providers : InspectionProviders
+  mut breakpoint_test_providers : BreakpointProviders
 }
 
 ///|
@@ -17,7 +20,25 @@ fn FakeTarget::new() -> FakeTarget {
     fail_prepare: false,
     fail_start: false,
     start_stopped: false,
+    source_test_provider: None,
+    inspection_test_providers: InspectionProviders::new(),
+    breakpoint_test_providers: BreakpointProviders::new(),
   }
+}
+
+///|
+impl DebugTarget for FakeTarget with fn source_provider(self) {
+  self.source_test_provider
+}
+
+///|
+impl DebugTarget for FakeTarget with fn inspection_providers(self) {
+  self.inspection_test_providers
+}
+
+///|
+impl DebugTarget for FakeTarget with fn breakpoint_providers(self) {
+  self.breakpoint_test_providers
 }
 
 ///|

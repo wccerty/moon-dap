@@ -209,6 +209,9 @@ pub(open) trait DebugTarget {
   ) -> Array[BreakpointResult] raise TargetError)? = _
   /// 在暂停时按可选目标帧读取表达式，不修改目标状态。
   fn evaluation_provider(Self) -> ((Int32?, String) -> String raise TargetError)? = _
+  fn source_provider(Self) -> SourceProvider? = _
+  fn inspection_providers(Self) -> InspectionProviders = _
+  fn breakpoint_providers(Self) -> BreakpointProviders = _
   fn resume_execution(Self, Int32, ResumeMode) -> Unit raise TargetError
   fn pause(Self, Int32) -> Unit raise TargetError
   fn threads(Self) -> Array[Thread] raise TargetError
@@ -232,4 +235,19 @@ impl DebugTarget with fn conditional_breakpoint_provider(_) {
 ///|
 impl DebugTarget with fn evaluation_provider(_) {
   None
+}
+
+///|
+impl DebugTarget with fn source_provider(_) {
+  None
+}
+
+///|
+impl DebugTarget with fn inspection_providers(_) {
+  InspectionProviders::new()
+}
+
+///|
+impl DebugTarget with fn breakpoint_providers(_) {
+  BreakpointProviders::new()
 }

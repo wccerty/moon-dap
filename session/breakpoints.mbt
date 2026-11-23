@@ -34,11 +34,7 @@ fn Session::breakpoint_locations(
   }
   self.require_configuration()
   let args : @protocol.BreakpointLocationsArguments = arguments(req)
-  guard args.source.path is Some(path) && !path.is_empty() else {
-    raise RequestFailure(
-      "invalidArguments", "查询断点位置需要本地源码路径",
-    )
-  }
+  let path = self.breakpoint_path(args.source)
   let (lines_at_one, columns_at_one) = self.coordinates()
   let range : BreakpointRange = {
     line: incoming_position(args.line, lines_at_one),
@@ -83,22 +79,27 @@ fn Session::set_breakpoints(
 ) -> Json raise {
   self.require_configuration()
   let args : @protocol.SetBreakpointsArguments = arguments(req)
-  guard args.source.path is Some(path) && !path.is_empty() else {
-    raise RequestFailure(
-      "invalidArguments", "行断点需要本地源码路径",
-    )
-  }
-  let valid : Array[ConditionalBreakpointSpec] = []
+  let path = self.breakpoint_path(args.source)
+  let extended = self.breakpoint_providers
+  let valid : Array[LineBreakpoint] = []
   let skipped = []
   let (lines_at_one, columns_at_one) = self.coordinates()
   match args.breakpoints {
     Some(items) =>
       for bp in items {
         let unsupported = (
-            bp.condition is Some(_) && self.condition_provider is None
+            bp.condition is Some(_) &&
+            self.condition_provider is None &&
+            extended.replace_lines is None
           ) ||
-          bp.hit_condition is Some(_) ||
-          bp.log_message is Some(_) ||
+          (
+            bp.hit_condition is Some(_) &&
+            (!extended.hit_conditions || extended.replace_lines is None)
+          ) ||
+          (
+            bp.log_message is Some(_) &&
+            (!extended.log_points || extended.replace_lines is None)
+          ) ||
           bp.mode is Some(_)
         skipped.push(unsupported)
         if !unsupported {
@@ -110,6 +111,8 @@ fn Session::set_breakpoints(
               }),
             },
             condition: bp.condition,
+            hit_condition: bp.hit_condition,
+            log_message: bp.log_message,
           })
         }
       }
@@ -122,12 +125,23 @@ fn Session::set_breakpoints(
             column: None,
           },
           condition: None,
+          hit_condition: None,
+          log_message: None,
         })
       }
   }
-  let installed = match self.condition_provider {
-    Some(provider) => provider(path, valid)
-    None => self.target.set_breakpoints(path, valid.map(item => item.position))
+  let installed = match (extended.replace_lines, self.condition_provider) {
+    (Some(provider), _) => provider(path, valid)
+    (None, Some(provider)) =>
+      provider(
+        path,
+        valid.map(item => {
+          position: item.position,
+          condition: item.condition,
+        }),
+      )
+    (None, None) =>
+      self.target.set_breakpoints(path, valid.map(item => item.position))
   }
   guard installed.length() == valid.length() else {
     raise TargetError("断点结果数与提交的断点数不一致")
@@ -143,20 +157,77 @@ fn Session::set_breakpoints(
     } else {
       let bp = installed[next]
       next += 1
-      let fields : Map[String, Json] = {
-        "verified": Json::boolean(bp.verified),
-      }
-      if bp.id is Some(id) {
-        fields.set("id", @json.to_json(id))
-      }
-      if bp.line is Some(line) {
-        fields.set("line", outgoing_position(line, lines_at_one))
-      }
-      if bp.column is Some(column) {
-        fields.set("column", outgoing_position(column, columns_at_one))
-      }
-      if bp.message is Some(message) {
-        fields.set("message", Json::string(message))
+      breakpoints.push(Json::object(self.breakpoint_fields(bp)))
+    }
+  }
+  self.reply(req, body={ "breakpoints": Json::array(breakpoints) })
+}
+
+///|
+fn Session::breakpoint_fields(
+  self : Session,
+  bp : BreakpointResult,
+) -> Map[String, Json] raise TargetError {
+  let (lines_at_one, columns_at_one) = self.coordinates()
+  let fields = { "verified": Json::boolean(bp.verified) }
+  if bp.id is Some(id) {
+    fields.set("id", @json.to_json(id))
+  }
+  if bp.line is Some(line) {
+    fields.set("line", outgoing_position(line, lines_at_one))
+  }
+  if bp.column is Some(column) {
+    fields.set("column", outgoing_position(column, columns_at_one))
+  }
+  if bp.message is Some(message) {
+    fields.set("message", Json::string(message))
+  }
+  fields
+}
+
+///|
+fn Session::set_function_breakpoints(
+  self : Session,
+  req : @protocol.Request,
+) -> Json raise {
+  guard self.breakpoint_providers.replace_functions is Some(replace) else {
+    raise RequestFailure("notSupported", "目标不支持函数断点")
+  }
+  self.require_configuration()
+  let args : @protocol.SetFunctionBreakpointsArguments = arguments(req)
+  let valid : Array[FunctionBreakpoint] = []
+  let skipped = []
+  for point in args.breakpoints {
+    let unsupported = point.hit_condition is Some(_) &&
+      !self.breakpoint_providers.hit_conditions
+    skipped.push(unsupported)
+    if !unsupported {
+      valid.push({
+        name: point.name,
+        condition: point.condition,
+        hit_condition: point.hit_condition,
+      })
+    }
+  }
+  let installed = replace(valid)
+  guard installed.length() == valid.length() else {
+    raise TargetError("函数断点结果数与请求数量不一致")
+  }
+  let sources = self.virtual_sources()
+  let breakpoints : Array[Json] = []
+  let mut index = 0
+  for unsupported in skipped {
+    if unsupported {
+      breakpoints.push({
+        "verified": false,
+        "message": "目标不支持命中次数条件",
+      })
+    } else {
+      let result = installed[index]
+      index += 1
+      let fields = self.breakpoint_fields(result.breakpoint)
+      if result.source_path is Some(path) {
+        fields.set("source", self.source_for_path(sources, path))
       }
       breakpoints.push(Json::object(fields))
     }

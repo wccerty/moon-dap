@@ -40,6 +40,19 @@ fn References::handle(
 }
 
 ///|
+fn References::lookup(self : References, id : Int32) -> Int32? {
+  self.by_id.get(id)
+}
+
+///|
+fn References::forget(self : References, handle : Int32) -> Unit {
+  if self.by_handle.get(handle) is Some(id) {
+    self.by_handle.remove(handle)
+    self.by_id.remove(id)
+  }
+}
+
+///|
 fn References::clear(self : References) -> Unit {
   self.by_handle.clear()
   self.by_id.clear()

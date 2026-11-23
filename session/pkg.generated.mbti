@@ -23,6 +23,14 @@ pub(all) suberror TargetError {
 pub fn TargetError::to_repr(Self) -> @debug.Repr
 
 // Types and methods
+pub(all) struct BreakpointProviders {
+  replace_lines : ((String, Array[LineBreakpoint]) -> Array[BreakpointResult] raise TargetError)?
+  replace_functions : ((Array[FunctionBreakpoint]) -> Array[FunctionBreakpointResult] raise TargetError)?
+  hit_conditions : Bool
+  log_points : Bool
+}
+pub fn BreakpointProviders::new() -> Self
+
 pub(all) struct BreakpointRange {
   line : Int64
   column : Int64
@@ -44,6 +52,21 @@ pub(all) struct BreakpointSpec {
   column : Int64?
 }
 
+pub(all) struct CompletionCandidate {
+  label : String
+  replacement : String?
+  detail : String?
+  start : Int64?
+  length : Int64?
+}
+
+pub(all) struct CompletionQuery {
+  frame : Int32?
+  text : String
+  line : Int64
+  column : Int64
+}
+
 pub(all) struct ConditionalBreakpointSpec {
   position : BreakpointSpec
   condition : String?
@@ -54,13 +77,59 @@ pub(all) enum DisconnectMode {
   Detach
 }
 
+pub(all) struct EvaluationQuery {
+  frame : Int32?
+  expression : String
+  context : String?
+}
+
 type EventSink
 pub fn EventSink::emit(Self, TargetEvent) -> Unit raise TargetError
+
+pub(all) struct ExceptionSnapshot {
+  id : String
+  description : String?
+  stack_trace : String?
+  handled : Bool
+}
+
+pub(all) struct ExpressionAssignment {
+  frame : Int32?
+  expression : String
+  value : String
+}
 
 pub(all) struct Frame {
   handle : Int32
   name : String
   location : SourceLocation?
+}
+
+pub(all) struct FunctionBreakpoint {
+  name : String
+  condition : String?
+  hit_condition : String?
+}
+
+pub(all) struct FunctionBreakpointResult {
+  breakpoint : BreakpointResult
+  source_path : String?
+}
+
+pub(all) struct InspectionProviders {
+  evaluate : ((EvaluationQuery) -> Variable raise TargetError)?
+  assign_variable : ((VariableAssignment) -> VariableUpdate raise TargetError)?
+  assign_expression : ((ExpressionAssignment) -> VariableUpdate raise TargetError)?
+  complete : ((CompletionQuery) -> Array[CompletionCandidate] raise TargetError)?
+  exception_info : ((Int32) -> ExceptionSnapshot? raise TargetError)?
+}
+pub fn InspectionProviders::new() -> Self
+
+pub(all) struct LineBreakpoint {
+  position : BreakpointSpec
+  condition : String?
+  hit_condition : String?
+  log_message : String?
 }
 
 pub(all) struct Page {
@@ -108,6 +177,16 @@ pub(all) struct SourceLocation {
   path : String
   line : Int64
   column : Int64?
+}
+
+pub(all) struct SourceProvider {
+  list : () -> Array[VirtualSource] raise TargetError
+  read : (Int32) -> SourceText raise TargetError
+}
+
+pub(all) struct SourceText {
+  content : String
+  mime_type : String?
 }
 
 pub(all) struct StackPage {
@@ -159,6 +238,12 @@ pub(all) struct Variable {
   indexed_count : Int32?
 }
 
+pub(all) struct VariableAssignment {
+  container : Int32
+  name : String
+  expression : String
+}
+
 pub(all) enum VariableFilter {
   All
   Named
@@ -168,6 +253,17 @@ pub(all) enum VariableFilter {
 pub(all) struct VariableQuery {
   page : Page
   filter : VariableFilter
+}
+
+pub(all) struct VariableUpdate {
+  value : Variable
+  invalidated : Array[Int32]
+}
+
+pub(all) struct VirtualSource {
+  handle : Int32
+  name : String
+  path : String?
 }
 
 // Type aliases
@@ -180,6 +276,9 @@ pub(open) trait DebugTarget {
   fn breakpoint_location_provider(Self) -> ((String, BreakpointRange) -> Array[BreakpointSpec] raise TargetError)? = _
   fn conditional_breakpoint_provider(Self) -> ((String, Array[ConditionalBreakpointSpec]) -> Array[BreakpointResult] raise TargetError)? = _
   fn evaluation_provider(Self) -> ((Int32?, String) -> String raise TargetError)? = _
+  fn source_provider(Self) -> SourceProvider? = _
+  fn inspection_providers(Self) -> InspectionProviders = _
+  fn breakpoint_providers(Self) -> BreakpointProviders = _
   fn resume_execution(Self, Int32, ResumeMode) -> Unit raise TargetError
   fn pause(Self, Int32) -> Unit raise TargetError
   fn threads(Self) -> Array[Thread] raise TargetError

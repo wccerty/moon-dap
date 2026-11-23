@@ -29,6 +29,7 @@ fn Session::stack_trace(self : Session, req : @protocol.Request) -> Json raise {
     count: args.levels,
   })
   let frames : Array[Json] = []
+  let sources = self.virtual_sources()
   let (lines_at_one, columns_at_one) = self.coordinates()
   for frame in stack.frames {
     let fields : Map[String, Json] = {
@@ -38,7 +39,7 @@ fn Session::stack_trace(self : Session, req : @protocol.Request) -> Json raise {
       "column": @json.to_json(0),
     }
     if frame.location is Some(loc) {
-      let source : Json = { "path": loc.path }
+      let source = self.source_for_path(sources, loc.path)
       fields.set("source", source)
       fields.set("line", outgoing_position(loc.line, lines_at_one))
       if loc.column is Some(column) {
@@ -84,26 +85,8 @@ fn Session::variables(self : Session, req : @protocol.Request) -> Json raise {
   )
   let variables : Array[Json] = []
   for value in values {
-    let reference = match value.children {
-      Some(handle) => self.variable_refs.id(handle)
-      None => 0
-    }
-    let fields : Map[String, Json] = {
-      "name": Json::string(value.name),
-      "value": Json::string(value.value),
-      "variablesReference": @json.to_json(reference),
-    }
-    if self.variable_types && value.type_name is Some(name) {
-      fields.set("type", Json::string(name))
-    }
-    if self.variable_paging {
-      if value.named_count is Some(n) {
-        fields.set("namedVariables", count_to_json(n.to_int64()))
-      }
-      if value.indexed_count is Some(n) {
-        fields.set("indexedVariables", count_to_json(n.to_int64()))
-      }
-    }
+    let fields = self.encode_value(value, "value")
+    fields.set("name", Json::string(value.name))
     variables.push(Json::object(fields))
   }
   self.reply(req, body={ "variables": Json::array(variables) })
@@ -111,12 +94,24 @@ fn Session::variables(self : Session, req : @protocol.Request) -> Json raise {
 
 ///|
 fn Session::evaluate(self : Session, req : @protocol.Request) -> Json raise {
-  guard self.evaluate_provider is Some(provider) else {
+  guard self.evaluate_provider is Some(_) || self.inspection.evaluate is Some(_) else {
     raise RequestFailure("notSupported", "目标不支持表达式求值")
   }
   self.require_stopped()
   let args : @protocol.EvaluateArguments = arguments(req)
   let frame = args.frame_id.map(id => self.frame_refs.handle(id))
+  if self.inspection.evaluate is Some(provider) {
+    let value = provider({
+      frame,
+      expression: args.expression,
+      context: args.context,
+    })
+    return self.reply(
+      req,
+      body=Json::object(self.encode_value(value, "result")),
+    )
+  }
+  guard! self.evaluate_provider is Some(provider)
   let value = provider(frame, args.expression)
   self.reply(req, body={ "result": value, "variablesReference": 0 })
 }
