@@ -39,10 +39,12 @@ jobs:
           moon check --target native --deny-warn
           moon fmt --check
           moon -C examples/bpflab fmt --check
+          moon info --target native
+          git diff --exit-code -- ':(glob)**/pkg.generated.mbti'
           python scripts/generate_protocol.py --check
       - name: 单元测试和构建
         run: |
-          moon test --target native
+          moon test --target native --deny-warn
           moon build --target native
       - name: 协议与端到端
         run: |
@@ -56,3 +58,5 @@ jobs:
         run: |
           moon package --frozen
           python scripts/verify_release.py --archive _build/publish/wccerty-moon-dap-*.zip
+      - name: 记录 MoonBit 源码规模
+        run: python scripts/measure_source.py

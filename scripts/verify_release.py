@@ -17,7 +17,7 @@ REQUIRED = {
     *(f"{name}/moon.pkg" for name in ("expression", "framing", "protocol", "session", "transport")),
     *(f"{name}/pkg.generated.mbti" for name in ("expression", "framing", "protocol", "session", "transport")),
 }
-TOP_LEVEL = {"LICENSE", "README.md", "moon.mod"}
+TOP_LEVEL = {"CHANGELOG.md", "LICENSE", "README.md", "THIRD_PARTY_NOTICES.md", "moon.mod"}
 DIRECTORIES = {"docs", "expression", "framing", "protocol", "session", "transport", "vendor"}
 
 

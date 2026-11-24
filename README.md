@@ -8,9 +8,22 @@ moon-dap 是面向 MoonBit 解释器、虚拟机和 DSL 的调试适配器协议
 
 moondbg 面向 MoonBit 原生程序，通过 `lldb-dap` 执行调试，也包含供 VS Code 连接的前端入口。MoonWren 的调试会话针对其自有 VM。moon-dap 的目标接口可由第三方运行时实现。
 
+[安装与 API](https://mooncakes.io/docs/wccerty/moon-dap@0.2.0) · [版本记录](CHANGELOG.md) · [协议覆盖](docs/coverage.md) · [来源与许可](THIRD_PARTY_NOTICES.md)
+
+## 仓库导航
+
+| 路径 | 作用 |
+| --- | --- |
+| `framing/`、`protocol/` | 增量字节分帧，以及从固定 DAP Schema 生成的类型和编解码。 |
+| `session/`、`transport/` | 会话状态、能力协商和目标接口，以及 native stdio、回环 TCP。 |
+| `expression/` | 有界的 JSON 表达式解析、求值及赋值路径。 |
+| `examples/` | 迷你解释器、第三方 MoonBpfLab 适配器及多源码规则引擎。 |
+| `tests/`、`scripts/` | 测试夹具、真实会话回归、Schema 生成、打包验证和源码统计。 |
+| `vendor/dap/`、`docs/` | 固定的上游规范及许可证，以及设计、覆盖范围和验收记录。 |
+
 ## 快速开始
 
-在已有 MoonBit 模块中安装 `wccerty/moon-dap`。[Mooncakes 包页面](https://mooncakes.io/docs/wccerty/moon-dap)
+在已有 MoonBit 模块中安装 `wccerty/moon-dap`。下文示例使用 native，已验证的编译器版本为 `v0.10.20+65efd5b93`。[Mooncakes 包页面](https://mooncakes.io/docs/wccerty/moon-dap)
 
 ```text
 moon update
@@ -42,10 +55,10 @@ import {
   "wccerty/moon-dap/transport",
 }
 supported_targets = "+native"
-options("is-main": true)
+pkgtype(kind: "executable")
 ```
 
-下面是一个单步即执行完的最小解释器。它在配置完成后暂停，通过继续或单步执行一条输出语句。将目标方法的空查询替换为 VM 的调试状态即可扩展。
+将下面的最小目标保存为同一包中的 `main.mbt`。它在配置完成后暂停，通过继续或单步执行一条输出语句。接入实际解释器时，用 VM 的调试状态实现查询方法。
 
 ```moonbit
 struct OneLine {
@@ -79,6 +92,8 @@ impl @session.DebugTarget for OneLine with fn poll(self) {
 async fn main { @transport.serve_stdio(OneLine::{ sink: None, ready: false }) }
 ```
 
+运行 `moon build --target native`，将 `Artifacts` 中列出的可执行文件设为调试客户端的 stdio 适配器。客户端按顺序发送初始化、启动和配置完成请求后会收到入口暂停事件。完整编辑器配置和可设断点的程序见下方示例。
+
 ## 接口
 
 | 接口 | 负责的工作 |
@@ -101,11 +116,11 @@ async fn main { @transport.serve_stdio(OneLine::{ sink: None, ready: false }) }
 
 ## 示例与覆盖范围
 
-第三方接入案例使用从 Mooncakes 获取的 MoonBpfLab 虚拟机。计数例验证条件断点、寄存器求值和退出结果。ELF 示例使用独立源码映射支持多文件断点、栈分页和按调用深度步进，可用 VS Code 或 Neovim 复现。[接入成本、复现命令与范围](https://github.com/wccerty/moon-dap/tree/main/examples/bpflab)
-
-构建 `examples/minilang` 后可通过 stdio 或 TCP 调试 `demo.mdap`。示例包含函数调用、打印、嵌套记录和数组。[VS Code 与 Neovim 演示步骤](https://github.com/wccerty/moon-dap/tree/main/examples/minilang)
-
-规则引擎示例提供两个内存源码文件。调试器可以设置函数断点、按命中次数打印日志、补全字段并修改当前规则的参数或嵌套变量。端到端测试验证修改影响了最终执行结果。[规则引擎示例](https://github.com/wccerty/moon-dap/tree/main/examples/rules)
+| 示例 | 演示场景 | 验证方式 |
+| --- | --- | --- |
+| [迷你解释器](https://github.com/wccerty/moon-dap/tree/main/examples/minilang) | 源码断点、函数步进、嵌套变量。 | stdio、TCP 端到端测试及 VS Code 实测。 |
+| [MoonBpfLab](https://github.com/wccerty/moon-dap/tree/main/examples/bpflab) | 条件断点、寄存器求值、ELF 源码映射、跨文件断点和调用栈。 | 使用真实第三方 VM，已通过 VS Code 和 Neovim 实测。 |
+| [规则引擎](https://github.com/wccerty/moon-dap/tree/main/examples/rules) | 内存源码、函数和日志断点、可写变量、异常栈。 | stdio 测试验证调试时的赋值会改变执行结果。 |
 
 | Schema 项目 | 当前版本覆盖 | 总数 |
 | --- | ---: | ---: |
@@ -115,9 +130,22 @@ async fn main { @transport.serve_stdio(OneLine::{ sink: None, ready: false }) }
 
 完整协议类型从官方 Schema 生成。客户端可以调试本地路径，也可以读取目标公开的内存源码。条件和表达式使用目标定义的语法，赋值只在暂停期间开放。内置传输面向 native，异常筛选留待后续扩展。[协议覆盖](docs/coverage.md) · [验证记录](docs/verification.md) · [路线图](docs/plan.md)
 
+## MoonBit 源码规模
+
+以 `0.2.0` 的发布源码 `6a23ba6` 为基线。有效行估算剔除空行和仅含 `//` 注释的行。
+
+| 手写代码 | 物理行 | 有效行估算 |
+| --- | ---: | ---: |
+| 核心库 | 2,851 | 2,440 |
+| 可运行示例 | 2,560 | 2,251 |
+| 测试与夹具 | 1,752 | 1,567 |
+| 合计 | 7,163 | 6,258 |
+
+核心库与可运行示例合计 4,691 个有效行。自动生成的协议文件、接口文件和外部依赖另计。克隆仓库后用 `python scripts/measure_source.py` 统计当前提交，或传入提交 ID 复算指定版本。
+
 ## 测试与维护
 
-当前 CI 固定 MoonBit `v0.10.20+65efd5b93`。第一次构建前运行 `moon update`，让 MoonBit 能从本地索引解析所需的 Mooncakes 依赖版本。
+在 GitHub 源码仓库根目录执行以下命令。CI 使用 Linux native，固定 MoonBit `v0.10.20+65efd5b93`，验证构建、格式、Schema、真实会话及归档清单。Windows 如遇 `moonc.cmd` 链接参数超长，在当前 PowerShell 会话设置 `$env:MOONC_OVERRIDE = (Get-Command moonc.exe).Source` 后重试。[验证命令与结果](docs/verification.md)
 
 ```text
 moon update
@@ -125,8 +153,10 @@ python -m pip install -r tests/requirements.txt
 npm ci --prefix tests --ignore-scripts --no-audit --no-fund
 moon check --target native --deny-warn
 moon fmt --check
+moon info --target native
+git diff --exit-code -- ':(glob)**/pkg.generated.mbti'
 python scripts/generate_protocol.py --check
-moon test --target native
+moon test --target native --deny-warn
 moon build --target native
 python scripts/check_schema.py
 python scripts/test_e2e.py
@@ -139,4 +169,4 @@ Schema 校验读取 MoonBit 生成的往返样本和示例会话中的实际消�
 
 传输层的 `Options.request_timeout_ms` 分别限制请求、异步轮询、单条消息写入和结束清理。回归测试覆盖轮询失败时的阻塞清理，以及非法头部、UTF-8、JSON、重复键和截断帧对 TCP 连接的隔离。目标的同步 `poll` 方法需要及时返回，以配合异步调度与取消。[验证命令与结果](docs/verification.md)
 
-项目采用 Apache-2.0。上游规范的来源、署名与许可证见 [vendor/dap](vendor/dap/README.md)。
+项目采用 Apache-2.0。上游规范、生成代码、依赖和示例数据的来源与授权范围见 [代码来源与许可](THIRD_PARTY_NOTICES.md)。
