@@ -56,7 +56,15 @@ fn Frame::eval(
   self : Frame,
   expression : @expression.Expression,
 ) -> Json raise @session.TargetError {
-  expression.evaluate(name => self.locals.get(name)) catch {
+  evaluate_in_scope(expression, name => self.locals.get(name))
+}
+
+///|
+fn evaluate_in_scope(
+  expression : @expression.Expression,
+  resolve : (String) -> Json?,
+) -> Json raise @session.TargetError {
+  expression.evaluate(resolve) catch {
     error => raise @session.TargetError(error.message())
   }
 }

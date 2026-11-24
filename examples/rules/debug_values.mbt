@@ -336,8 +336,12 @@ fn RuleTarget::evaluate(
   self : RuleTarget,
   query : @session.EvaluationQuery,
 ) -> @session.Variable raise @session.TargetError {
-  let frame = self.machine().frame(query.frame)
   let expression = parse_expression(query.expression[:])
+  guard query.frame is Some(handle) else {
+    let value = evaluate_in_scope(expression, _ => None)
+    return self.variable(query.expression, value, None)
+  }
+  let frame = self.machine().frame(Some(handle))
   let value = frame.eval(expression)
   let path = Some(frame.selection(expression)) catch {
     @session.TargetError(_) => None
@@ -350,7 +354,12 @@ fn RuleTarget::set_expression(
   self : RuleTarget,
   assignment : @session.ExpressionAssignment,
 ) -> @session.VariableUpdate raise @session.TargetError {
-  let frame = self.machine().frame(assignment.frame)
+  guard assignment.frame is Some(handle) else {
+    raise @session.TargetError(
+      "规则引擎没有可写的全局变量，请指定调用帧",
+    )
+  }
+  let frame = self.machine().frame(Some(handle))
   let path = frame.selection(parse_expression(assignment.expression[:]))
   let value = parse_assignment(frame, assignment.value)
   self.write_value(frame, path, assignment.expression, value)

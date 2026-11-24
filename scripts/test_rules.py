@@ -11,11 +11,13 @@ DEMO = ROOT / "examples/rules/demo.json"
 BINARY = ROOT / "_build/native/debug/build/examples/rules/rules.exe"
 
 
-def start(client, bundle):
+def start(client, bundle, *, one_based=True):
     capabilities = client.request("initialize", {
         "adapterID": "moon-dap-rules",
         "supportsVariableType": True,
         "supportsVariablePaging": True,
+        "linesStartAt1": one_based,
+        "columnsStartAt1": one_based,
     })["body"]
     for capability in (
         "supportsLoadedSourcesRequest",
@@ -93,7 +95,7 @@ class RuleAdapterTest(unittest.TestCase):
                 "text": "account.qu", "column": 11, "frameId": entry["id"],
             })["body"]["targets"]
             self.assertEqual([(v["label"], v["start"], v["length"]) for v in completion],
-                             [("quantity", 8, 2)])
+                             [("quantity", 9, 2)])
             changed = client.request("setExpression", {
                 "expression": "account.quantity", "value": "account.quantity + 1",
                 "frameId": entry["id"],
@@ -131,7 +133,9 @@ class RuleAdapterTest(unittest.TestCase):
             children = client.request("variables", {"variablesReference": new_container})["body"]["variables"]
             self.assertEqual([child["name"] for child in children], ["[0]"])
             step(client, "stepIn", "step")
-            self.assertEqual(client.request("evaluate", {"expression": "total"})["body"]["result"], "15")
+            self.assertEqual(client.request("evaluate", {
+                "expression": "total", "frameId": stack(client)[0]["id"],
+            })["body"]["result"], "15")
             expired = client.request("variables", {
                 "variablesReference": new_container,
             }, success=False)
@@ -143,7 +147,9 @@ class RuleAdapterTest(unittest.TestCase):
             self.assertEqual((log["category"], log["output"]), ("console", "retry 2\n"))
             stopped = client.event("stopped")
             self.assertEqual(stopped["hitBreakpointIds"], [points[0]["id"]])
-            self.assertEqual(client.request("evaluate", {"expression": "retry"})["body"]["result"], "1")
+            self.assertEqual(client.request("evaluate", {
+                "expression": "retry", "frameId": stack(client)[0]["id"],
+            })["body"]["result"], "1")
             client.request("continue", {"threadId": 1})
             self.assertEqual(json.loads(client.event("output")["output"]), 7)
             self.assertEqual(json.loads(client.event("output")["output"]), 22)
@@ -177,7 +183,9 @@ class RuleAdapterTest(unittest.TestCase):
             self.assertEqual(error["exceptionId"], "RuleRuntimeError")
             self.assertEqual(error["breakMode"], "unhandled")
             self.assertIn("price (pricing.rule:3)", error["details"]["stackTrace"])
-            self.assertEqual(client.request("evaluate", {"expression": "total"})["body"]["result"], "-10")
+            self.assertEqual(client.request("evaluate", {
+                "expression": "total", "frameId": trace[0]["id"],
+            })["body"]["result"], "-10")
             client.request("continue", {"threadId": 1})
             diagnostic = client.event("output")
             self.assertEqual(diagnostic["category"], "stderr")
@@ -186,6 +194,61 @@ class RuleAdapterTest(unittest.TestCase):
             client.event("terminated")
             client.request("disconnect")
             self.assertFalse(client.sent)
+            self.assertEqual(proc.wait(timeout=TIMEOUT), 0)
+
+    def test_completion_positions_in_both_coordinate_systems(self):
+        bundle = json.loads(DEMO.read_text(encoding="utf-8"))
+        for one_based in (False, True):
+            with self.subTest(one_based=one_based), process(binary=BINARY) as proc:
+                client = Client(proc.stdout, proc.stdin)
+                launch = start(client, bundle, one_based=one_based)
+                client.request("configurationDone")
+                client.reply(launch)
+                client.event("stopped")
+                frame_id = stack(client)[0]["id"]
+                for prefix, line, offset in [("", 0, 8), ("😀\n", 1, 11)]:
+                    with self.subTest(prefix=prefix):
+                        targets = client.request("completions", {
+                            "text": prefix + "account.qu", "frameId": frame_id,
+                            "column": 10 + int(one_based), "line": line + int(one_based),
+                        })["body"]["targets"]
+                        self.assertEqual(
+                            [(v["label"], v["start"], v["length"]) for v in targets],
+                            [("quantity", offset + int(one_based), 2)],
+                        )
+                client.request("disconnect")
+                self.assertEqual(proc.wait(timeout=TIMEOUT), 0)
+
+    def test_omitted_frame_uses_global_scope(self):
+        bundle = json.loads(DEMO.read_text(encoding="utf-8"))
+        with process(binary=BINARY) as proc:
+            client = Client(proc.stdout, proc.stdin)
+            launch = start(client, bundle)
+            client.request("configurationDone")
+            client.reply(launch)
+            client.event("stopped")
+            frame_id = stack(client)[0]["id"]
+            constant = client.request("evaluate", {"expression": "1 + 2"})["body"]
+            self.assertEqual(constant["result"], "3")
+            self.assertEqual(client.request("completions", {
+                "text": "acc", "column": 4,
+            })["body"]["targets"], [])
+            for command, args in [
+                ("evaluate", {"expression": "account.quantity"}),
+                ("setExpression", {"expression": "account.quantity", "value": "9"}),
+            ]:
+                with self.subTest(command=command):
+                    response = client.request(command, args, success=False)
+                    self.assertEqual(response["message"], "targetError")
+            local = client.request("evaluate", {
+                "expression": "account.quantity", "frameId": frame_id,
+            })["body"]
+            self.assertEqual(local["result"], "2")
+            changed = client.request("setExpression", {
+                "expression": "account.quantity", "value": "3", "frameId": frame_id,
+            })["body"]
+            self.assertEqual(changed["value"], "3")
+            client.request("disconnect")
             self.assertEqual(proc.wait(timeout=TIMEOUT), 0)
 
 

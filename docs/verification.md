@@ -92,3 +92,16 @@ Windows x64 使用 `moonc v0.10.20+65efd5b93`。由于本机 `moonc.cmd` 在扩�
 | `moon package --frozen`、`python scripts/verify_release.py --archive <归档路径>` | 校验 42 个文件，归档包含 5 个库包和许可证。 |
 
 规则引擎新增功能使用 DAP 客户端脚本验收。前述 VS Code、Neovim 实测记录对应 MoonBpfLab 示例。
+
+## 0.2.1 DAP 兼容修复
+
+将新增回归运行在 `0.2.0` 的构建产物上，复现了 1 基补全起点返回 8 而非 9、多行偏移遗漏前一行，以及省略帧 ID 时补全列表出现局部变量。修复后的 stdio 会话按客户端约定返回单行起点 8 或 9，前缀为 `😀\n` 时返回 11 或 12。全局常量求值返回 3，省略帧 ID 的局部读取与写入失败，局部值仍为 2，显式指定帧后可修改为 3。
+
+| 命令 | 实际结果 |
+| --- | --- |
+| `moon check --target native --deny-warn`、`moon fmt --check`、`moon info --target native` | 均退出 0，公共接口产物一致。 |
+| `moon test --target native --deny-warn`、`moon build --target native` | 53 项测试通过，构建成功。 |
+| `python scripts/test_rules.py` | 4 项规则引擎 stdio 测试通过。 |
+| `python scripts/test_e2e.py`、`python scripts/test_bpflab.py`、`node --test tests/vscode_client.cjs` | 7 项传输会话、4 项外部 VM 会话、1 项官方客户端测试通过。 |
+| `python scripts/generate_protocol.py --check`、`python scripts/check_schema.py` | 192 个 Schema 定义与 11 个往返样本通过。 |
+| `moon package --frozen` 与归档清单校验 | 44 个归档文件通过检查。 |

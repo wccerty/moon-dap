@@ -90,16 +90,25 @@ fn Session::complete(self : Session, req : @protocol.Request) -> Json raise {
     .unwrap_or(1L),
     column: incoming_position(args.column, columns_at_one),
   })
+  let column_base = if columns_at_one { 1L } else { 0L }
   let targets : Array[@protocol.CompletionItem] = candidates.map(candidate => {
-    label: candidate.label,
-    text: candidate.replacement,
-    sort_text: None,
-    detail: candidate.detail,
-    type_: None,
-    start: candidate.start,
-    length: candidate.length,
-    selection_start: None,
-    selection_length: None,
+    let start = candidate.start.map(offset => {
+      guard offset >= 0L && offset <= 4294967295L - column_base else {
+        raise TargetError("补全替换起点超出协议范围")
+      }
+      offset + column_base
+    })
+    {
+      label: candidate.label,
+      text: candidate.replacement,
+      sort_text: None,
+      detail: candidate.detail,
+      type_: None,
+      start,
+      length: candidate.length,
+      selection_start: None,
+      selection_length: None,
+    }
   })
   let response : @protocol.CompletionsResponseBody = { targets, }
   self.reply(req, body=response.to_json())

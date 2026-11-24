@@ -21,6 +21,7 @@ pub(all) struct SourceProvider {
 
 ///|
 pub(all) struct EvaluationQuery {
+  /// 缺省时在目标的全局作用域求值。
   frame : Int32?
   expression : String
   context : String?
@@ -35,6 +36,7 @@ pub(all) struct VariableAssignment {
 
 ///|
 pub(all) struct ExpressionAssignment {
+  /// 缺省时在目标的全局作用域赋值。
   frame : Int32?
   expression : String
   value : String
@@ -50,6 +52,7 @@ pub(all) struct VariableUpdate {
 ///|
 /// 行列从 1 开始。列以 UTF-16 代码单元计数。
 pub(all) struct CompletionQuery {
+  /// 缺省时查询目标的全局作用域。
   frame : Int32?
   text : String
   line : Int64
@@ -57,7 +60,8 @@ pub(all) struct CompletionQuery {
 }
 
 ///|
-/// 替换起点从 0 开始，长度以 UTF-16 代码单元计数。
+/// 替换起点为整个输入文本的 0 基偏移，起点和长度以 UTF-16 代码单元计数。
+/// 会话按客户端的列基数转换起点。
 pub(all) struct CompletionCandidate {
   label : String
   replacement : String?

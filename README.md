@@ -8,7 +8,7 @@ moon-dap 是面向 MoonBit 解释器、虚拟机和 DSL 的调试适配器协议
 
 moondbg 面向 MoonBit 原生程序，通过 `lldb-dap` 执行调试，也包含供 VS Code 连接的前端入口。MoonWren 的调试会话针对其自有 VM。moon-dap 的目标接口可由第三方运行时实现。
 
-[安装与 API](https://mooncakes.io/docs/wccerty/moon-dap@0.2.0) · [版本记录](CHANGELOG.md) · [协议覆盖](docs/coverage.md) · [来源与许可](THIRD_PARTY_NOTICES.md)
+[安装与 API](https://mooncakes.io/docs/wccerty/moon-dap@0.2.1) · [版本记录](CHANGELOG.md) · [协议覆盖](docs/coverage.md) · [来源与许可](THIRD_PARTY_NOTICES.md)
 
 ## 仓库导航
 
@@ -27,7 +27,7 @@ moondbg 面向 MoonBit 原生程序，通过 `lldb-dap` 执行调试，也包含
 
 ```text
 moon update
-moon add wccerty/moon-dap@0.2.0
+moon add wccerty/moon-dap@0.2.1
 moon add moonbitlang/async@0.20.6
 ```
 
@@ -42,7 +42,7 @@ members = ["interpreter", "moon-dap"]
 ```moonbit
 import {
   "moonbitlang/async@0.20.6",
-  "wccerty/moon-dap@0.2.0",
+  "wccerty/moon-dap@0.2.1",
 }
 ```
 

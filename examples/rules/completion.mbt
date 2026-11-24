@@ -2,7 +2,7 @@
 priv struct CompletionPrefix {
   scope : String?
   prefix : String
-  start : Int32
+  start : Int64
   length : Int32
 }
 
@@ -50,7 +50,16 @@ fn completion_prefix(
   } else {
     None
   }
-  { scope, prefix: row[start:cursor].to_owned(), start, length: end - start, }
+  let mut row_start = 0L
+  for index in 0..<(line - 1L).to_int() {
+    row_start += lines[index].length().to_int64() + 1L
+  }
+  {
+    scope,
+    prefix: row[start:cursor].to_owned(),
+    start: row_start + start.to_int64(),
+    length: end - start,
+  }
 }
 
 ///|
@@ -58,7 +67,8 @@ fn RuleTarget::complete(
   self : RuleTarget,
   query : @session.CompletionQuery,
 ) -> Array[@session.CompletionCandidate] raise @session.TargetError {
-  let frame = self.machine().frame(query.frame)
+  guard query.frame is Some(handle) else { return [] }
+  let frame = self.machine().frame(Some(handle))
   let position = completion_prefix(query.text, query.line, query.column)
   let context = match position.scope {
     Some(scope) => frame.eval(parse_expression(scope[:]))
@@ -73,7 +83,7 @@ fn RuleTarget::complete(
           label: name,
           replacement: None,
           detail: Some(detail),
-          start: Some(position.start.to_int64()),
+          start: Some(position.start),
           length: Some(position.length.to_int64()),
         })
       }
